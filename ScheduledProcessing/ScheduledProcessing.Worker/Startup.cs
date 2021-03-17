@@ -27,17 +27,17 @@ namespace ScheduledProcessing.Worker
             services.AddSingleton<IAmountProcessor>(_ => new MathOnlyAmountProcessor());
             services.AddSingleton<IConnectionFactory, ConnectionFactory>(_ => new ConnectionFactory { Uri = new Uri(rabbitMQ.AmqpUrl) });
             services.AddSingleton<IConnection>(x => x.GetRequiredService<IConnectionFactory>().CreateConnection());
-            services.AddSingleton<IRpcClient<HashSet<Customer>>>(x =>
+            services.AddSingleton<IRpcClient<List<Customer>>>(x =>
             {
                 var connection = x.GetRequiredService<IConnection>();
                 var channel = connection.CreateModel();
-                return new RpcClient<HashSet<Customer>>(connection, channel, nameof(Customer));
+                return new RpcClient<List<Customer>>(connection, channel, nameof(Customer));
             });
-            services.AddSingleton<IRpcClient<HashSet<Billing>>>(x =>
+            services.AddSingleton<IRpcClient<List<Billing>>>(x =>
             {
                 var connection = x.GetRequiredService<IConnection>();
                 var channel = connection.CreateModel();
-                return new RpcClient<HashSet<Billing>>(connection, channel, nameof(Billing));
+                return new RpcClient<List<Billing>>(connection, channel, nameof(Billing));
             });
             services.AddHostedService<ScheduledBillingProcessingClientWorker>();
         }
