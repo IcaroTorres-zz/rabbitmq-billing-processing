@@ -1,6 +1,6 @@
-﻿using Processing.Worker.Domain.Models;
+﻿using ScheduledProcessing.Worker.Domain.Models;
 
-namespace Processing.Worker.Domain.Services
+namespace ScheduledProcessing.Worker.Domain.Services
 {
     public interface IAmountProcessor
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Processing.Worker.Domain.Models
+namespace ScheduledProcessing.Worker.Domain.Models
 {
     public class Billing
     {

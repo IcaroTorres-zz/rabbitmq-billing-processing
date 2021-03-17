@@ -1,6 +1,6 @@
 ﻿using Customers.Api.Application.Abstractions;
-using Customers.Api.Infrastructure.BackgroundServices;
 using Customers.Api.Infrastructure.Persistence;
+using Customers.Api.Workers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,13 +18,13 @@ namespace Customers.Api.Infrastructure.DependencyInjection
             IConfiguration configuration)
         {
             return services
+                .AddHostedService<ScheduledCustomerAcceptProcessWorker>()
                 .AddDbContext<CustomersContext>(options =>
                 {
                     var sourcePath = Path.Combine(env.ContentRootPath, ".\\Infrastructure\\Persistence", configuration["SQLite:DatabaseName"]);
                     options.UseSqlite($"Data Source={sourcePath}");
                     if (!env.IsProduction()) options.EnableSensitiveDataLogging();
                 })
-                .AddHostedService<BackgroundRPCService>()
                 .AddScoped<ICustomerRepository, CustomerRepository>()
                 .AddScoped<IUnitofwork, Unitofwork>();
         }

@@ -1,7 +1,7 @@
-﻿using Processing.Worker.Domain.Models;
+﻿using ScheduledProcessing.Worker.Domain.Models;
 using System;
 
-namespace Processing.Worker.Domain.Services
+namespace ScheduledProcessing.Worker.Domain.Services
 {
     public class MathOnlyAmountProcessor : IAmountProcessor
     {
