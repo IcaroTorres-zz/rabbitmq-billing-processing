@@ -1,16 +1,20 @@
-﻿using Library.Results;
-using MediatR;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
 namespace Issuance.Api.Domain.Models
 {
-    public class Billing : IRequest<IResult>
+    /// <summary>
+    /// Domain representation of a business Billing charged for a customer
+    /// </summary>
+    public class Billing
     {
         [BsonId, BsonRepresentation(BsonType.String)]
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// Unique personal identification in force in Brazil
+        /// </summary>
         [BsonElement("cpf")]
         public ulong Cpf { get; set; }
 

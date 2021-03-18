@@ -6,6 +6,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Library.Results
 {
+    /// <summary>
+    /// Represents a success result configured to generate loaction response header
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     [ExcludeFromCodeCoverage]
     public class CreatedWithLocationResult<T> : CreatedResult, IResult
     {

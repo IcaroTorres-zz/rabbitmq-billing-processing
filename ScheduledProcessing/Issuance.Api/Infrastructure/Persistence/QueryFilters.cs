@@ -4,6 +4,9 @@ using System;
 
 namespace Issuance.Api.Infrastructure.Persistence
 {
+    /// <summary>
+    /// Predefined query rule specifications able to be combined more complex ones
+    /// </summary>
     public static class QueryFilters
     {
         public static FilterDefinition<Billing> ByCustomerCpf(ulong cpf)

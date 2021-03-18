@@ -5,6 +5,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Library.Results
 {
+    /// <summary>
+    /// General execution success result unable to carry errors and used on happy paths
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class SuccessResult : OkObjectResult, IResult
     {

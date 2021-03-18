@@ -3,6 +3,7 @@ using System;
 
 namespace Library.Requests
 {
+    /// <inheritdoc cref="ICreationRequest{T}"/>
     public abstract class CreationRequestBase<T> : ICreationRequest<T>
     {
         protected string Route { get; set; }

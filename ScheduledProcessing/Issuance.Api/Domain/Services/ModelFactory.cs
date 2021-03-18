@@ -4,6 +4,7 @@ using System;
 
 namespace Issuance.Api.Domain.Services
 {
+    /// <inheritdoc cref="IModelFactory"/>
     public class ModelFactory : IModelFactory
     {
         public Billing CreateBilling(ReadOnlySpan<char> cpfString, double amount, ReadOnlySpan<char> dueDate)

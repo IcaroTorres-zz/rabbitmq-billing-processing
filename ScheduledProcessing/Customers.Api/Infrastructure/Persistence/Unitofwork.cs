@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Customers.Api.Infrastructure.Persistence
 {
+    /// <inheritdoc cref="IUnitofwork" />
     public sealed class Unitofwork : IUnitofwork
     {
         private readonly CustomersContext _context;

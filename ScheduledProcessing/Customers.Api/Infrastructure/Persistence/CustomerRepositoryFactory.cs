@@ -1,8 +1,10 @@
 ﻿using Customers.Api.Application.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Customers.Api.Infrastructure.Persistence
 {
+    ///<inheritdoc cref="ICustomerRepositoryFactory"/>
     public class CustomerRepositoryFactory : ICustomerRepositoryFactory
     {
         private readonly DbContextOptions<CustomersContext> _options;

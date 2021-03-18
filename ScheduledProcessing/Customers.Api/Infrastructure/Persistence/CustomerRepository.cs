@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Customers.Api.Infrastructure.Persistence
 {
+    /// <inheritdoc cref="ICustomerRepository"/>
     public class CustomerRepository : ICustomerRepository
     {
         private readonly CustomersContext _context;

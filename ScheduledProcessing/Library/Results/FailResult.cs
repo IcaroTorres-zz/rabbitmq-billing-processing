@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace Library.Results
 {
+    /// <summary>
+    /// A Failed execution result holding error messages
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class FailResult : OkObjectResult, IResult
     {
