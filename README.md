@@ -26,6 +26,10 @@ without relying on paid licenses, hardware and software installation.
 - Sql Database (generated through nuget packages and via migrations) - ![Sqlite](https://www.sqlite.org/)
 
 
+## Disclaimer
+
+> For the sake of simplicity, all applications here were written as 'One Class Library Project' due to containing many of them together per solution for demonstration purposes. But the layers are split and often represented by the folders 'Application', 'Infrastructure', and 'Domain', with the Presentation as the project Itself.
+
 ## Scenario
 
 ### Customers API
