@@ -24,6 +24,13 @@ namespace Microsoft.Extensions.DependencyInjection
                     options.UseSqlite($"Data Source={sourcePath}");
                     if (!env.IsProduction()) options.EnableSensitiveDataLogging();
                 })
+                .AddSingleton<ICustomerRepositoryFactory>(x =>
+                {
+                    var dbOptions = x.CreateScope()
+                    .ServiceProvider
+                    .GetRequiredService<DbContextOptions<CustomersContext>>();
+                    return new CustomerRepositoryFactory(dbOptions);
+                })
                 .AddScoped<ICustomerRepository, CustomerRepository>()
                 .AddScoped<IUnitofwork, Unitofwork>();
         }

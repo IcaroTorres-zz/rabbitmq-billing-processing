@@ -11,26 +11,26 @@ namespace Customers.Api.Application.Usecases
 {
     public class RegisterCustomerUsecase : IRequestHandler<RegisterCustomerRequest, IResult>
     {
-        private readonly IUnitofwork uow;
-        private readonly IModelFactory factory;
-        private readonly ICustomerRepository repository;
+        private readonly IUnitofwork _unitofwork;
+        private readonly IModelFactory _factory;
+        private readonly ICustomerRepository _repository;
 
         public RegisterCustomerUsecase(
             IUnitofwork uow,
             IModelFactory factory,
             ICustomerRepository repository)
         {
-            this.uow = uow;
-            this.factory = factory;
-            this.repository = repository;
+            _unitofwork = uow;
+            _factory = factory;
+            _repository = repository;
         }
 
         public async Task<IResult> Handle(RegisterCustomerRequest request, CancellationToken cancellationToken)
         {
-            uow.BeginTransaction();
-            var customer = factory.CreateCustomer(request.Cpf, request.Name, request.State);
-            await repository.InsertAsync(customer, cancellationToken);
-            var transactionResult = await uow.CommitAsync(cancellationToken);
+            _unitofwork.BeginTransaction();
+            var customer = _factory.CreateCustomer(request.Cpf, request.Name, request.State);
+            await _repository.InsertAsync(customer, cancellationToken);
+            var transactionResult = await _unitofwork.CommitAsync(cancellationToken);
             return transactionResult.IsSuccess()
                 ? new CreatedWithLocationResult<CustomerResponse>(new CustomerResponse(customer), request)
                 : transactionResult;

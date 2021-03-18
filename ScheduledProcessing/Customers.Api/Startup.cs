@@ -31,7 +31,7 @@ namespace Customers.Api
                 .BootstrapPersistenceServices(WebHostEnvironment, Configuration)
                 .BootstrapCache(Configuration.GetSection("Redis").Get<RedisSettings>())
                 .BootstrapSwaggerConfig(Configuration.GetSection("Swagger").Get<SwaggerSettings>())
-                .AddSingleton(Configuration.GetSection("RabbitMQ").Get<RabbitMQSettings>())
+                .BootstrapWorkerServices(Configuration.GetSection("RabbitMQ").Get<RabbitMQSettings>())
                 .BootstrapPipelinesServices()
                 .Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal)
                 .AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>())

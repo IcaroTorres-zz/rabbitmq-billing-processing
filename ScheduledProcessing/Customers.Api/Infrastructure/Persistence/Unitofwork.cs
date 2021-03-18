@@ -11,22 +11,22 @@ namespace Customers.Api.Infrastructure.Persistence
 {
     public sealed class Unitofwork : IUnitofwork
     {
-        private readonly CustomersContext context;
-        private IDbContextTransaction transaction;
-        private bool disposed;
-        private bool transactionOpen = false;
+        private readonly CustomersContext _context;
+        private IDbContextTransaction _transaction;
+        private bool _disposed;
+        private bool _transactionOpen = false;
 
         public Unitofwork(CustomersContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
-        public bool HasTransactionOpen() => transactionOpen;
+        public bool HasTransactionOpen() => _transactionOpen;
 
         public IUnitofwork BeginTransaction()
         {
-            transaction = context.Database.BeginTransaction();
-            transactionOpen = true;
+            _transaction = _context.Database.BeginTransaction();
+            _transactionOpen = true;
             return this;
         }
 
@@ -34,9 +34,9 @@ namespace Customers.Api.Infrastructure.Persistence
         {
             try
             {
-                var changes = await context.SaveChangesAsync(cancellationToken);
-                transaction?.CommitAsync(cancellationToken);
-                transactionOpen = false;
+                var changes = await _context.SaveChangesAsync(cancellationToken);
+                _transaction?.CommitAsync(cancellationToken);
+                _transactionOpen = false;
                 return new SuccessResult(changes);
             }
             catch (Exception exception)
@@ -48,8 +48,8 @@ namespace Customers.Api.Infrastructure.Persistence
 
         public async Task RollbackAsync(CancellationToken cancellationToken = default)
         {
-            await transaction?.RollbackAsync(cancellationToken);
-            transactionOpen = false;
+            await _transaction?.RollbackAsync(cancellationToken);
+            _transactionOpen = false;
         }
 
         public void Dispose()
@@ -60,15 +60,15 @@ namespace Customers.Api.Infrastructure.Persistence
 
         private void Dispose(bool disposing)
         {
-            if (disposed) return;
+            if (_disposed) return;
 
             if (disposing)
             {
-                context.Dispose();
-                transaction?.Dispose();
+                _context.Dispose();
+                _transaction?.Dispose();
             }
-            transactionOpen = false;
-            disposed = true;
+            _transactionOpen = false;
+            _disposed = true;
         }
     }
 }

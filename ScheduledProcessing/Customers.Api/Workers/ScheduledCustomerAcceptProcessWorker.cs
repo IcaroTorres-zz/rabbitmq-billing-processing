@@ -1,16 +1,11 @@
-﻿using Customers.Api.Application.Abstractions;
-using Customers.Api.Domain.Models;
+﻿using Customers.Api.Domain.Models;
 using Customers.Api.Infrastructure.Persistence;
 using Library.Results;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
-using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,21 +14,18 @@ namespace Customers.Api.Workers
 {
     public class ScheduledCustomerAcceptProcessWorker : BackgroundService
     {
-        private readonly string amqpUrl;
-        private readonly IHostEnvironment env;
-        private readonly IConfiguration configuration;
+        private readonly IConnectionFactory _connectionFactory;
+        private readonly ICustomerRepositoryFactory _repositoryFactory;
 
-        public ScheduledCustomerAcceptProcessWorker(RabbitMQSettings settings, IHostEnvironment env, IConfiguration configuration)
+        public ScheduledCustomerAcceptProcessWorker(IConnectionFactory connectionFactory, ICustomerRepositoryFactory repositoryFactory)
         {
-            amqpUrl = settings.AmqpUrl;
-            this.env = env;
-            this.configuration = configuration;
+            _connectionFactory = connectionFactory;
+            _repositoryFactory = repositoryFactory;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var factory = new ConnectionFactory { Uri = new Uri(amqpUrl) };
-            var connection = factory.CreateConnection();
+            var connection = _connectionFactory.CreateConnection();
             var channel = connection.CreateModel();
             var consumer = BuildConsumer(channel, nameof(Customer));
 
@@ -57,7 +49,7 @@ namespace Customers.Api.Workers
                         $"Processed {message} on CorrelationId: {ea.BasicProperties.CorrelationId}, " +
                             $"RoutingKey: {ea.RoutingKey}, DeliveryTag: {ea.DeliveryTag}, Body: {message}.");
 
-                    var repository = BuildRepository();
+                    var repository = _repositoryFactory.CreateRepository();
                     var customers = await repository.GetAllAsync();
                     response = JsonConvert.SerializeObject(customers);
 
@@ -82,16 +74,6 @@ namespace Customers.Api.Workers
             };
 
             return Task.CompletedTask;
-        }
-
-        private ICustomerRepository BuildRepository()
-        {
-            var sourcePath = Path.Combine(env.ContentRootPath, "Infrastructure", "Persistence", configuration["SQLite:DatabaseName"]);
-            var builder = new DbContextOptionsBuilder<CustomersContext>();
-            builder.UseSqlite($"Data Source={sourcePath}");
-            if (!env.IsProduction()) builder.EnableSensitiveDataLogging();
-            var context = new CustomersContext(builder.Options);
-            return new CustomerRepository(context);
         }
 
         private static EventingBasicConsumer BuildConsumer(IModel channel, string queueName)

@@ -12,17 +12,17 @@ namespace Customers.Api.Application.Usecases
 {
     public class GetCustomerUsecase : IRequestHandler<GetCustomerRequest, IResult>
     {
-        private readonly ICustomerRepository repository;
+        private readonly ICustomerRepository _repository;
 
         public GetCustomerUsecase(ICustomerRepository repository)
         {
-            this.repository = repository;
+            _repository = repository;
         }
 
         public async Task<IResult> Handle(GetCustomerRequest request, CancellationToken cancellationToken)
         {
             var id = request.Cpf.AsSpan().ParseUlong();
-            var customer = await repository.GetAsync(id, cancellationToken);
+            var customer = await _repository.GetAsync(id, cancellationToken);
             var response = new CustomerResponse(customer);
             return new SuccessResult(response);
         }
