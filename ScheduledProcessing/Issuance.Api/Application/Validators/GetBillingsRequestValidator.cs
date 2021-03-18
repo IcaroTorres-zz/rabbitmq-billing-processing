@@ -13,7 +13,7 @@ namespace Issuance.Api.Application.Validators
             CascadeMode = CascadeMode.Stop;
             RuleFor(x => x)
                 .Must(x => !string.IsNullOrWhiteSpace(x.Cpf) || !string.IsNullOrWhiteSpace(x.Month))
-                .WithMessage("Informe um valor para ao menos um dos dois 'cpf' e/ou 'month'")
+                .WithMessage("Informe um valor para ao menos um dos dois Cpf e/ou mês")
                 .DependentRules(() =>
                 {
                     RuleFor(x => x.Cpf)

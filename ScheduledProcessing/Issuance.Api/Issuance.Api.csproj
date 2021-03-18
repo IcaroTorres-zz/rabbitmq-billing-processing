@@ -13,7 +13,6 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.2" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="MongoDB.Driver" Version="2.12.0" />
     <PackageReference Include="RabbitMQ.Client" Version="6.2.1" />
