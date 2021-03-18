@@ -1,6 +1,5 @@
 ﻿using Issuance.Api.Application.Abstractions;
 using Issuance.Api.Application.Models;
-using Library.Abstractions;
 using Library.Optimizations;
 using Library.Results;
 using MediatR;

@@ -1,4 +1,4 @@
-﻿namespace Library.Abstractions
+﻿namespace Library.Results
 {
     public interface INull { }
 }

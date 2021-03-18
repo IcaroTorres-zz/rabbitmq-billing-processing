@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Library.Abstractions
+namespace Library.Caching
 {
     public interface ICacheService
     {

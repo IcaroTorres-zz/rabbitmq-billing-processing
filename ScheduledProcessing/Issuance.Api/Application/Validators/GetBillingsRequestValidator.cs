@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Issuance.Api.Application.Models;
-using Library.Abstractions;
 using Library.Optimizations;
+using Library.Validators;
 using System;
 
 namespace Issuance.Api.Application.Validators

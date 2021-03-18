@@ -1,7 +1,6 @@
 ﻿using Customers.Api.Application.Abstractions;
 using Customers.Api.Application.Requests;
 using Customers.Api.Application.Responses;
-using Library.Abstractions;
 using Library.Optimizations;
 using Library.Results;
 using MediatR;

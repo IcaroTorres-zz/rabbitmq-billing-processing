@@ -1,7 +1,6 @@
 ﻿using Issuance.Api.Application.Abstractions;
 using Issuance.Api.Application.Models;
 using Issuance.Api.Domain.Services;
-using Library.Abstractions;
 using Library.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;

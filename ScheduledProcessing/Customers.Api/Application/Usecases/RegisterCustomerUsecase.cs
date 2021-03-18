@@ -2,7 +2,6 @@
 using Customers.Api.Application.Requests;
 using Customers.Api.Application.Responses;
 using Customers.Api.Domain.Services;
-using Library.Abstractions;
 using Library.Results;
 using MediatR;
 using System.Threading;

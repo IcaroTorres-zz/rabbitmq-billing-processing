@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Library.Abstractions
+namespace Library.Validators
 {
     public interface ICpfValidator : IValidator<string> { }
 }

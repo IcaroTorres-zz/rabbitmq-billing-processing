@@ -1,4 +1,4 @@
-﻿namespace Library.Abstractions
+﻿namespace Library.Requests
 {
     public interface ITransactionRequest { }
 }

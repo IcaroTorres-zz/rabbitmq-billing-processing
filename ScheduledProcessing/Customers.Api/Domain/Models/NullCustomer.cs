@@ -1,4 +1,4 @@
-﻿using Library.Abstractions;
+﻿using Library.Results;
 
 namespace Customers.Api.Domain.Models
 {

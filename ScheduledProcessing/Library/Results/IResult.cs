@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace Library.Abstractions
+namespace Library.Results
 {
     public interface IResult : IActionResult
     {

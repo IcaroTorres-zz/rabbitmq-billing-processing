@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using Library.Results;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Library.Abstractions
+namespace Library.Requests
 {
     public interface ICreationRequest<T> : IRequest<IResult>, ITransactionRequest
     {

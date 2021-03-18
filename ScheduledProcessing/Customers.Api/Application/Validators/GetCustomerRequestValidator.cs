@@ -1,8 +1,8 @@
 ﻿using Customers.Api.Application.Abstractions;
 using Customers.Api.Application.Requests;
 using FluentValidation;
-using Library.Abstractions;
 using Library.Optimizations;
+using Library.Validators;
 using Microsoft.AspNetCore.Http;
 using System;
 

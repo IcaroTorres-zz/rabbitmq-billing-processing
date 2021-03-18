@@ -1,5 +1,5 @@
 ﻿using Customers.Api.Application.Responses;
-using Library.Abstractions;
+using Library.Requests;
 using System.ComponentModel.DataAnnotations;
 
 namespace Customers.Api.Application.Requests

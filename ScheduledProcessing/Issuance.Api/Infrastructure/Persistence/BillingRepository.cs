@@ -1,7 +1,7 @@
 ﻿using Issuance.Api.Application.Abstractions;
 using Issuance.Api.Domain.Models;
 using Issuance.Api.Infrastructure.Persistence.Services;
-using Library.Abstractions;
+using Library.Results;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading;

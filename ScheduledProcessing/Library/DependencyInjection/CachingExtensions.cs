@@ -1,5 +1,4 @@
-﻿using Library.Abstractions;
-using Library.Caching;
+﻿using Library.Caching;
 using StackExchange.Redis;
 
 namespace Microsoft.Extensions.DependencyInjection

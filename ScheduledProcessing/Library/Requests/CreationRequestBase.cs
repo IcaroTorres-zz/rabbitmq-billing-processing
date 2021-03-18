@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Library.Abstractions
+namespace Library.Requests
 {
     public abstract class CreationRequestBase<T> : ICreationRequest<T>
     {
