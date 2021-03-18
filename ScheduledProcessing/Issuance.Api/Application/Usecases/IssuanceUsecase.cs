@@ -14,20 +14,18 @@ namespace Issuance.Api.Application.Usecases
     {
         private readonly IModelFactory factory;
         private readonly IBillingRepository repository;
-        private readonly IResponseConverter converter;
 
-        public IssuanceUsecase(IModelFactory factory, IBillingRepository repository, IResponseConverter converter)
+        public IssuanceUsecase(IModelFactory factory, IBillingRepository repository)
         {
             this.factory = factory;
             this.repository = repository;
-            this.converter = converter;
         }
 
         public async Task<IResult> Handle(BillingRequest request, CancellationToken cancellationToken)
         {
             var billing = factory.CreateBilling(request.Cpf, request.Amount, request.DueDate);
             await repository.InsertAsync(billing, cancellationToken);
-            var response = converter.ToResponse(billing);
+            var response = new BillingResponse(billing);
             return new SuccessResult(response, StatusCodes.Status201Created);
         }
     }

@@ -13,12 +13,10 @@ namespace Issuance.Api.Application.Usecases
     public class GetBillingsUsecase : IRequestHandler<GetBillingsRequest, IResult>
     {
         private readonly IBillingRepository repository;
-        private readonly IResponseConverter converter;
 
-        public GetBillingsUsecase(IBillingRepository repository, IResponseConverter converter)
+        public GetBillingsUsecase(IBillingRepository repository)
         {
             this.repository = repository;
-            this.converter = converter;
         }
 
         public async Task<IResult> Handle(GetBillingsRequest request, CancellationToken cancellationToken)
@@ -26,7 +24,7 @@ namespace Issuance.Api.Application.Usecases
             var cpf = ExtractCpf(request);
             var (month, year) = ExtractMonthYear(request);
             var billings = await repository.GetManyAsync(cpf, month, year, cancellationToken);
-            var responses = converter.ToResponse(billings);
+            var responses = billings.ConvertAll(x => new BillingResponse(x));
             return new SuccessResult(responses);
         }
 
