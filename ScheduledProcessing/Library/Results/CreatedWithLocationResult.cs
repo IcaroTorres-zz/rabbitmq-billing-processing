@@ -12,18 +12,18 @@ namespace Library.Results
         public CreatedWithLocationResult(T data, ICreationRequest<T> creationCommand)
             : base(GenerateLocation(creationCommand, data), default)
         {
-            this.data = data;
-            errors = new string[] { };
-            Value = new { Data = data, Errors = errors };
+            _data = data;
+            _errors = new string[] { };
+            Value = new { Data = data, Errors = _errors };
         }
 
-        private readonly object data;
-        private readonly string[] errors;
+        private readonly object _data;
+        private readonly string[] _errors;
 
         public bool IsSuccess() => true;
         public int GetStatus() => StatusCodes.Status201Created;
-        public object GetData() => data;
-        public IReadOnlyList<string> Errors => errors;
+        public object GetData() => _data;
+        public IReadOnlyList<string> Errors => _errors;
 
         private static string GenerateLocation(ICreationRequest<T> creationCommand, T data)
         {

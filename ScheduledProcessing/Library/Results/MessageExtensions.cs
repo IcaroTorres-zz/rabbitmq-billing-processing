@@ -7,7 +7,7 @@ using System.Linq;
 namespace Library.Results
 {
     [ExcludeFromCodeCoverage]
-    public static class MessageExtensionscs
+    public static class MessageExtensions
     {
         public static IEnumerable<string> ExtractMessages(this Exception ex)
         {

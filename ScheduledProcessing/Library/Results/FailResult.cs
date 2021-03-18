@@ -13,23 +13,23 @@ namespace Library.Results
         public FailResult(int status, IEnumerable<string> errors) : base(default)
         {
             StatusCode = status;
-            this.errors = errors.ToArray();
+            this._errors = errors.ToArray();
             Value = new { Data = (object)null, Errors = errors };
         }
         public FailResult(IEnumerable<ValidationFailure> failures) : base(default)
         {
-            errors = failures.ExtractMessages().ToArray();
+            _errors = failures.ExtractMessages().ToArray();
             StatusCode = int.TryParse(failures.FirstOrDefault()?.ErrorCode, out var statusFromValidation)
                 ? statusFromValidation
                 : StatusCodes.Status400BadRequest;
-            Value = new { Data = (object)null, Errors = errors };
+            Value = new { Data = (object)null, Errors = _errors };
         }
 
-        private readonly string[] errors;
+        private readonly string[] _errors;
 
         public bool IsSuccess() => false;
         public int GetStatus() => StatusCode ?? StatusCodes.Status409Conflict;
         public object GetData() => default;
-        public IReadOnlyList<string> Errors => errors;
+        public IReadOnlyList<string> Errors => _errors;
     }
 }

@@ -10,18 +10,18 @@ namespace Library.Results
     {
         public SuccessResult(object data, int status = StatusCodes.Status200OK) : base(default)
         {
-            this.data = data;
-            errors = new string[] { };
+            _data = data;
+            _errors = new string[] { };
             StatusCode = status;
-            Value = new { Data = data, Errors = errors };
+            Value = new { Data = data, Errors = _errors };
         }
 
-        private readonly object data;
-        private readonly string[] errors;
+        private readonly object _data;
+        private readonly string[] _errors;
 
         public bool IsSuccess() => true;
         public int GetStatus() => StatusCode ?? StatusCodes.Status200OK;
-        public object GetData() => data;
-        public IReadOnlyList<string> Errors => errors;
+        public object GetData() => _data;
+        public IReadOnlyList<string> Errors => _errors;
     }
 }

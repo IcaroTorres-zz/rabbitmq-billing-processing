@@ -11,7 +11,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection BootstrapPersistenceServices(this IServiceCollection services, MongoDBSettings mongoDB)
         {
             return services
-                .AddHostedService<ScheduledBillingsToProcessWorker>()
                 .AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(mongoDB.ConnectionString))
                 .AddSingleton<IMongoDatabase>(x => x.GetRequiredService<IMongoClient>().GetDatabase(mongoDB.DatabaseName))
                 .AddSingleton(_ => mongoDB.Collections)

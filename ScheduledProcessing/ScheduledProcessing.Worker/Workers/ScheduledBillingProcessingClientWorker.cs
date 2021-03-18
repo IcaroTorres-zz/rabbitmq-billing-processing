@@ -14,11 +14,11 @@ namespace ScheduledProcessing.Worker.Workers
 {
     public class ScheduledBillingProcessingClientWorker : BackgroundService
     {
-        private readonly IAmountProcessor processor;
-        private readonly IRpcClient<List<Customer>> customerClient;
-        private readonly IRpcClient<List<Billing>> billingClient;
-        private readonly ILogger<ScheduledBillingProcessingClientWorker> logger;
-        private readonly int millisecondsScheduledTime;
+        private readonly IAmountProcessor _processor;
+        private readonly IRpcClient<List<Customer>> _customerClient;
+        private readonly IRpcClient<List<Billing>> _billingClient;
+        private readonly ILogger<ScheduledBillingProcessingClientWorker> _logger;
+        private readonly int _millisecondsScheduledTime;
 
         public ScheduledBillingProcessingClientWorker(
             IRpcClient<List<Customer>> customerClient,
@@ -27,16 +27,16 @@ namespace ScheduledProcessing.Worker.Workers
             IConfiguration config,
             ILogger<ScheduledBillingProcessingClientWorker> logger)
         {
-            this.processor = processor;
-            this.customerClient = customerClient;
-            this.billingClient = billingClient;
-            this.logger = logger;
-            millisecondsScheduledTime = config.GetSection("MillisecondsScheduledTime").Get<int>();
+            _processor = processor;
+            _customerClient = customerClient;
+            _billingClient = billingClient;
+            _logger = logger;
+            _millisecondsScheduledTime = config.GetSection("MillisecondsScheduledTime").Get<int>();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            logger.LogInformation($"{DateTime.UtcNow:G} Starting scheduled batch processing ...");
+            _logger.LogInformation($"{DateTime.UtcNow:G} Starting scheduled batch processing ...");
             var comparer = new CustomerCpfComparer();
             var batch = new List<Billing>();
             var batchId = Guid.NewGuid().ToString();
@@ -47,12 +47,12 @@ namespace ScheduledProcessing.Worker.Workers
                     List<Customer> customers;
                     (batch, customers) = await FetchBatchAsync(batch, batchId);
                     batch = ProcessBatch(batch, customers, comparer, batchId);
-                    batchId = await WaitTillNextBatch(millisecondsScheduledTime);
+                    batchId = await WaitTillNextBatch(_millisecondsScheduledTime);
                 }
                 catch (Exception ex)
                 {
                     // Todo tratar melhor os erros
-                    logger.LogInformation($"{DateTime.UtcNow:G} BatchId: {batchId}, Exceptions: {string.Join(Environment.NewLine, ex.ExtractMessages())}");
+                    _logger.LogInformation($"{DateTime.UtcNow:G} BatchId: {batchId}, Exceptions: {string.Join(Environment.NewLine, ex.ExtractMessages())}");
                 }
             }
         }
@@ -64,18 +64,18 @@ namespace ScheduledProcessing.Worker.Workers
             {
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
-                batch = billingClient.CallProcedure(batch);
+                batch = _billingClient.CallProcedure(batch);
                 stopWatch.Stop();
-                logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Billings ready to process. Elapsed milliseconds {stopWatch.ElapsedMilliseconds}...");
+                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Billings ready to process. Elapsed milliseconds {stopWatch.ElapsedMilliseconds}...");
                 stopWatch.Reset();
             });
             var customerTask = Task.Run(() =>
             {
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
-                customers = customerClient.CallProcedure("");
+                customers = _customerClient.CallProcedure("");
                 stopWatch.Stop();
-                logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Customers ready to process. Elapsed milliseconds {stopWatch.ElapsedMilliseconds}...");
+                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Customers ready to process. Elapsed milliseconds {stopWatch.ElapsedMilliseconds}...");
                 stopWatch.Reset();
             });
 
@@ -87,12 +87,12 @@ namespace ScheduledProcessing.Worker.Workers
         {
             if (customers.Count == 0 || batch.Count == 0)
             {
-                logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Skiping batch. Nothing to process now...");
+                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Skiping batch. Nothing to process now...");
             }
             else
             {
                 var customerForProcessing = new Customer();
-                logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Process started...");
+                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Process started...");
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
                 Parallel.ForEach(batch, billing =>
@@ -100,11 +100,11 @@ namespace ScheduledProcessing.Worker.Workers
                     customerForProcessing.Cpf = billing.Cpf;
                     var index = customers.BinarySearch(customerForProcessing, comparer);
                     customerForProcessing = customers[index];
-                    billing = processor.Process(customerForProcessing, billing);
+                    billing = _processor.Process(customerForProcessing, billing);
                     batch.Add(billing);
                 });
                 stopWatch.Stop();
-                logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Process finished. Elapsed milliseconds {stopWatch.ElapsedMilliseconds}...");
+                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Process finished. Elapsed milliseconds {stopWatch.ElapsedMilliseconds}...");
                 stopWatch.Reset();
             }
 
@@ -113,7 +113,7 @@ namespace ScheduledProcessing.Worker.Workers
 
         private async Task<string> WaitTillNextBatch(int millisecondsScheduledTime)
         {
-            logger.LogInformation($"{DateTime.UtcNow:G}  Waiting {millisecondsScheduledTime} milliseconds to process next batch...");
+            _logger.LogInformation($"{DateTime.UtcNow:G}  Waiting {millisecondsScheduledTime} milliseconds to process next batch...");
             await Task.Delay(millisecondsScheduledTime);
             return Guid.NewGuid().ToString();
         }

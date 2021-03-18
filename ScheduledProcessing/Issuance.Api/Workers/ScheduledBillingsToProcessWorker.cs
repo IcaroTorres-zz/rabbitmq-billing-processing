@@ -1,7 +1,6 @@
 ﻿using Issuance.Api.Application.Abstractions;
 using Issuance.Api.Domain.Models;
 using Library.Results;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -16,19 +15,18 @@ namespace Issuance.Api.Workers
 {
     public class ScheduledBillingsToProcessWorker : BackgroundService
     {
-        private readonly IBillingRepository repository;
-        private readonly string amqpUrl;
+        private readonly IBillingRepository _repository;
+        private readonly IConnectionFactory _factory;
 
-        public ScheduledBillingsToProcessWorker(IBillingRepository repository, RabbitMQSettings settings)
+        public ScheduledBillingsToProcessWorker(IBillingRepository repository, IConnectionFactory factory)
         {
-            this.repository = repository;
-            amqpUrl = settings.AmqpUrl;
+            _repository = repository;
+            _factory = factory;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var factory = new ConnectionFactory { Uri = new Uri(amqpUrl) };
-            var connection = factory.CreateConnection();
+            var connection = _factory.CreateConnection();
             var channel = connection.CreateModel();
             var consumer = BuildConsumer(channel, nameof(Billing));
 
@@ -48,13 +46,13 @@ namespace Issuance.Api.Workers
                 {
                     var message = Encoding.UTF8.GetString(body);
                     var processedBatch = JsonConvert.DeserializeObject<List<Billing>>(message);
-                    await repository.UpdateProcessedBatchAsync(processedBatch);
+                    await _repository.UpdateProcessedBatchAsync(processedBatch);
 
                     Console.WriteLine(
                         $"Processed on CorrelationId: {ea.BasicProperties.CorrelationId}, " +
                             $"RoutingKey: {ea.RoutingKey}, DeliveryTag: {ea.DeliveryTag}, Body: {message}.");
 
-                    var pendingProcessing = await repository.GetPendingAsync(default);
+                    var pendingProcessing = await _repository.GetPendingAsync(default);
                     response = JsonConvert.SerializeObject(pendingProcessing);
 
                     Console.WriteLine(

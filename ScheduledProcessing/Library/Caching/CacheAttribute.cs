@@ -12,11 +12,11 @@ namespace Library.Caching
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class CacheAttribute : ActionFilterAttribute
     {
-        private readonly int timeToLiveSeconds;
+        private readonly int _timeToLiveSeconds;
 
         public CacheAttribute(int timeToLiveSeconds)
         {
-            this.timeToLiveSeconds = timeToLiveSeconds;
+            _timeToLiveSeconds = timeToLiveSeconds;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -45,7 +45,7 @@ namespace Library.Caching
                         Formatting = Formatting.None,
                         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                     });
-                    await cacheService.SetAsync(cacheKey, cacheContent, timeToLiveSeconds);
+                    await cacheService.SetAsync(cacheKey, cacheContent, _timeToLiveSeconds);
                 }
                 return;
             }
