@@ -1,12 +1,12 @@
 ﻿using Issuance.Api.Application.Abstractions;
 using Issuance.Api.Application.Models;
-using MediatR;
 using Library.Abstractions;
+using Library.Optimizations;
 using Library.Results;
+using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Library.Optimizations;
 
 namespace Issuance.Api.Application.Usecases
 {

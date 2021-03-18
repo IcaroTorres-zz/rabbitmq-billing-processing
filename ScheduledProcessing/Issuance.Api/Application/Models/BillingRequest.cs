@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Library.Abstractions;
+﻿using Library.Abstractions;
+using MediatR;
 using System.ComponentModel.DataAnnotations;
 
 namespace Issuance.Api.Application.Models

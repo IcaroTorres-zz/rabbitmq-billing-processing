@@ -1,10 +1,10 @@
 ﻿using Issuance.Api.Application.Abstractions;
 using Issuance.Api.Application.Models;
 using Issuance.Api.Domain.Services;
-using MediatR;
-using Microsoft.AspNetCore.Http;
 using Library.Abstractions;
 using Library.Results;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using System.Threading;
 using System.Threading.Tasks;
 

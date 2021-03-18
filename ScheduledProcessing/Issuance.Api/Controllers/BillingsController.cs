@@ -1,11 +1,11 @@
 ﻿using Issuance.Api.Application.Models;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Library.Caching;
-using System.Threading.Tasks;
 using Library.Results;
+using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Issuance.Api.Controllers
 {

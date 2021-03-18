@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿using Library.Abstractions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Library.Abstractions;
 
 namespace Issuance.Api.Application.Models
 {

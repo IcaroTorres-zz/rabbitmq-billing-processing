@@ -1,4 +1,4 @@
-﻿namespace Library.DependencyInjection
+﻿namespace Microsoft.Extensions.DependencyInjection
 {
     public class SwaggerSettings
     {

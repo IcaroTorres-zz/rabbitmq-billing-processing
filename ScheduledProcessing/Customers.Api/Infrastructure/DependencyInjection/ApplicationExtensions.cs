@@ -1,10 +1,9 @@
 ﻿using Customers.Api.Application.Usecases;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Library.PipelineBehaviors;
+using MediatR;
 using System.Reflection;
 
-namespace Customers.Api.Infrastructure.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ApplicationExtensions
     {

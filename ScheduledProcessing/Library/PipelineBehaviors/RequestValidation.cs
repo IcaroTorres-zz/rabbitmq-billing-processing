@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using MediatR;
 using Library.Abstractions;
 using Library.Results;
+using MediatR;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

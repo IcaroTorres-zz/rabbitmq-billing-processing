@@ -1,11 +1,11 @@
 ﻿using Customers.Api.Application.Abstractions;
 using Customers.Api.Application.Requests;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Library.Abstractions;
+using Library.Optimizations;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using Library.Optimizations;
 
 namespace Customers.Api.Application.Validators
 {

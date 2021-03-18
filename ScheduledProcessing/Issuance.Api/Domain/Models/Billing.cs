@@ -1,7 +1,7 @@
-﻿using MediatR;
+﻿using Library.Abstractions;
+using MediatR;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using Library.Abstractions;
 using System;
 
 namespace Issuance.Api.Domain.Models

@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
 using Library.Abstractions;
 using Library.Validators;
 using System.Reflection;
 
-namespace Customers.Api.Infrastructure.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class FluentValidationsExtensions
     {

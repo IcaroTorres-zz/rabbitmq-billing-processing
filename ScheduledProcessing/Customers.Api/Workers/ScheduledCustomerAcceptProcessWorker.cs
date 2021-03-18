@@ -1,10 +1,10 @@
 ﻿using Customers.Api.Application.Abstractions;
 using Customers.Api.Domain.Models;
 using Customers.Api.Infrastructure.Persistence;
-using Library.DependencyInjection;
 using Library.Results;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using RabbitMQ.Client;

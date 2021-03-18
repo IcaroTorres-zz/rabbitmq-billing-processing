@@ -2,11 +2,9 @@
 using Issuance.Api.Infrastructure.Persistence;
 using Issuance.Api.Infrastructure.Persistence.Services;
 using Issuance.Api.Workers;
-using Library.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 
-namespace Issuance.Api.Infrastructure.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class PersistenceExtensions
     {

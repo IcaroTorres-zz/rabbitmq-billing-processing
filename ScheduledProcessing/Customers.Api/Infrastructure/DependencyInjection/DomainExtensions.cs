@@ -1,7 +1,6 @@
 ﻿using Customers.Api.Domain.Services;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Customers.Api.Infrastructure.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DomainExtensions
     {

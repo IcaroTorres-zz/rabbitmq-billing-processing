@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using RabbitMQ.Client;
 using ScheduledProcessing.Worker.Domain.Models;
 using ScheduledProcessing.Worker.Domain.Services;
 using System;

@@ -1,7 +1,7 @@
 ﻿using Issuance.Api.Application.Abstractions;
 using Issuance.Api.Domain.Models;
-using Library.DependencyInjection;
 using Library.Results;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using RabbitMQ.Client;

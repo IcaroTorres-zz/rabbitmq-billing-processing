@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Library.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     public class CollectionsDictionary : Dictionary<string, string>
     {

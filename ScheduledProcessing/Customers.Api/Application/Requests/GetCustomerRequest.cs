@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Library.Abstractions;
+﻿using Library.Abstractions;
+using MediatR;
 
 namespace Customers.Api.Application.Requests
 {

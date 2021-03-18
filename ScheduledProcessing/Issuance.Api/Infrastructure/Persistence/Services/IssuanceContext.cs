@@ -1,5 +1,5 @@
 ﻿using Issuance.Api.Domain.Models;
-using Library.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 
 namespace Issuance.Api.Infrastructure.Persistence.Services

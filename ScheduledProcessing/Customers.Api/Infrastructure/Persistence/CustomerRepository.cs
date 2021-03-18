@@ -1,7 +1,7 @@
 ﻿using Customers.Api.Application.Abstractions;
 using Customers.Api.Domain.Models;
-using Microsoft.EntityFrameworkCore;
 using Library.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

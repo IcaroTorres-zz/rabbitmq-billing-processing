@@ -1,5 +1,3 @@
-using Issuance.Api.Infrastructure.DependencyInjection;
-using Library.DependencyInjection;
 using Library.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

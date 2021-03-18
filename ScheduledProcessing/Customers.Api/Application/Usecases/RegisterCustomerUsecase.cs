@@ -2,9 +2,9 @@
 using Customers.Api.Application.Requests;
 using Customers.Api.Domain.Models;
 using Customers.Api.Domain.Services;
-using MediatR;
 using Library.Abstractions;
 using Library.Results;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 

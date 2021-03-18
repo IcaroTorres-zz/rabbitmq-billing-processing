@@ -1,9 +1,9 @@
 ﻿using Customers.Api.Application.Abstractions;
+using Library.Abstractions;
+using Library.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Library.Abstractions;
-using Library.Results;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

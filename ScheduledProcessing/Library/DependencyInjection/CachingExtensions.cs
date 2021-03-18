@@ -1,9 +1,8 @@
 ﻿using Library.Abstractions;
 using Library.Caching;
-using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 
-namespace Library.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class CachingExtensions
     {

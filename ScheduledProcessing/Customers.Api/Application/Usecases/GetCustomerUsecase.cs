@@ -1,12 +1,12 @@
 ﻿using Customers.Api.Application.Abstractions;
 using Customers.Api.Application.Requests;
-using MediatR;
 using Library.Abstractions;
+using Library.Optimizations;
 using Library.Results;
+using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Library.Optimizations;
 
 namespace Customers.Api.Application.Usecases
 {

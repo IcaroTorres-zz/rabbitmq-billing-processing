@@ -1,12 +1,11 @@
 ﻿using Issuance.Api.Application.Abstractions;
 using Issuance.Api.Application.Services;
 using Issuance.Api.Application.Usecases;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Library.PipelineBehaviors;
+using MediatR;
 using System.Reflection;
 
-namespace Issuance.Api.Infrastructure.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ApplicationExtensions
     {

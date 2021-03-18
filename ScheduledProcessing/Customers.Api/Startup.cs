@@ -1,6 +1,4 @@
-using Customers.Api.Infrastructure.DependencyInjection;
 using Customers.Api.Infrastructure.Persistence;
-using Library.DependencyInjection;
 using Library.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
