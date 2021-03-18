@@ -1,10 +1,11 @@
 ﻿using Library.Abstractions;
 using MediatR;
+using System.ComponentModel.DataAnnotations;
 
 namespace Customers.Api.Application.Requests
 {
     public class GetCustomerRequest : IRequest<IResult>
     {
-        public string Cpf { get; set; }
+        [Required] public string Cpf { get; set; }
     }
 }

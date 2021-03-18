@@ -1,12 +1,13 @@
-﻿using Customers.Api.Domain.Models;
+﻿using Customers.Api.Application.Responses;
 using Library.Abstractions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Customers.Api.Application.Requests
 {
-    public class RegisterCustomerRequest : CreationRequestBase<Customer>
+    public class RegisterCustomerRequest : CreationRequestBase<CustomerResponse>
     {
-        public string Cpf { get; set; }
-        public string Name { get; set; }
-        public string State { get; set; }
+        [Required] public string Cpf { get; set; }
+        [Required] public string Name { get; set; }
+        [Required] public string State { get; set; }
     }
 }

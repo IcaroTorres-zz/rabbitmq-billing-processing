@@ -1,5 +1,5 @@
 ﻿using Customers.Api.Application.Requests;
-using Customers.Api.Domain.Models;
+using Customers.Api.Application.Responses;
 using Library.Caching;
 using Library.Results;
 using MediatR;
@@ -27,7 +27,7 @@ namespace Customers.Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns code="201">Created result with link to resource on location in header.</returns>
-        [ProducesResponseType(typeof(Output<Customer>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Output<CustomerResponse>), StatusCodes.Status201Created)]
         [ProducesErrorResponseType(typeof(Output<object>))]
         [HttpPost]
         public async Task<IActionResult> RegisterCostumer([FromBody] RegisterCustomerRequest request)
@@ -40,7 +40,7 @@ namespace Customers.Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns code="200">Ok result with a customer in response if some.</returns>
-        [ProducesResponseType(typeof(Output<Customer>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Output<CustomerResponse>), StatusCodes.Status200OK)]
         [ProducesErrorResponseType(typeof(Output<object>))]
         [HttpGet("{cpf}", Name = getCustomerRoute), Cache(15)]
         public async Task<IActionResult> GetCostumer([FromRoute] GetCustomerRequest request)
