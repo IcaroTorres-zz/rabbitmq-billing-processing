@@ -31,13 +31,13 @@ namespace ScheduledProcessing.Worker
             {
                 var connection = x.GetRequiredService<IConnection>();
                 var channel = connection.CreateModel();
-                return new RpcClient<List<Customer>>(connection, channel, nameof(Customer));
+                return new RpcClient<List<Customer>>(channel, nameof(Customer));
             });
             services.AddSingleton<IRpcClient<List<Billing>>>(x =>
             {
                 var connection = x.GetRequiredService<IConnection>();
                 var channel = connection.CreateModel();
-                return new RpcClient<List<Billing>>(connection, channel, nameof(Billing));
+                return new RpcClient<List<Billing>>(channel, nameof(Billing));
             });
             services.AddHostedService<ScheduledBillingProcessingClientWorker>();
         }

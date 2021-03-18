@@ -9,7 +9,6 @@ namespace ScheduledProcessing.Worker.Domain.Services
 {
     public class RpcClient<T> : IRpcClient<T>
     {
-        private readonly IConnection connection;
         private readonly IModel channel;
         private readonly string targetQueueName;
         private readonly string replyQueueName;
@@ -17,9 +16,8 @@ namespace ScheduledProcessing.Worker.Domain.Services
         private readonly IBasicProperties properties;
         private readonly BlockingCollection<T> responseData = new BlockingCollection<T>();
 
-        public RpcClient(IConnection connection, IModel channel, string targetQueueName)
+        public RpcClient(IModel channel, string targetQueueName)
         {
-            this.connection = connection;
             this.channel = channel;
             this.targetQueueName = targetQueueName;
 
