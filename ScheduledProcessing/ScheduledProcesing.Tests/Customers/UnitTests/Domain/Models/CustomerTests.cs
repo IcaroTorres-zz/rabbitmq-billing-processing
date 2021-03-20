@@ -1,6 +1,7 @@
 using Customers.Api.Domain.Models;
 using FluentAssertions;
 using Library.Results;
+using ScheduledProcesing.Tests.SharedHelpers;
 using Xunit;
 
 namespace ScheduledProcesing.Tests.Customers.UnitTests.Domain.Models
@@ -25,7 +26,7 @@ namespace ScheduledProcesing.Tests.Customers.UnitTests.Domain.Models
         public void Constructor_AssigningValues_Should_Create_With_Props_For_GivenValues()
         {
             // arrange and act
-            const ulong expectedCpf = 01234567898;
+            var expectedCpf = Fakes.CPFs.Valid.Generate();
             const string expectedName = "sample";
             const string expectedState = "sample";
 
@@ -46,13 +47,13 @@ namespace ScheduledProcesing.Tests.Customers.UnitTests.Domain.Models
         public void Instance_Should_Have_Mutable_PropValues()
         {
             // arrange
-            const ulong expectedCpf = 01234567898;
+            var expectedCpf = Fakes.CPFs.Valid.Generate();
             const string expectedName = "sample";
             const string expectedState = "sample";
+
+            // act
             var sut = new Customer
             {
-
-                // act
                 Cpf = expectedCpf,
                 Name = expectedName,
                 State = expectedState

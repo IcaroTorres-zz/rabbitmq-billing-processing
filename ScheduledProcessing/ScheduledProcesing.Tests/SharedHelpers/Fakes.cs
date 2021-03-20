@@ -1,9 +1,12 @@
 ﻿using Bogus;
 using Customers.Api.Application.Requests;
 using Customers.Api.Domain.Models;
+using Issuance.Api.Domain.Models;
+using Library.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
+using Date = Issuance.Api.Domain.Models.Date;
 
 namespace ScheduledProcesing.Tests.SharedHelpers
 {
@@ -11,8 +14,9 @@ namespace ScheduledProcesing.Tests.SharedHelpers
     {
         public static class CPFs
         {
-            public static readonly ulong Valid = 77355245104;
-            public static readonly ulong Invalid = 00000000000;
+            public static Faker<CPF> Valid => new Faker<CPF>()
+                .CustomInstantiator(_ =>  CPF.NewCPF());
+            public static readonly CPF Invalid = CPF.From(0);
         }
 
         public static class States
@@ -33,10 +37,49 @@ namespace ScheduledProcesing.Tests.SharedHelpers
             public static readonly string Empty = "";
         }
 
+        public static class Dates
+        {
+            public static Faker<Date> Future(int days) => new Faker<Date>()
+                .CustomInstantiator(x =>
+                {
+                    var date = x.Date.Soon(days);
+                    return new Date
+                    {
+                        Day = (byte)date.Day,
+                        Month = (byte)date.Month,
+                        Year = (ushort)date.Year
+                    };
+                });
+
+            public static Faker<Date> Past() => new Faker<Date>()
+                .CustomInstantiator(x =>
+                {
+                    var date = x.Date.Past(2);
+                    return new Date
+                    {
+                        Day = (byte)date.Day,
+                        Month = (byte)date.Month,
+                        Year = (ushort)date.Year
+                    };
+                });
+        }
+
+        public static class DateStrings
+        {
+            public static Faker<string> Future(int days) => new Faker<string>()
+                .CustomInstantiator(x => x.Date.Soon(days).ToString("dd-MM-yyyy"));
+
+            public static Faker<string> Past() => new Faker<string>()
+                .CustomInstantiator(x => x.Date.Past(2).ToString("dd-MM-yyyy"));
+
+            public static Faker<string> InvalidFormat() => new Faker<string>()
+                .CustomInstantiator(x => x.Date.Past(2).ToString("ddd-MM-yy"));
+        }
+
         public static class Customers
         {
             public static Faker<Customer> Valid() => new Faker<Customer>()
-                .RuleFor(x => x.Cpf, CPFs.Valid)
+                .RuleFor(x => x.Cpf, CPFs.Valid.Generate())
                 .RuleFor(x => x.Name, x => x.Name.FullName())
                 .RuleFor(x => x.State, States.Valid);
 
@@ -56,7 +99,7 @@ namespace ScheduledProcesing.Tests.SharedHelpers
         public static class RegisterCustomerRequests
         {
             public static Faker<RegisterCustomerRequest> Valid() => new Faker<RegisterCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.ToString("00000000000"))
+                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString())
                 .RuleFor(x => x.Name, x => x.Name.FullName())
                 .RuleFor(x => x.State, States.Valid)
                 .FinishWith((x, request) =>
@@ -74,17 +117,17 @@ namespace ScheduledProcesing.Tests.SharedHelpers
                 .RuleFor(x => x.Cpf, CPFs.Invalid.ToString());
 
             public static Faker<RegisterCustomerRequest> InvalidState() => new Faker<RegisterCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.ToString("00000000000"))
+                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString())
                 .RuleFor(x => x.Name, x => x.Name.FullName())
                 .RuleFor(x => x.State, States.Invalid);
 
             public static Faker<RegisterCustomerRequest> EmptyName() => new Faker<RegisterCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.ToString("00000000000"))
+                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString())
                 .RuleFor(x => x.State, States.Valid)
                 .RuleFor(x => x.Name, "");
 
             public static Faker<RegisterCustomerRequest> EmptyState() => new Faker<RegisterCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.ToString("00000000000"))
+                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString())
                 .RuleFor(x => x.Name, x => x.Name.FullName())
                 .RuleFor(x => x.State, "");
         }
@@ -92,7 +135,7 @@ namespace ScheduledProcesing.Tests.SharedHelpers
         public static class GetCustomerRequests
         {
             public static Faker<GetCustomerRequest> Valid() => new Faker<GetCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.ToString("00000000000"));
+                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString());
 
             public static Faker<GetCustomerRequest> InvalidCpf() => Valid()
                 .RuleFor(x => x.Cpf, CPFs.Invalid.ToString());

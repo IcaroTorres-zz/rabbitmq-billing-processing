@@ -15,7 +15,7 @@ namespace ScheduledProcesing.Tests.Customers.UnitTests.Domain.Services
         {
             // arrange
             var sut = new ModelFactory();
-            var expectedCpf = Fakes.CPFs.Valid;
+            var expectedCpf = Fakes.CPFs.Valid.Generate();
             var validName = Fakes.Names.Valid;
             var validState = Fakes.States.Valid;
             var expectedName = validName.ToUpperInvariant();

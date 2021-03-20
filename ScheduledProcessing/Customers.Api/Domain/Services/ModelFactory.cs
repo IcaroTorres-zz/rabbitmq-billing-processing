@@ -4,7 +4,7 @@ using System;
 
 namespace Customers.Api.Domain.Services
 {
-    /// <inheritdoc cref="IModelFactory">
+    /// <inheritdoc cref="IModelFactory"/>
     public class ModelFactory : IModelFactory
     {
         public Customer CreateCustomer(string cpf, string name, string state)

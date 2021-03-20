@@ -41,11 +41,9 @@ namespace ScheduledProcesing.Tests.Customers.UnitTests.Domain.Models
         [Fact]
         public void Instance_Should_Have_ImmutableProps()
         {
-            // arrange
+            // arrange and act
             var sut = new NullCustomer
             {
-
-                // act
                 Name = "sample",
                 State = "sample",
                 Cpf = 01234567890
