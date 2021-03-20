@@ -1,5 +1,4 @@
 ﻿using Customers.Api.Domain.Models;
-using System;
 
 namespace Customers.Api.Domain.Services
 {
@@ -15,6 +14,6 @@ namespace Customers.Api.Domain.Services
         /// <param name="name"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        Customer CreateCustomer(ReadOnlySpan<char> cpf, string name, string state);
+        Customer CreateCustomer(string cpf, string name, string state);
     }
 }

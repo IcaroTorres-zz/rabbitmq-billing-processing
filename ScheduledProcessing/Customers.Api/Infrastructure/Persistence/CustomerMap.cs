@@ -1,9 +1,11 @@
 ﻿using Customers.Api.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Customers.Api.Infrastructure.Persistence
 {
+    [ExcludeFromCodeCoverage]
     public class CustomerMap : IEntityTypeConfiguration<Customer>
     {
         public void Configure(EntityTypeBuilder<Customer> builder)

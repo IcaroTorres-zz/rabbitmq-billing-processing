@@ -26,9 +26,8 @@ namespace Customers.Api.Infrastructure.Persistence
 
         public IUnitofwork BeginTransaction()
         {
-            _transaction = _context.Database.BeginTransaction();
-            _transactionOpen = true;
-            return this;
+            var unit = _transaction is null ? this : new Unitofwork(_context);
+            return SetTransaction(unit);
         }
 
         public async Task<IResult> CommitAsync(CancellationToken cancellationToken = default)
@@ -42,21 +41,31 @@ namespace Customers.Api.Infrastructure.Persistence
             }
             catch (Exception exception)
             {
+                await RollbackAsync(cancellationToken);
                 return new FailResult(StatusCodes.Status409Conflict,
                     new DbUpdateException("Failed handling data layer operation.", exception).ExtractMessages());
             }
-        }
-
-        public async Task RollbackAsync(CancellationToken cancellationToken = default)
-        {
-            await _transaction?.RollbackAsync(cancellationToken);
-            _transactionOpen = false;
         }
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        private async Task RollbackAsync(CancellationToken cancellationToken = default)
+        {
+            if (!_transactionOpen) return;
+
+            await _transaction?.RollbackAsync(cancellationToken);
+            _transactionOpen = false;
+        }
+
+        private Unitofwork SetTransaction(Unitofwork unit)
+        {
+            unit._transaction = _context.Database.BeginTransaction();
+            unit._transactionOpen = true;
+            return unit;
         }
 
         private void Dispose(bool disposing)

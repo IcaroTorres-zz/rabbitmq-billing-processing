@@ -1,17 +1,23 @@
 ﻿using Customers.Api.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Customers.Api.Infrastructure.Persistence
 {
     public class CustomersContext : DbContext
     {
-        public CustomersContext(DbContextOptions<CustomersContext> options) : base(options)
+        public CustomersContext(DbContextOptions<CustomersContext> options) : base(options) { }
+
+        /// <summary>
+        /// For mock purposes
+        /// </summary>
+        protected CustomersContext()
         {
-            ChangeTracker.LazyLoadingEnabled = false;
         }
 
-        public DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
 
+        [ExcludeFromCodeCoverage]
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Ignore<NullCustomer>();

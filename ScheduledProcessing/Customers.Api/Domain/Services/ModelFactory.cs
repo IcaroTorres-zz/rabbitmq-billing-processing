@@ -7,11 +7,11 @@ namespace Customers.Api.Domain.Services
     /// <inheritdoc cref="IModelFactory">
     public class ModelFactory : IModelFactory
     {
-        public Customer CreateCustomer(ReadOnlySpan<char> cpf, string name, string state)
+        public Customer CreateCustomer(string cpf, string name, string state)
         {
             return new Customer
             {
-                Cpf = cpf.ParseUlong(),
+                Cpf = cpf.AsSpan().ParseUlong(),
                 Name = name.ToUpperInvariant(),
                 State = state.ToUpperInvariant()
             };

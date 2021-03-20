@@ -1,6 +1,6 @@
 ﻿using Customers.Api.Application.Abstractions;
+using Customers.Api.Application.Workers;
 using Customers.Api.Infrastructure.Persistence;
-using Customers.Api.Workers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

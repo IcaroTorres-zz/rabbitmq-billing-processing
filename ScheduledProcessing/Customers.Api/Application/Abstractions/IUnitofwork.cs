@@ -17,7 +17,7 @@ namespace Customers.Api.Application.Abstractions
         bool HasTransactionOpen();
 
         /// <summary>
-        /// Begins a new transaction
+        /// Begins a new transaction and return It wrapped by a unit of work
         /// </summary>
         /// <returns></returns>
         IUnitofwork BeginTransaction();
@@ -29,12 +29,5 @@ namespace Customers.Api.Application.Abstractions
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IResult> CommitAsync(CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Rollback operations under an open transaction mannually
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task RollbackAsync(CancellationToken cancellationToken = default);
     }
 }

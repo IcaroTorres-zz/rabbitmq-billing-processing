@@ -27,10 +27,10 @@ namespace Customers.Api.Application.Usecases
 
         public async Task<IResult> Handle(RegisterCustomerRequest request, CancellationToken cancellationToken)
         {
-            _unitofwork.BeginTransaction();
+            using var unit = _unitofwork.BeginTransaction();
             var customer = _factory.CreateCustomer(request.Cpf, request.Name, request.State);
             await _repository.InsertAsync(customer, cancellationToken);
-            var transactionResult = await _unitofwork.CommitAsync(cancellationToken);
+            var transactionResult = await unit.CommitAsync(cancellationToken);
             return transactionResult.IsSuccess()
                 ? new CreatedWithLocationResult<CustomerResponse>(new CustomerResponse(customer), request)
                 : transactionResult;

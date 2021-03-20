@@ -1,4 +1,4 @@
-﻿using Customers.Api.Workers;
+﻿using Customers.Api.Application.Workers;
 using RabbitMQ.Client;
 using System;
 

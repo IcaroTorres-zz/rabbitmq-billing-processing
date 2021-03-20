@@ -20,21 +20,17 @@ namespace Customers.Api.Infrastructure.Persistence
 
         public async Task<bool> ExistAsync(ulong id, CancellationToken token)
         {
-            return await _context.Customers
-                .AsNoTrackingWithIdentityResolution()
-                .AnyAsync(x => x.Cpf.Equals(id));
+            return await _context.Customers.AnyAsync(x => x.Cpf.Equals(id));
         }
 
         public async Task<Customer> GetAsync(ulong id, CancellationToken token)
         {
-            return await _context.Customers
-                .AsNoTrackingWithIdentityResolution()
-                .SingleOrDefaultAsync(x => x.Cpf.Equals(id)) ?? Customer.Null;
+            return await _context.Customers.SingleOrDefaultAsync(x => x.Cpf.Equals(id)) ?? Customer.Null;
         }
 
         public async Task<List<Customer>> GetAllAsync()
         {
-            return await _context.Customers.AsNoTrackingWithIdentityResolution().ToListAsync();
+            return await _context.Customers.ToListAsync();
         }
 
         public async Task InsertAsync(Customer customer, CancellationToken token)

@@ -1,10 +1,12 @@
 ﻿using Microsoft.OpenApi.Models;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    [ExcludeFromCodeCoverage]
     public static class SwaggerExtensions
     {
         public static IServiceCollection BootstrapSwaggerConfig(this IServiceCollection services, SwaggerSettings swagger)
