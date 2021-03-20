@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Issuance.Api.Workers
+namespace Issuance.Api.Application.Workers
 {
     public class ScheduledBillingsToProcessWorker : BackgroundService
     {
