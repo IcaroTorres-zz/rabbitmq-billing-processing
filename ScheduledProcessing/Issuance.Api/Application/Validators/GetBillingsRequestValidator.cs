@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
 using Issuance.Api.Application.Models;
-using Library.Optimizations;
 using Library.Validators;
-using System;
+using Library.ValueObjects;
 
 namespace Issuance.Api.Application.Validators
 {
@@ -21,17 +20,10 @@ namespace Issuance.Api.Application.Validators
                         .When(x => !string.IsNullOrWhiteSpace(x.Cpf));
 
                     RuleFor(x => x.Month)
-                        .Must(x => ValidateMonth(x))
+                        .Must(x => Date.ValidateMonth(x))
                         .WithMessage("Vencimento precisa atender o formato [MM-yyyy], com mês de 1 a 12 e ano >= 2000")
                         .When(x => !string.IsNullOrWhiteSpace(x.Month));
                 });
-        }
-
-        private bool ValidateMonth(ReadOnlySpan<char> monthYear)
-        {
-            if (monthYear.Length != 7) return false;
-            if (!monthYear.Slice(0, 2).TryParseByte(out var parsedMonth) || parsedMonth < 1 || parsedMonth > 12) return false;
-            return monthYear.Slice(3, 4).TryParseUshort(out var parsedYear) && parsedYear >= 2000;
         }
     }
 }

@@ -8,6 +8,15 @@ namespace Issuance.Api.Domain.Models
     /// </summary>
     public class Date
     {
+        public Date() { }
+        public Date(string value) : this()
+        {
+            Library.ValueObjects.Date.TryParse(value, out var day, out var month, out var year);
+            Day = day;
+            Month = month;
+            Year = year;
+        }
+
         [BsonElement("day"), BsonRepresentation(BsonType.Int32)]
         public byte Day { get; set; }
 
@@ -16,5 +25,10 @@ namespace Issuance.Api.Domain.Models
 
         [BsonElement("year"), BsonRepresentation(BsonType.Int32)]
         public ushort Year { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Day:00}-{Month:00}-{Year:0000}";
+        }
     }
 }

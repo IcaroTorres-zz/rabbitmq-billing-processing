@@ -11,7 +11,7 @@ namespace Issuance.Api.Application.Models
             Id = billing.Id;
             Amount = billing.Amount;
             Cpf = billing.Cpf.ToString().PadLeft(11, '0');
-            DueDate = $"{billing.DueDate.Day:00}-{billing.DueDate.Month:00}-{billing.DueDate.Year}";
+            DueDate = billing.DueDate.ToString();
         }
         [Required] public Guid Id { get; set; }
         [Required] public string Cpf { get; set; }

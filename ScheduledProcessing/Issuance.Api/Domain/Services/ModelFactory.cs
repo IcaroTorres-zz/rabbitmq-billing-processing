@@ -7,19 +7,14 @@ namespace Issuance.Api.Domain.Services
     /// <inheritdoc cref="IModelFactory"/>
     public class ModelFactory : IModelFactory
     {
-        public Billing CreateBilling(ReadOnlySpan<char> cpfString, double amount, ReadOnlySpan<char> dueDate)
+        public Billing CreateBilling(string cpfString, double amount, string dueDate)
         {
             return new Billing
             {
                 Id = Guid.NewGuid(),
-                Cpf = cpfString.ParseUlong(),
+                Cpf = cpfString.AsSpan().ParseUlong(),
                 Amount = amount,
-                DueDate = new Date
-                {
-                    Day = dueDate.Slice(0, 2).ParseByte(),
-                    Month = dueDate.Slice(3, 2).ParseByte(),
-                    Year = dueDate.Slice(6, 4).ParseUshort()
-                }
+                DueDate = new Date(dueDate)
             };
         }
     }

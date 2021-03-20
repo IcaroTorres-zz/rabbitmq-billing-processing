@@ -1,5 +1,4 @@
 ﻿using Issuance.Api.Domain.Models;
-using System;
 
 namespace Issuance.Api.Domain.Services
 {
@@ -8,6 +7,6 @@ namespace Issuance.Api.Domain.Services
     /// </summary>
     public interface IModelFactory
     {
-        Billing CreateBilling(ReadOnlySpan<char> cpfString, double amount, ReadOnlySpan<char> dueDate);
+        Billing CreateBilling(string cpfString, double amount, string dueDate);
     }
 }

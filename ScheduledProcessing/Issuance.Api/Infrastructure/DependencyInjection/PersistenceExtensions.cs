@@ -1,7 +1,6 @@
 ﻿using Issuance.Api.Application.Abstractions;
 using Issuance.Api.Infrastructure.Persistence;
 using Issuance.Api.Infrastructure.Persistence.Services;
-using Issuance.Api.Workers;
 using MongoDB.Driver;
 
 namespace Microsoft.Extensions.DependencyInjection
