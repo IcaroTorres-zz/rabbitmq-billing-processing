@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using ScheduledProcesing.Tests.Customers.Helpers;
+using ScheduledProcesing.Tests.SharedHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;

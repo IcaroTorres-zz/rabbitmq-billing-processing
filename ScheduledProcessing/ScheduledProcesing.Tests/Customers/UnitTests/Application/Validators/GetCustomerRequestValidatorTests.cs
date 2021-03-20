@@ -1,6 +1,7 @@
 ﻿using Customers.Api.Application.Validators;
 using FluentAssertions;
 using ScheduledProcesing.Tests.Customers.Helpers;
+using ScheduledProcesing.Tests.SharedHelpers;
 using Xunit;
 
 namespace ScheduledProcesing.Tests.Customers.UnitTests.Application.Validators

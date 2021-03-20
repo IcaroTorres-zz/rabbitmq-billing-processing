@@ -2,7 +2,7 @@
 using FluentValidation.Results;
 using Moq;
 
-namespace ScheduledProcesing.Tests.Customers.Helpers
+namespace ScheduledProcesing.Tests.SharedHelpers
 {
     public sealed class ValidatorMockBuilder<T>
     {

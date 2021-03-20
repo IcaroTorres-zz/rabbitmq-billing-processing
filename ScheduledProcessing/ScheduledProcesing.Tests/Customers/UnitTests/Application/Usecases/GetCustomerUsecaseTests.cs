@@ -4,6 +4,7 @@ using FluentAssertions;
 using Library.Results;
 using Microsoft.AspNetCore.Http;
 using ScheduledProcesing.Tests.Customers.Helpers;
+using ScheduledProcesing.Tests.SharedHelpers;
 using System.Threading.Tasks;
 using Xunit;
 

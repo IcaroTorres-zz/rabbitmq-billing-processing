@@ -2,7 +2,7 @@
 using Customers.Api.Domain.Services;
 using FluentAssertions;
 using Library.Results;
-using ScheduledProcesing.Tests.Customers.Helpers;
+using ScheduledProcesing.Tests.SharedHelpers;
 using Xunit;
 
 namespace ScheduledProcesing.Tests.Customers.UnitTests.Domain.Services

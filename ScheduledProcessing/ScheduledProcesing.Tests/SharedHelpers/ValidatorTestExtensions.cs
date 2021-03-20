@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using FluentValidation.Results;
 
-namespace ScheduledProcesing.Tests.Customers.Helpers
+namespace ScheduledProcesing.Tests.SharedHelpers
 {
     public static class ValidatorTestExtensions
     {

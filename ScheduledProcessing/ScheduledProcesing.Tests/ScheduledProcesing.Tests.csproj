@@ -30,4 +30,8 @@
     <ProjectReference Include="..\Library\Library.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Issuance\" />
+  </ItemGroup>
+
 </Project>

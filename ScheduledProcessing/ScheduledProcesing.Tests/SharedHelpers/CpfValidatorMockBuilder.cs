@@ -3,7 +3,7 @@ using FluentValidation.Results;
 using Library.Validators;
 using Moq;
 
-namespace ScheduledProcesing.Tests.Customers.Helpers
+namespace ScheduledProcesing.Tests.SharedHelpers
 {
     public sealed class CpfValidatorMockBuilder
     {

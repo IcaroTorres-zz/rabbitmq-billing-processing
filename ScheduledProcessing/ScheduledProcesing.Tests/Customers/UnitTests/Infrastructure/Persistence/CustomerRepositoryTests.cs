@@ -4,6 +4,7 @@ using Customers.Api.Infrastructure.Persistence;
 using FluentAssertions;
 using Moq;
 using ScheduledProcesing.Tests.Customers.Helpers;
+using ScheduledProcesing.Tests.SharedHelpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;

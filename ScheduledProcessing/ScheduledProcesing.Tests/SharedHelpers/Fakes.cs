@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
 
-namespace ScheduledProcesing.Tests.Customers.Helpers
+namespace ScheduledProcesing.Tests.SharedHelpers
 {
     public static class Fakes
     {
