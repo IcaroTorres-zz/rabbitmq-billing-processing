@@ -19,6 +19,7 @@ namespace Customers.Api.Application.Workers
         private readonly IConnectionFactory _connectionFactory;
         private readonly ICustomerRepositoryFactory _repositoryFactory;
         private readonly ILogger<ScheduledCustomerAcceptProcessWorker> _logger;
+        private IModel _channel;
 
         public ScheduledCustomerAcceptProcessWorker(
             IConnectionFactory connectionFactory,
@@ -30,63 +31,28 @@ namespace Customers.Api.Application.Workers
             _logger = logger;
         }
 
+        [ExcludeFromCodeCoverage]
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var consumer = DoExecute(nameof(Customer));
-
+            var consumer = BuildConsumer(nameof(Customer));
+            consumer.Received += OnMessageReceived;
             return Task.CompletedTask;
         }
 
-        internal EventingBasicConsumer DoExecute(string queueName)
+        internal EventingBasicConsumer BuildConsumer(string queueName)
         {
             var connection = _connectionFactory.CreateConnection();
-            var channel = connection.CreateModel();
-            var consumer = BuildConsumer(channel, queueName);
-
-            consumer.Received += async (model, ea) =>
-            {
-                string response = null;
-                var replyProperties = channel.CreateBasicProperties();
-                replyProperties.CorrelationId = ea.BasicProperties.CorrelationId;
-
-                _logger.LogInformation(
-                    $"Received on CorrelationId: {ea.BasicProperties.CorrelationId}, " +
-                        $"RoutingKey: {ea.RoutingKey}, DeliveryTag: {ea.DeliveryTag}.");
-                try
-                {
-                    response = await WriteCustomersMessage();
-                    _logger.LogInformation(
-                        $"Responded on CorrelationId: {ea.BasicProperties.CorrelationId}, " +
-                            $"RoutingKey: {ea.RoutingKey}, DeliveryTag: {ea.DeliveryTag}, ReplyMessage: {response}");
-                }
-                catch (Exception ex)
-                {
-                    var errors = string.Join(Environment.NewLine, ex.ExtractMessages());
-                    _logger.LogError(
-                        $"Failed on CorrelationId: {ea.BasicProperties.CorrelationId}, " +
-                            $"RoutingKey: {ea.RoutingKey}, DeliveryTag: {ea.DeliveryTag}. Errors: {errors}");
-                }
-                finally
-                {
-                    FinalizeReceivedMessage(ea, channel, response, ea.BasicProperties, replyProperties);
-                }
-            };
-
-            return consumer;
-        }
-
-        internal EventingBasicConsumer BuildConsumer(IModel channel, string queueName)
-        {
-            channel.QueueDeclare(
+            _channel = connection.CreateModel();
+            _channel.QueueDeclare(
                 queue: queueName,
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
-            channel.BasicQos(0, 1, false);
+            _channel.BasicQos(0, 1, false);
 
-            var consumer = new EventingBasicConsumer(channel);
-            channel.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
+            var consumer = new EventingBasicConsumer(_channel);
+            _channel.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
             Console.WriteLine($"Awaiting RPC requests for queue {queueName}");
             return consumer;
         }
@@ -110,6 +76,35 @@ namespace Customers.Api.Application.Workers
             channel.BasicPublish(exchange: "", routingKey: receivedProperties.ReplyTo,
                 basicProperties: replyProperties, body: responseBytes);
             channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+        }
+
+        private async void OnMessageReceived(object model, BasicDeliverEventArgs ea)
+        {
+            string response = null;
+            var replyProperties = _channel.CreateBasicProperties();
+            replyProperties.CorrelationId = ea.BasicProperties.CorrelationId;
+
+            _logger.LogInformation(
+                $"Received on CorrelationId: {ea.BasicProperties.CorrelationId}, " +
+                    $"RoutingKey: {ea.RoutingKey}, DeliveryTag: {ea.DeliveryTag}.");
+            try
+            {
+                response = await WriteCustomersMessage();
+                _logger.LogInformation(
+                    $"Responded on CorrelationId: {ea.BasicProperties.CorrelationId}, " +
+                        $"RoutingKey: {ea.RoutingKey}, DeliveryTag: {ea.DeliveryTag}, ReplyMessage: {response}");
+            }
+            catch (Exception ex)
+            {
+                var errors = string.Join(Environment.NewLine, ex.ExtractMessages());
+                _logger.LogError(
+                    $"Failed on CorrelationId: {ea.BasicProperties.CorrelationId}, " +
+                        $"RoutingKey: {ea.RoutingKey}, DeliveryTag: {ea.DeliveryTag}. Errors: {errors}");
+            }
+            finally
+            {
+                FinalizeReceivedMessage(ea, _channel, response, ea.BasicProperties, replyProperties);
+            }
         }
     }
 }
