@@ -4,6 +4,7 @@ using FluentAssertions;
 using Library.Results;
 using Microsoft.EntityFrameworkCore;
 using ScheduledProcessing.Tests.Customers.Helpers;
+using ScheduledProcessing.Tests.Issuance.Helpers;
 using System;
 using System.Threading.Tasks;
 using Xunit;
