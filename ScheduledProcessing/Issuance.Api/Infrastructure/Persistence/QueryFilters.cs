@@ -1,12 +1,14 @@
 ﻿using Issuance.Api.Domain.Models;
 using MongoDB.Driver;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Issuance.Api.Infrastructure.Persistence
 {
     /// <summary>
     /// Predefined query rule specifications able to be combined more complex ones
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class QueryFilters
     {
         public static FilterDefinition<Billing> ByCustomerCpf(ulong cpf)
