@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.Optimizations;
+using System;
 using ValueOf;
 
 namespace Library.ValueObjects
@@ -14,9 +15,15 @@ namespace Library.ValueObjects
             return From(value);
         }
 
+        public static bool TryParse(string? value, out ulong parsedValue)
+        {
+            ReadOnlySpan<char> cpf = value ?? "0";
+            return cpf.TryParseUlong(out parsedValue);
+        }
+
         public static ulong GenerateRandom()
         {
-            Random rnd = new Random();
+            var rnd = new Random();
             var randomNumber = rnd.Next(100000000, 999999999);
             var seed = randomNumber.ToString();
             var verifierDigit1 = GenerateVerifierDigit1(seed);

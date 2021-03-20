@@ -39,11 +39,13 @@ namespace Library.ValueObjects
             );
         }
 
-        public static bool ValidateMonth(ReadOnlySpan<char> monthYear)
+        public static bool TryParseMonth(ReadOnlySpan<char> monthYear, out byte month, out ushort year)
         {
+            month = 0;
+            year = 0;
             if (monthYear.Length != 7) return false;
-            if (!monthYear.Slice(0, 2).TryParseByte(out var parsedMonth) || parsedMonth < 1 || parsedMonth > 12) return false;
-            return monthYear.Slice(3, 4).TryParseUshort(out var parsedYear) && parsedYear >= 2000;
+            if (!monthYear.Slice(0, 2).TryParseByte(out month) || month < 1 || month > 12) return false;
+            return monthYear.Slice(3, 4).TryParseUshort(out year) && year >= 2000;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Issuance.Api.Application.Validators
                         .When(x => !string.IsNullOrWhiteSpace(x.Cpf));
 
                     RuleFor(x => x.Month)
-                        .Must(x => Date.ValidateMonth(x))
+                        .Must(x => Date.TryParseMonth(x, out _, out _))
                         .WithMessage("Vencimento precisa atender o formato [MM-yyyy], com mês de 1 a 12 e ano >= 2000")
                         .When(x => !string.IsNullOrWhiteSpace(x.Month));
                 });
