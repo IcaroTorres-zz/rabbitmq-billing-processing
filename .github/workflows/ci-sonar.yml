@@ -46,6 +46,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: pwsh
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"IcaroTorres_rabbitmq-billing-processing" /o:"icarotorres" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build ScheduledProcessing/ -c Release
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"IcaroTorres_rabbitmq-billing-processing" /o:"icarotorres" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions="**/obj/**,**/*.dll,**/Issuance.Api/**/Infrastructure/**, **.*Tests/**,**/DependencyInjection/**""
+          dotnet build .\ScheduledProcessing -c Release
+          dotnet test .\ScheduledProcessing --no-build --filter Tests.csproj /p:CollectCoverage=true /p:CoverageOutputFormat=opencover /p:CoverageOutput=TestResults /p:SkipAutoProps=true
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
