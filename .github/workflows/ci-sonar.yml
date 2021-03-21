@@ -44,10 +44,10 @@ jobs:
         run: dotnet restore .\ScheduledProcessing --no-cache
 
       - name: Build
-        run: dotnet build .\ScheduledProcessing -c Release --no-restore 
+        run: dotnet build .\ScheduledProcessing --no-restore 
 
       - name: Generate Coverage status
-        run: dotnet test .\ScheduledProcessing -c Release --no-build --filter Tests.csproj /p:CollectCoverage=true /p:CoverageOutputFormat=opencover /p:CoverageOutput=TestResults /p:SkipAutoProps=true 
+        run: dotnet test .\ScheduledProcessing --no-build --filter Tests.csproj /p:CollectCoverage=true /p:CoverageOutputFormat=opencover /p:CoverageOutput=TestResults /p:SkipAutoProps=true 
 
       - name: Build and analyze
         env:
