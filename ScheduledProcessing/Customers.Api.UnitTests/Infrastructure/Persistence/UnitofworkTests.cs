@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Customers.Api.UnitTests.Infrastructure.Persistence
 {
-    [Trait("unit-test", "customers-infrastructure")]
+    [Trait("unit-test", "customers.api-infrastructure")]
     public class UnitofworkTests : IDisposable
     {
         private IUnitofwork _sut;

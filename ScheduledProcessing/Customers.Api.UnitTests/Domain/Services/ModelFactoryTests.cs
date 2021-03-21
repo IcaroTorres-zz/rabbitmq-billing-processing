@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Customers.Api.UnitTests.Domain.Services
 {
-    [Trait("unit-test", "customers-domain")]
+    [Trait("unit-test", "customers.api-domain")]
     public class ModelFactoryTests
     {
         [Fact]

@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Customers.Api.UnitTests.Infrastructure.Persistence
 {
-    [Trait("unit-test", "customers-infrastructure")]
+    [Trait("unit-test", "customers.api-infrastructure")]
     public class CustomerRepositoryTests
     {
         private ICustomerRepository _sut;

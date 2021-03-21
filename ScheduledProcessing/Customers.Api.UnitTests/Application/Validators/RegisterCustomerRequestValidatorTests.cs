@@ -7,7 +7,7 @@ using Xunit;
 
 namespace ScheduledProcessing.Tests.Customers.UnitTests.Application.Validators
 {
-    [Trait("unit-test", "customers-application")]
+    [Trait("unit-test", "customers.api-application")]
     public class RegisterCustomerRequestValidatorTests
     {
         [Fact]

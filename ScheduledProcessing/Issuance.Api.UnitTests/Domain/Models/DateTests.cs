@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Issuance.Api.UnitTests.Domain.Models
 {
-    [Trait("unit-test", "issuance-domain")]
+    [Trait("unit-test", "issuance.api-domain")]
     public class DateTests
     {
         [Fact]

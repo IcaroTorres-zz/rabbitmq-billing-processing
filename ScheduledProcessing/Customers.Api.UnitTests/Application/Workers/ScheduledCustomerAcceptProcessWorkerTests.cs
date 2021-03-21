@@ -16,7 +16,7 @@ using Xunit;
 
 namespace Customers.Api.UnitTests.Application.Workers
 {
-    [Trait("unit-test", "customers-application")]
+    [Trait("unit-test", "customers.api-application")]
     public class ScheduledCustomerAcceptProcessWorkerTests
     {
         [Fact]

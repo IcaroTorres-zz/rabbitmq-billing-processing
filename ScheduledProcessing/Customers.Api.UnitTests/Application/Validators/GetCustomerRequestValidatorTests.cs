@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Customers.Api.UnitTests.Application.Validators
 {
-    [Trait("unit-test", "customers-application")]
+    [Trait("unit-test", "customers.api-application")]
     public class GetCustomerRequestValidatorTests
     {
         [Fact]

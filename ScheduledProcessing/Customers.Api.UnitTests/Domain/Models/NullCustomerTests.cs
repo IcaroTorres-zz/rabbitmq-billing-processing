@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Customers.Api.UnitTests.Domain.Models
 {
-    [Trait("unit-test", "customers-domain")]
+    [Trait("unit-test", "customers.api-domain")]
     public class NullCustomerTests
     {
         [Fact]

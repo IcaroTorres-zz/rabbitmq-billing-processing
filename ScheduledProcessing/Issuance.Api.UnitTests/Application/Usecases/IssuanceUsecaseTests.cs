@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Issuance.Api.UnitTests.Application.Usecases
 {
-    [Trait("unit-test", "issuance-application")]
+    [Trait("unit-test", "issuance.api-application")]
     public class IssuanceUsecaseTests
     {
         [Fact]
