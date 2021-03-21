@@ -1,4 +1,4 @@
-name: ci-windows
+name: ci-billing-processing
 on:
   push:
     branches: [ main ]
@@ -12,13 +12,16 @@ jobs:
     runs-on: ${{matrix.os}}
     strategy: 
       matrix:
-        os: [windows-latest] #[ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
     
     steps:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: '3.1.x'
+
+      - name: Bash for GitHub Actions
+        uses: jcblw/bash@1.0.0
 
       - name: Set up JDK 11
         uses: actions/setup-java@v1
@@ -46,18 +49,17 @@ jobs:
           
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: pwsh
-        run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+        shell: bash
+        run:  |
+          mkdir -p sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path sonar/scanner
           
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: pwsh
+        shell: bash
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"IcaroTorres_rabbitmq-billing-processing" /o:"icarotorres" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          sonar/scanner/dotnet-sonarscanner begin /k:"IcaroTorres_rabbitmq-billing-processing" /o:"icarotorres" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=opencover /d:sonar.cs.opencover.reportsPaths="**.*Tests\coverage.opencover.xml" /d:sonar.coverage.exclusions="**Tests*.cs"
           dotnet build ScheduledProcessing/ -c Release
-          dotnet test ScheduledProcessing/ -c Release --filter Tests.csproj /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=opencover
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
