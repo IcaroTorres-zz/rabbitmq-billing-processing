@@ -2,9 +2,11 @@
 using Issuance.Api.Infrastructure.Persistence;
 using Issuance.Api.Infrastructure.Persistence.Services;
 using MongoDB.Driver;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    [ExcludeFromCodeCoverage]
     public static class PersistenceExtensions
     {
         public static IServiceCollection BootstrapPersistenceServices(this IServiceCollection services, MongoDBSettings mongoDB)

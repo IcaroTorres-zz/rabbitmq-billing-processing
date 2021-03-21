@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Processing.Worker\Processing.Worker.csproj" />
   </ItemGroup>
 

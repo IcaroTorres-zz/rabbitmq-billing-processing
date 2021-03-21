@@ -15,18 +15,6 @@ namespace Issuance.Api.UnitTests.Helpers
                 .RuleFor(x => x.Cpf, CPFs.Valid.Generate())
                 .RuleFor(x => x.Amount, x => x.Random.Double(1, 2000))
                 .RuleFor(x => x.DueDate, Dates.Future(1));
-
-            public static Faker<Billing> InvalidCpf() => Valid()
-                .RuleFor(x => x.Cpf, CPFs.Invalid);
-
-            public static Faker<Billing> InvalidAmount() => Valid()
-                .RuleFor(x => x.Amount, -10);
-
-            public static Faker<Billing> InvalidDueDate() => Valid()
-                .RuleFor(x => x.DueDate, Dates.Past().Generate());
-
-            public static Faker<Billing> Processed() => Valid()
-                .RuleFor(x => x.ProcessedAt, DateTime.UtcNow);
         }
 
         public static class Dates

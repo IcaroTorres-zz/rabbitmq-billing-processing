@@ -15,18 +15,6 @@ namespace Customers.Api.UnitTests.Helpers
                 .RuleFor(x => x.Cpf, CPFs.Valid.Generate())
                 .RuleFor(x => x.Name, x => x.Name.FullName())
                 .RuleFor(x => x.State, States.Valid);
-
-            public static Faker<Customer> InvalidCpf() => Valid()
-                .RuleFor(x => x.Cpf, CPFs.Invalid);
-
-            public static Faker<Customer> InvalidState() => Valid()
-                .RuleFor(x => x.State, States.Invalid);
-
-            public static Faker<Customer> EmptyName() => Valid()
-                .RuleFor(x => x.Name, "");
-
-            public static Faker<Customer> EmptyState() => Valid()
-                .RuleFor(x => x.State, "");
         }
 
         public static class RegisterCustomerRequests

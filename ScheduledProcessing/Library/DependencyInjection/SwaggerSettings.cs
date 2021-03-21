@@ -1,5 +1,8 @@
-﻿namespace Microsoft.Extensions.DependencyInjection
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Microsoft.Extensions.DependencyInjection
 {
+    [ExcludeFromCodeCoverage]
     public class SwaggerSettings
     {
         public string Title { get; set; }

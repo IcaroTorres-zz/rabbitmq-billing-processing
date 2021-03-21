@@ -8,9 +8,11 @@ using Processing.Worker.Domain.Services;
 using Processing.Worker.Workers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Processing.Worker
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)

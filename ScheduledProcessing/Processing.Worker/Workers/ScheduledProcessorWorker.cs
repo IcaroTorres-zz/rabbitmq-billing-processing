@@ -6,6 +6,7 @@ using Processing.Worker.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,6 +37,7 @@ namespace Processing.Worker.Workers
             _logger = logger;
         }
 
+        [ExcludeFromCodeCoverage]
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation($"{DateTime.UtcNow:G} Starting scheduled batch processing ...");
@@ -113,6 +115,7 @@ namespace Processing.Worker.Workers
             return batch;
         }
 
+        [ExcludeFromCodeCoverage]
         private async Task<string> WaitTillNextBatch(int millisecondsScheduledTime)
         {
             _logger.LogInformation($"{DateTime.UtcNow:G}  Waiting {millisecondsScheduledTime} milliseconds to process next batch...");

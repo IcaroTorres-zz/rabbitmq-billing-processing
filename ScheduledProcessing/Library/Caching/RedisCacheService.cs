@@ -1,9 +1,11 @@
 ﻿using StackExchange.Redis;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Library.Caching
 {
+    [ExcludeFromCodeCoverage]
     public class RedisCacheService : ICacheService
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
