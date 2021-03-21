@@ -1,5 +1,4 @@
 ﻿using Library.Results;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Processing.Worker.Domain.Models;
@@ -12,32 +11,34 @@ using System.Threading.Tasks;
 
 namespace Processing.Worker.Workers
 {
-    public class ScheduledBillingProcessingClientWorker : BackgroundService
+    public class ScheduledProcessorWorker : BackgroundService
     {
-        private readonly IAmountProcessor _processor;
         private readonly IRpcClient<List<Customer>> _customerClient;
         private readonly IRpcClient<List<Billing>> _billingClient;
-        private readonly ILogger<ScheduledBillingProcessingClientWorker> _logger;
-        private readonly int _millisecondsScheduledTime;
+        private readonly IAmountProcessor _processor;
+        private readonly IComparer<Customer> _comparer;
+        private readonly ScheduledProcessorSettings _config;
+        private readonly ILogger<ScheduledProcessorWorker> _logger;
 
-        public ScheduledBillingProcessingClientWorker(
+        public ScheduledProcessorWorker(
             IRpcClient<List<Customer>> customerClient,
             IRpcClient<List<Billing>> billingClient,
             IAmountProcessor processor,
-            IConfiguration config,
-            ILogger<ScheduledBillingProcessingClientWorker> logger)
+            IComparer<Customer> comparer,
+            ScheduledProcessorSettings config,
+            ILogger<ScheduledProcessorWorker> logger)
         {
-            _processor = processor;
             _customerClient = customerClient;
             _billingClient = billingClient;
+            _processor = processor;
+            _comparer = comparer;
+            _config = config;
             _logger = logger;
-            _millisecondsScheduledTime = config.GetSection("MillisecondsScheduledTime").Get<int>();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation($"{DateTime.UtcNow:G} Starting scheduled batch processing ...");
-            var comparer = new CustomerCpfComparer();
             var batch = new List<Billing>();
             var batchId = Guid.NewGuid().ToString();
             while (true)
@@ -46,8 +47,8 @@ namespace Processing.Worker.Workers
                 {
                     List<Customer> customers;
                     (batch, customers) = await FetchBatchAsync(batch, batchId);
-                    batch = ProcessBatch(batch, customers, comparer, batchId);
-                    batchId = await WaitTillNextBatch(_millisecondsScheduledTime);
+                    batch = ProcessBatch(batch, customers, batchId);
+                    batchId = await WaitTillNextBatch(_config.MillisecondsScheduledTime);
                 }
                 catch (Exception ex)
                 {
@@ -74,6 +75,7 @@ namespace Processing.Worker.Workers
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
                 customers = _customerClient.CallProcedure("");
+                customers.Sort(_comparer);
                 stopWatch.Stop();
                 _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Customers ready to process. Elapsed milliseconds {stopWatch.ElapsedMilliseconds}...");
                 stopWatch.Reset();
@@ -83,7 +85,7 @@ namespace Processing.Worker.Workers
             return (batch, customers);
         }
 
-        private List<Billing> ProcessBatch(List<Billing> batch, List<Customer> customers, IComparer<Customer> comparer, string batchId)
+        private List<Billing> ProcessBatch(List<Billing> batch, List<Customer> customers, string batchId)
         {
             if (customers.Count == 0 || batch.Count == 0)
             {
@@ -91,14 +93,14 @@ namespace Processing.Worker.Workers
             }
             else
             {
-                var customerForProcessing = new Customer();
                 _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Process started...");
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
+                var customerForProcessing = new Customer();
                 Parallel.ForEach(batch, billing =>
                 {
                     customerForProcessing.Cpf = billing.Cpf;
-                    var index = customers.BinarySearch(customerForProcessing, comparer);
+                    var index = customers.BinarySearch(customerForProcessing, _comparer);
                     customerForProcessing = customers[index];
                     billing = _processor.Process(customerForProcessing, billing);
                     batch.Add(billing);
