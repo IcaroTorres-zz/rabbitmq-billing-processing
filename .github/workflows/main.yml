@@ -2,8 +2,6 @@ name: Billing Processing CI
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 jobs:
   build:
@@ -17,7 +15,7 @@ jobs:
           dotnet-version: 3.1
       
       - name: Build with dotnet
-        run: dotnet build --c Release
+        run: dotnet build -c Release
         
       - name: Run tests
-        run: dotnet test --c Release  
+        run: dotnet test -c Release  
