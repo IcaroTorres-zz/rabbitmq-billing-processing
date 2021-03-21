@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Library.Requests
 {
     /// <inheritdoc cref="ICreationRequest{T}"/>
+    [ExcludeFromCodeCoverage]
     public abstract class CreationRequestBase<T> : ICreationRequest<T>
     {
         protected string Route { get; set; }

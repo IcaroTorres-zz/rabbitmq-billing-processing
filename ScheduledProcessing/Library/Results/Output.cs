@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Library.Results
 {
@@ -6,6 +7,7 @@ namespace Library.Results
     /// Class expressing default api output contract to swagger docs.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [ExcludeFromCodeCoverage]
     public abstract class Output<T>
     {
         public T Data { get; set; }
