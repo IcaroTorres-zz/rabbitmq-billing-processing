@@ -13,37 +13,24 @@ namespace Processing.Worker.Domain.Services
         private readonly string _targetQueueName;
         private readonly string _replyQueueName;
         private readonly EventingBasicConsumer _consumer;
-        private readonly IBasicProperties _properties;
-        private readonly BlockingCollection<T> _responseData = new BlockingCollection<T>();
+        private readonly BlockingCollection<T> _responseData = new();
+        private IBasicProperties _properties;
 
         public RpcClient(IModel channel, string targetQueueName)
         {
             _channel = channel;
             _targetQueueName = targetQueueName;
-
             _replyQueueName = channel.QueueDeclare().QueueName;
             _consumer = new EventingBasicConsumer(channel);
-            _properties = channel.CreateBasicProperties();
-            var customerCorrelationId = Guid.NewGuid().ToString();
-            _properties.CorrelationId = customerCorrelationId;
-            _properties.ReplyTo = _replyQueueName;
-
-            _consumer.Received += (model, ea) =>
-            {
-                if (ea.BasicProperties.CorrelationId == customerCorrelationId)
-                {
-                    var body = ea.Body.ToArray();
-                    var response = Encoding.UTF8.GetString(body);
-                    var data = JsonConvert.DeserializeObject<T>(response);
-                    _responseData.Add(data);
-                }
-            };
         }
 
         public T CallProcedure<P>(P payload)
         {
             var message = JsonConvert.SerializeObject(payload, typeof(P), default);
             var messageBytes = Encoding.UTF8.GetBytes(message);
+            BuildMessageProperties();
+            _consumer.Received += OnMessageReceived;
+
             _channel.BasicPublish(
                 exchange: "",
                 routingKey: _targetQueueName,
@@ -56,6 +43,24 @@ namespace Processing.Worker.Domain.Services
                 consumer: _consumer);
 
             return _responseData.Take();
+        }
+
+        internal void BuildMessageProperties()
+        {
+            _properties = _channel.CreateBasicProperties();
+            _properties.CorrelationId = Guid.NewGuid().ToString();
+            _properties.ReplyTo = _replyQueueName;
+        }
+
+        public void OnMessageReceived(object model, BasicDeliverEventArgs ea)
+        {
+            if (ea.BasicProperties.CorrelationId == _properties.CorrelationId)
+            {
+                var body = ea.Body.ToArray();
+                var response = Encoding.UTF8.GetString(body);
+                var data = JsonConvert.DeserializeObject<T>(response);
+                _responseData.Add(data);
+            }
         }
     }
 }
