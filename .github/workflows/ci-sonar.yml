@@ -40,8 +40,14 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
       
+      - name: Restore
+        run: dotnet restore .\ScheduledProcessing --no-cache
+
+      - name: Build
+        run: dotnet build -c Release --no-restore 
+
       - name: Generate Coverage status
-        run: dotnet test .\ScheduledProcessing --filter Tests.csproj /p:CollectCoverage=true /p:CoverageOutputFormat=opencover /p:CoverageOutput=TestResults /p:SkipAutoProps=true 
+        run: dotnet test .\ScheduledProcessing --no-build --filter Tests.csproj /p:CollectCoverage=true /p:CoverageOutputFormat=opencover /p:CoverageOutput=TestResults /p:SkipAutoProps=true 
 
       - name: Build and analyze
         env:
