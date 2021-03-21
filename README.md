@@ -2,6 +2,8 @@
 
 [![ci-build](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-build.yml/badge.svg?branch=main)](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-build.yml)
 [![ci-sonarcloud](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-sonar.yml/badge.svg?branch=main)](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-sonar.yml)
+
+
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=code_smells)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=bugs)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
@@ -75,7 +77,7 @@ request body:
 ```json
 {
   "data": null,
-  "errors": ["Cliente já existe para dado Cpf 97538515615"]
+  "errors": ["Cliente jÃ¡ existe para dado Cpf 97538515615"]
 }
 ```
 
@@ -84,9 +86,9 @@ request body:
 {
   "data": null,
   "errors": [
-    "Nome não pode ser vazio ou nulo",
-    "Estado inválido",
-    "Cpf inválido"
+    "Nome nÃ£o pode ser vazio ou nulo",
+    "Estado invÃ¡lido",
+    "Cpf invÃ¡lido"
   ]
 }
 ```
@@ -109,7 +111,7 @@ request body:
 ```json
 {
   "data": null,
-  "errors": ["Cpf inválido"]
+  "errors": ["Cpf invÃ¡lido"]
 }
 ```
 
@@ -117,7 +119,7 @@ request body:
 ```json
 {
   "data": null,
-  "errors": ["Cliente não encontrado para dado Cpf 97538515615"]
+  "errors": ["Cliente nÃ£o encontrado para dado Cpf 97538515615"]
 }
 ```
 
@@ -157,9 +159,9 @@ request body:
 {
   "data": null,
   "errors": [
-    "Vencimento precisa representar uma data válida futura no formato [dd-MM-yyyy]",
-    "Valor não pode ser 0 ou negativo",
-    "Cpf inválido"
+    "Vencimento precisa representar uma data vÃ¡lida futura no formato [dd-MM-yyyy]",
+    "Valor nÃ£o pode ser 0 ou negativo",
+    "Cpf invÃ¡lido"
   ]
 }
 ```
@@ -184,9 +186,9 @@ request body:
 {
   "data": null,
   "errors": [
-    "Cpf inválido",
-    "Informe um valor para ao menos um dos dois Cpf e/ou mês",
-    "Vencimento precisa atender o formato [MM-yyyy], com mês de 1 a 12 e ano >= 2000"
+    "Cpf invÃ¡lido",
+    "Informe um valor para ao menos um dos dois Cpf e/ou mÃªs",
+    "Vencimento precisa atender o formato [MM-yyyy], com mÃªs de 1 a 12 e ano >= 2000"
   ]
 }
 ```
