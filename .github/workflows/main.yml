@@ -11,7 +11,7 @@ jobs:
     strategy: 
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-
+    
     steps:
       - uses: actions/checkout@v2          
       
@@ -20,11 +20,16 @@ jobs:
         with:
           dotnet-version: 3.1
       
+      - name: Setup NuGet.exe for use with actions
+        uses: NuGet/setup-nuget@v1.0.5
+        with:
+          nuget-version: latest
+      
       - name: Restore
-        run: dotnet restore ScheduledProcessing/
+        run: nuget restore ScheduledProcessing/ -NoCache
       
       - name: Build
-        run: dotnet build ScheduledProcessing/ -c Release
-        
+        run: dotnet build ScheduledProcessing/ -c Release --no-restore
+                
       - name: Test
-        run: dotnet test ScheduledProcessing/ -c Release
+        run: dotnet test ScheduledProcessing/ -c Release --no-build
