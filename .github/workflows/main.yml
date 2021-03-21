@@ -20,7 +20,7 @@ jobs:
           dotnet-version: 3.1
       
       - name: Build with dotnet
-        run: dotnet build ScheduledProcessing/BillingProcessing.sln -c Release
+        run: dotnet build ScheduledProcessing/BillingProcessing.sln
         
       - name: Run tests
         run: dotnet test ScheduledProcessing/BillingProcessing.sln -c Release --no-restore
