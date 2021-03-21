@@ -3,6 +3,7 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+ 
 jobs:
   build-and-test:
   
@@ -10,7 +11,7 @@ jobs:
     strategy: 
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        
+
     steps:
       - uses: actions/checkout@v2          
       
@@ -19,8 +20,11 @@ jobs:
         with:
           dotnet-version: 3.1
       
-      - name: Build with dotnet
-        run: dotnet build ScheduledProcessing/BillingProcessing.sln -c Release
+      - name: Restore
+        run: dotnet restore ScheduledProcessing/
+      
+      - name: Build
+        run: dotnet build ScheduledProcessing/ -c Release
         
-      - name: Run tests
-        run: dotnet test ScheduledProcessing/BillingProcessing.sln -c Release
+      - name: Test
+        run: dotnet test ScheduledProcessing/ -c Release
