@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
  
 jobs:
-  sonar-butuntu:
+  sonar-ubuntu:
     name: Test Coverage and Quality Gate
     runs-on: ubuntu-latest
     
