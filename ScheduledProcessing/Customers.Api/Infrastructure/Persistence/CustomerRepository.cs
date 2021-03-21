@@ -18,14 +18,14 @@ namespace Customers.Api.Infrastructure.Persistence
             _context = context;
         }
 
-        public async Task<bool> ExistAsync(ulong id, CancellationToken token)
+        public async Task<bool> ExistAsync(ulong cpf, CancellationToken token)
         {
-            return await _context.Customers.AnyAsync(x => x.Cpf.Equals(id));
+            return await _context.Customers.AnyAsync(x => x.Cpf.Equals(cpf));
         }
 
-        public async Task<Customer> GetAsync(ulong id, CancellationToken token)
+        public async Task<Customer> GetAsync(ulong cpf, CancellationToken token)
         {
-            return await _context.Customers.SingleOrDefaultAsync(x => x.Cpf.Equals(id)) ?? Customer.Null;
+            return await _context.Customers.SingleOrDefaultAsync(x => x.Cpf.Equals(cpf)) ?? Customer.Null;
         }
 
         public async Task<List<Customer>> GetAllAsync()
@@ -33,10 +33,10 @@ namespace Customers.Api.Infrastructure.Persistence
             return await _context.Customers.ToListAsync();
         }
 
-        public async Task InsertAsync(Customer customer, CancellationToken token)
+        public async Task InsertAsync(Customer entity, CancellationToken token)
         {
-            if (customer is INull) return;
-            await _context.Customers.AddAsync(customer, token);
+            if (entity is INull) return;
+            await _context.Customers.AddAsync(entity, token);
         }
     }
 }

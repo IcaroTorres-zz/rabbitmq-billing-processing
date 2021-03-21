@@ -34,9 +34,9 @@ namespace Issuance.Api.Application.Abstractions
         /// <summary>
         /// Updates a batch of processed <see cref="Billing"/> records at once
         /// </summary>
-        /// <param name="processedBillings"></param>
+        /// <param name="entities"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task UpdateProcessedBatchAsync(IEnumerable<Billing> processedBillings, CancellationToken token = default);
+        Task UpdateProcessedBatchAsync(IEnumerable<Billing> entities, CancellationToken token = default);
     }
 }

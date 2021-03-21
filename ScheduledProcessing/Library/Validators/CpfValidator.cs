@@ -11,7 +11,7 @@ namespace Library.Validators
 
             RuleFor(x => x)
                 .NotEmpty().WithMessage("Cpf não pode ser vazio ou nulo")
-                .Must(x => CPF.Validate(x)).WithMessage("Cpf inválido");
+                .Must(x => Cpf.Validate(x)).WithMessage("Cpf inválido");
         }
     }
 }

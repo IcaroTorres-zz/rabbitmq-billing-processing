@@ -4,18 +4,18 @@ using ValueOf;
 
 namespace Library.ValueObjects
 {
-    public class CPF : ValueOf<ulong, CPF>
+    public class Cpf : ValueOf<ulong, Cpf>
     {
         private bool _isValid;
         public bool IsValid() => _isValid;
 
-        public static CPF NewCPF()
+        public static Cpf NewCPF()
         {
             var value = GenerateRandom();
             return From(value);
         }
 
-        public static bool TryParse(string? value, out ulong parsedValue)
+        public static bool TryParse(string value, out ulong parsedValue)
         {
             ReadOnlySpan<char> cpf = value ?? "0";
             return cpf.TryParseUlong(out parsedValue);

@@ -18,11 +18,11 @@ namespace Customers.Api.Infrastructure.Persistence
         public virtual DbSet<Customer> Customers { get; set; }
 
         [ExcludeFromCodeCoverage]
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            builder.Ignore<NullCustomer>();
-            builder.ApplyConfiguration(new CustomerMap());
-            base.OnModelCreating(builder);
+            modelBuilder.Ignore<NullCustomer>();
+            modelBuilder.ApplyConfiguration(new CustomerMap());
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

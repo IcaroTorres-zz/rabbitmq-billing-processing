@@ -53,7 +53,6 @@ namespace Library.Caching
             }
 
             await next();
-            return;
         }
     }
 }

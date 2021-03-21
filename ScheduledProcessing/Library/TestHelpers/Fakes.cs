@@ -8,9 +8,9 @@ namespace Library.TestHelpers
     {
         public static class CPFs
         {
-            public static Faker<CPF> Valid => new Faker<CPF>()
-                .CustomInstantiator(_ => CPF.NewCPF());
-            public static readonly CPF Invalid = CPF.From(0);
+            public static Faker<Cpf> Valid => new Faker<Cpf>()
+                .CustomInstantiator(_ => Cpf.NewCPF());
+            public static readonly Cpf Invalid = Cpf.From(0);
         }
 
         public static class States

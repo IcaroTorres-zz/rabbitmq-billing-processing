@@ -2,7 +2,6 @@
 using Customers.Api.UnitTests.Helpers;
 using FluentAssertions;
 using Library.TestHelpers;
-using Customers.Api.UnitTests.Helpers;
 using Xunit;
 
 namespace ScheduledProcessing.Tests.Customers.UnitTests.Application.Validators
