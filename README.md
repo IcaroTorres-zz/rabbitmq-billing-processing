@@ -3,13 +3,13 @@
 [![ci-build](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-build.yml/badge.svg?branch=main)](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-build.yml)
 [![ci-sonarcloud](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-sonar.yml/badge.svg?branch=main)](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-sonar.yml)
 
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=security_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=code_smells)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=bugs)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
-
 
 ## Description
 
