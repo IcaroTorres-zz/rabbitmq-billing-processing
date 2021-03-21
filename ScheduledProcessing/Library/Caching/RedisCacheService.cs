@@ -21,11 +21,11 @@ namespace Library.Caching
             return await db.StringGetAsync(key);
         }
 
-        public async Task SetAsync(string key, string value, int timeInSeconds)
+        public async Task<bool> SetAsync(string key, string value, int timeInSeconds)
         {
             var db = _connectionMultiplexer.GetDatabase();
             var expiry = TimeSpan.FromSeconds(timeInSeconds);
-            await db.StringSetAsync(key, value, expiry);
+            return await db.StringSetAsync(key, value, expiry);
         }
     }
 }
