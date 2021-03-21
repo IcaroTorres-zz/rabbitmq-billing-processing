@@ -37,4 +37,4 @@ jobs:
         run: dotnet build ScheduledProcessing/ -c Release --no-restore
 
       - name: Test
-        run: dotnet test ScheduledProcessing/ -c Release --no-build
+        run: dotnet test ScheduledProcessing/ -c Release --no-build --filter Tests.csproj
