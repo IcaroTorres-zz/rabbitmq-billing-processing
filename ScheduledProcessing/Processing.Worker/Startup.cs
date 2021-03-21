@@ -23,6 +23,8 @@ namespace Processing.Worker
         {
             services.AddHealthEndpoints();
             var rabbitMQ = Configuration.GetSection("RabbitMQ").Get<RabbitMQSettings>();
+            services.AddSingleton(Configuration.GetSection("ScheduledProcessor").Get<ScheduledProcessorSettings>());
+            services.AddSingleton(new CustomerCpfComparer());
             services.AddSingleton<IAmountProcessor>(_ => new MathOnlyAmountProcessor());
             services.AddSingleton<IConnectionFactory, ConnectionFactory>(_ => new ConnectionFactory { Uri = new Uri(rabbitMQ.AmqpUrl) });
             services.AddSingleton<IConnection>(x => x.GetRequiredService<IConnectionFactory>().CreateConnection());
@@ -38,7 +40,7 @@ namespace Processing.Worker
                 var channel = connection.CreateModel();
                 return new RpcClient<List<Billing>>(channel, nameof(Billing));
             });
-            services.AddHostedService<ScheduledBillingProcessingClientWorker>();
+            services.AddHostedService<ScheduledProcessorWorker>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
