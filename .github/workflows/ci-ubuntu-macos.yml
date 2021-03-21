@@ -48,7 +48,9 @@ jobs:
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: bash
-        run:  mkdir sonar/scanner && dotnet tool update dotnet-sonarscanner --tool-path sonar/scanner
+        run:  |
+          mkdir -p sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path sonar/scanner
         
       - name: Build and analyze
         env:
@@ -58,6 +60,7 @@ jobs:
         run: |
           sonar/scanner/dotnet-sonarscanner begin /k:"IcaroTorres_rabbitmq-billing-processing" /o:"icarotorres" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build ScheduledProcessing/ -c Release
+          dotnet test ScheduledProcessing /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
           sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
                      
           
