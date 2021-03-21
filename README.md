@@ -1,5 +1,12 @@
 # RabbitMq-Billing-Processing
 
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=code_smells)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=bugs)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
+
+
 ## Description
 
 In this repo I'll demonstrate different approaches to solving a fictitious Customer Billing Processing scenario.
