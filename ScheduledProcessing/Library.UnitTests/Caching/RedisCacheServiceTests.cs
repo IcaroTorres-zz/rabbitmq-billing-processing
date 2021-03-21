@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Library.UnitTests.Caching
 {
+    [Trait("unit-test","library")]
     public class RedisCacheServiceTests
     {
 

@@ -8,8 +8,8 @@ namespace Customers.Api.Domain.Models
     public class NullCustomer : Customer, INull
     {
         /// <inheritdoc cref="Customer.Cpf"/>
-        public override ulong Cpf { get => 0; set { Cpf = value; } }
-        public override string Name { get => string.Empty; set { Name = value; } }
-        public override string State { get => string.Empty; set { State = value; } }
+        public override ulong Cpf { get => 0; set { _ = value; } }
+        public override string Name { get => string.Empty; set { _ = value; } }
+        public override string State { get => string.Empty; set { _ = value; } }
     }
 }
