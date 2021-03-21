@@ -1,5 +1,7 @@
 # RabbitMq-Billing-Processing
 
+[![ci-build](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-build.yml/badge.svg?branch=main)](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-build.yml)
+[![ci-sonarcloud](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-sonar.yml/badge.svg?branch=main)](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-sonar.yml)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=code_smells)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=bugs)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
