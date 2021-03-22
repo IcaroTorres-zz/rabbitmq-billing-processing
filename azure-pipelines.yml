@@ -9,9 +9,9 @@ pool:
 steps:
 
 - task: UseDotNet@2
-  displayName: Use dotnet runtime 
+  displayName: Use dotnet sdk 
   inputs:
-    packageType: 'runtime'
+    packageType: 'sdk'
     version: '3.1.x'
     includePreviewVersions: true
     performMultiLevelLookup: true
@@ -36,14 +36,14 @@ steps:
   displayName: Build
   inputs:
     projects: '**/*.csproj'
-    arguments: '-c Release' 
+    arguments: '-c Release --no-restore' 
 
 - task: DotNetCoreCLI@2
   displayName: Test
   inputs:
     command: 'test'
     projects: '**/*.csproj'
-    arguments: '-c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx'
+    arguments: '-c Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx'
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
   displayName: 'Run Code Analysis'
