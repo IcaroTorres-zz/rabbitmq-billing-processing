@@ -2,7 +2,7 @@
 
 namespace Processing.Worker.Domain.Models
 {
-    public class Billing
+    public class Billing : ICpfCarrier
     {
         public Guid Id { get; set; }
         public ulong Cpf { get; set; }

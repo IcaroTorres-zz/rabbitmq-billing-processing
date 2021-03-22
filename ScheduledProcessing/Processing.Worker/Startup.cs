@@ -26,7 +26,7 @@ namespace Processing.Worker
             services.AddHealthEndpoints();
             var rabbitMQ = Configuration.GetSection("RabbitMQ").Get<RabbitMQSettings>();
             services.AddSingleton(Configuration.GetSection("ScheduledProcessor").Get<ScheduledProcessorSettings>());
-            services.AddSingleton<IComparer<Customer>>(_ => new CustomerCpfComparer());
+            services.AddSingleton<IComparer<ICpfCarrier>>(_ => new CpfCarrierComparer());
             services.AddSingleton<IAmountProcessor>(_ => new MathOnlyAmountProcessor());
             services.AddSingleton<IConnectionFactory, ConnectionFactory>(_ => new ConnectionFactory { Uri = new Uri(rabbitMQ.AmqpUrl) });
             services.AddSingleton<IConnection>(x => x.GetRequiredService<IConnectionFactory>().CreateConnection());

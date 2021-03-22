@@ -4,8 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Processing.Worker.Domain.Services
 {
-    public class CustomerCpfComparer : IComparer<Customer>
+    public class CpfCarrierComparer : IComparer<ICpfCarrier>
     {
-        public int Compare([AllowNull] Customer x, [AllowNull] Customer y) => x.Cpf.CompareTo(y.Cpf);
+        public int Compare([AllowNull] ICpfCarrier x, [AllowNull] ICpfCarrier y) => x.Cpf.CompareTo(y.Cpf);
     }
 }

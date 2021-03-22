@@ -4,6 +4,6 @@ namespace Processing.Worker.Domain.Services
 {
     public interface IAmountProcessor
     {
-        Billing Process(Customer customer, Billing billing);
+        Billing Process(ICpfCarrier customer, Billing billing);
     }
 }

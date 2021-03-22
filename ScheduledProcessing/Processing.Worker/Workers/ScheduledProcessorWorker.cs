@@ -5,8 +5,8 @@ using Processing.Worker.Domain.Models;
 using Processing.Worker.Domain.Services;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +17,7 @@ namespace Processing.Worker.Workers
         private readonly IRpcClient<List<Customer>> _customerClient;
         private readonly IRpcClient<List<Billing>> _billingClient;
         private readonly IAmountProcessor _processor;
-        private readonly IComparer<Customer> _comparer;
+        private readonly IComparer<ICpfCarrier> _comparer;
         private readonly ScheduledProcessorSettings _config;
         private readonly ILogger<ScheduledProcessorWorker> _logger;
 
@@ -25,7 +25,7 @@ namespace Processing.Worker.Workers
             IRpcClient<List<Customer>> customerClient,
             IRpcClient<List<Billing>> billingClient,
             IAmountProcessor processor,
-            IComparer<Customer> comparer,
+            IComparer<ICpfCarrier> comparer,
             ScheduledProcessorSettings config,
             ILogger<ScheduledProcessorWorker> logger)
         {
@@ -41,86 +41,69 @@ namespace Processing.Worker.Workers
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation($"{DateTime.UtcNow:G} Starting scheduled batch processing ...");
-            var batch = new List<Billing>();
-            var batchId = Guid.NewGuid().ToString();
+            var batch = new ProcessBatch();
             while (true)
             {
                 try
                 {
-                    List<Customer> customers;
-                    (batch, customers) = await FetchBatchAsync(batch, batchId);
-                    batch = ProcessBatch(batch, customers, batchId);
-                    batchId = await WaitTillNextBatch(_config.MillisecondsScheduledTime);
+                    batch = await DoExecute(batch);
                 }
                 catch (Exception ex)
                 {
                     // Todo tratar melhor os erros
-                    _logger.LogInformation($"{DateTime.UtcNow:G} BatchId: {batchId}, Exceptions: {string.Join(Environment.NewLine, ex.ExtractMessages())}");
+                    _logger.LogInformation($"{DateTime.UtcNow:G} BatchId: {batch.Id}, Exceptions: {string.Join(Environment.NewLine, ex.ExtractMessages())}");
                 }
             }
         }
 
-        private async Task<(List<Billing>, List<Customer>)> FetchBatchAsync(List<Billing> batch, string batchId)
+        internal async Task<ProcessBatch> DoExecute(ProcessBatch batch)
         {
-            var customers = new List<Customer>();
+            batch = await FetchBatchAsync(batch);
+            batch = ProcessBatch(batch);
+            _logger.LogInformation($"{DateTime.UtcNow:G} BatchId: {batch.Id}. Waiting {_config.MillisecondsScheduledTime} milliseconds to process next batch...");
+            return await batch.ResetIdAfter(_config.MillisecondsScheduledTime);
+        }
+
+        internal async Task<ProcessBatch> FetchBatchAsync(ProcessBatch batch)
+        {
             var billingTask = Task.Run(() =>
             {
-                var stopWatch = new Stopwatch();
-                stopWatch.Start();
-                batch = _billingClient.CallProcedure(batch);
-                stopWatch.Stop();
-                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Billings ready to process. Elapsed milliseconds {stopWatch.ElapsedMilliseconds}...");
-                stopWatch.Reset();
+                batch.Billings = _billingClient.CallProcedure(batch.Billings);
+                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batch.Id}. Billings ready to process...");
             });
             var customerTask = Task.Run(() =>
             {
-                var stopWatch = new Stopwatch();
-                stopWatch.Start();
-                customers = _customerClient.CallProcedure("");
-                customers.Sort(_comparer);
-                stopWatch.Stop();
-                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Customers ready to process. Elapsed milliseconds {stopWatch.ElapsedMilliseconds}...");
-                stopWatch.Reset();
+                batch.Customers = new List<ICpfCarrier>(_customerClient.CallProcedure(""));
+                batch.Customers.Sort(_comparer);
+                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batch.Id}. Customers ready to process...");
             });
 
             await Task.WhenAll(billingTask, customerTask);
-            return (batch, customers);
-        }
-
-        private List<Billing> ProcessBatch(List<Billing> batch, List<Customer> customers, string batchId)
-        {
-            if (customers.Count == 0 || batch.Count == 0)
-            {
-                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Skiping batch. Nothing to process now...");
-            }
-            else
-            {
-                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Process started...");
-                var stopWatch = new Stopwatch();
-                stopWatch.Start();
-                var customerForProcessing = new Customer();
-                Parallel.ForEach(batch, billing =>
-                {
-                    customerForProcessing.Cpf = billing.Cpf;
-                    var index = customers.BinarySearch(customerForProcessing, _comparer);
-                    customerForProcessing = customers[index];
-                    billing = _processor.Process(customerForProcessing, billing);
-                    batch.Add(billing);
-                });
-                stopWatch.Stop();
-                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batchId}. Process finished. Elapsed milliseconds {stopWatch.ElapsedMilliseconds}...");
-                stopWatch.Reset();
-            }
-
             return batch;
         }
 
-        [ExcludeFromCodeCoverage]
-        private async Task<string> WaitTillNextBatch(int millisecondsScheduledTime)
+        internal ProcessBatch ProcessBatch(ProcessBatch batch)
         {
-            _logger.LogInformation($"{DateTime.UtcNow:G}  Waiting {millisecondsScheduledTime} milliseconds to process next batch...");
-            await Task.Delay(millisecondsScheduledTime);
-            return Guid.NewGuid().ToString();
+            if (batch.Customers.Count == 0 || batch.Billings.Count == 0)
+            {
+                _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batch.Id}. Skiping batch. Nothing to process now...");
+                return batch;
+            }
+
+            _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batch.Id}. Process started...");
+            Parallel.For(0, batch.Billings.Count, billindIndex =>
+            {
+                var billing = batch.Billings[billindIndex];
+                var customerIndex = batch.Customers.BinarySearch(billing, _comparer);
+                if (customerIndex >= 0)
+                {
+                    var customer = batch.Customers[customerIndex];
+                    batch.Billings[billindIndex] = _processor.Process(customer, billing);
+                }
+            });
+            _logger.LogInformation($"{DateTime.UtcNow:G}  BatchId: {batch.Id}. Process finished...");
+
+            return batch;
         }
     }
 }

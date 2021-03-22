@@ -5,11 +5,11 @@ namespace Processing.Worker.Domain.Services
 {
     public class MathOnlyAmountProcessor : IAmountProcessor
     {
-        private const uint FirstTwoDigitIsolationDivider = 1000000000;
-        private const ushort FirstTwoDigitHundredsMultiplier = 100;
-        private const ushort TesnAndUnitsIsolatorMod = 100;
+        private const uint _firstTwoDigitIsolationDivider = 1000000000;
+        private const ushort _firstTwoDigitHundredsMultiplier = 100;
+        private const ushort _tesnAndUnitsIsolatorMod = 100;
 
-        public Billing Process(Customer customer, Billing billing)
+        public Billing Process(ICpfCarrier customer, Billing billing)
         {
             var tensAndUnits = ProcessTensAndUnits(customer.Cpf);
             var thousandsAndhundreds = ProcessThousandsAndHundreds(customer.Cpf);
@@ -20,20 +20,20 @@ namespace Processing.Worker.Domain.Services
 
         private byte ProcessTensAndUnits(ulong cpf)
         {
-            var tensAndUnits = cpf % TesnAndUnitsIsolatorMod;
+            var tensAndUnits = cpf % _tesnAndUnitsIsolatorMod;
             return (byte)tensAndUnits;
         }
 
         private ushort ProcessThousandsAndHundreds(ulong cpf)
         {
             var firstTwoDigit = IsolateFirstTwoDigit(cpf);
-            var thousandsAndhundreds = firstTwoDigit * FirstTwoDigitHundredsMultiplier;
+            var thousandsAndhundreds = firstTwoDigit * _firstTwoDigitHundredsMultiplier;
             return (ushort)thousandsAndhundreds;
         }
 
         private byte IsolateFirstTwoDigit(ulong cpf)
         {
-            var firstTwoDigitWithDecimals = cpf / FirstTwoDigitIsolationDivider;
+            var firstTwoDigitWithDecimals = cpf / _firstTwoDigitIsolationDivider;
             var firstTwoDigitTruncated = decimal.Truncate(firstTwoDigitWithDecimals);
             return (byte)firstTwoDigitTruncated;
         }
