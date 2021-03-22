@@ -18,7 +18,10 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'IcaroTorres_rabbitmq-billing-processing'
     projectName: 'rabbitmq-billing-processing'
-    extraProperties: sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
+    extraProperties: |
+      sonar.exclusions=**/obj/**,**/*.dll
+      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml
+      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
 - task: DotNetCoreCLI@2
   displayName: Restore
@@ -33,11 +36,12 @@ steps:
     projects: "**/*.csproj"
     arguments: '--configuration $(BuildConfiguration) --no-restore /p:DeployOnBuild=true /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: Test
   inputs:
-    codeCoverageEnabled: true
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'test'
+    arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx'
+    testRunTitle: 'dotnet test'
 
 - task: SonarCloudAnalyze@1
 
