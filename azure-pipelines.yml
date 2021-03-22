@@ -4,51 +4,46 @@ trigger:
 
 pool:
   vmImage: 'windows-latest'
-
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-
+  demands: java
+  
 steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.301'
+
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: 'restore'
+    projects: '**/*.sln'
+    arguments: '--no-cache'
+
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'Sonar Billing Processing'
     organization: 'icarotorres'
-    scannerMode: 'MSBuild'
     projectKey: 'IcaroTorres_rabbitmq-billing-processing'
-    projectName: 'rabbitmq-billing-processing'
     extraProperties: |
       sonar.exclusions=**/obj/**,**/*.dll
       sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml
       sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
 - task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
-    projects: "**/*.csproj"
-    verbosityRestore: Quiet
-
-- task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    projects: "**/*.csproj"
-    arguments: '--configuration $(BuildConfiguration) --no-restore /p:DeployOnBuild=true /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
+    projects: '**/*.sln'
+    arguments: '-c Release --no-restore' 
 
 - task: DotNetCoreCLI@2
   displayName: Test
   inputs:
     command: 'test'
-    arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx'
-    testRunTitle: 'dotnet test'
+    projects: '**/*.sln'
+    arguments: '-c Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx'
 
-- task: SonarCloudAnalyze@1
+- task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+  displayName: 'Run Code Analysis'
 
-- task: SimondeLang.sonarcloud-buildbreaker.sonar-buildbreaker.sonarcloud-buildbreaker@2
-  displayName: 'Break build on quality gate failure'
-  inputs:
-    SonarCloud: 'Sonar Billing Processing'
-    organization: 'icarotorres'
-
-
+- task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
+  displayName: 'Publish Quality Gate Result'
