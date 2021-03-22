@@ -8,6 +8,7 @@ using Processing.Worker.Workers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Processing.Worker.UnitTests.Workers
@@ -38,6 +39,33 @@ namespace Processing.Worker.UnitTests.Workers
                 _comparer,
                 _settingsMock.Object,
                 _loggerMock.Object);
+        }
+
+        [Fact]
+        public async Task FetchBatch_Should_FetchCustomersAndBillings_WithCustomersSorted_ToMatchAndProcessAsync()
+        {
+            // arrange
+            const int billingsCount = 10;
+            var batch = new ProcessBatch();
+            var billingResponse = InternalFakes.Billings.Valid().Generate(billingsCount);
+            var clientResponse = new List<Customer>();
+            var expectedCustomers = new List<ICpfCarrier>();
+            foreach (var billing in billingResponse)
+            {
+                var customer = new Customer { Cpf = billing.Cpf };
+                expectedCustomers.Add(customer);
+                clientResponse.Add(customer);
+            }
+            _billingClientMock.Setup(x => x.CallProcedure(batch.Billings)).Returns(billingResponse);
+            _customerClientMock.Setup(x => x.CallProcedure("")).Returns(clientResponse);
+
+            // act
+            var result = await _sut.FetchBatchAsync(batch);
+
+            // assert
+            result.Should().NotBeNull().And.BeOfType<ProcessBatch>();
+            result.Billings.Should().NotBeNull().And.BeEquivalentTo(billingResponse);
+            result.Customers.Should().NotBeNull().And.BeEquivalentTo(expectedCustomers);
         }
 
         [Fact]
@@ -126,6 +154,49 @@ namespace Processing.Worker.UnitTests.Workers
             result.Should().NotBeNull().And.Be(batch);
             result.Billings.Should().HaveCount(0);
             result.Customers.Should().HaveCount(0);
+        }
+
+        [Fact]
+        public async Task DoExecute_Should_ExecuteProcess_Wait_ExpectedDelay_ResetBatchId_And_ReturnProcessedBatch()
+        {
+            // arrange
+            const int billingsCount = 10;
+            const int expectedDelay = 100;
+            _settingsMock.Setup(x => x.MillisecondsScheduledTime).Returns(expectedDelay);
+            var batch = new ProcessBatch();
+            var previousId = batch.Id;
+            var billingResponse = InternalFakes.Billings.Valid().Generate(billingsCount);
+            var clientResponse = new List<Customer>();
+            var expectedCustomers = new List<ICpfCarrier>();
+            foreach (var billing in billingResponse)
+            {
+                var customer = new Customer { Cpf = billing.Cpf };
+                expectedCustomers.Add(customer);
+                clientResponse.Add(customer);
+                _amountProcessorMock.Setup(y => y.Process(customer, billing))
+                    .Returns(new Billing
+                    {
+                        Id = billing.Id,
+                        Cpf = billing.Cpf,
+                        Amount = 100,
+                        ProcessedAt = DateTime.UtcNow
+                    });
+            }
+            _billingClientMock.Setup(x => x.CallProcedure(batch.Billings)).Returns(billingResponse);
+            _customerClientMock.Setup(x => x.CallProcedure("")).Returns(clientResponse);
+
+            // act
+            var result = await _sut.DoExecute(batch);
+
+            // assert
+            result.Should().NotBeNull().And.BeOfType<ProcessBatch>();
+            result.Id.Should().NotBeNullOrEmpty().And.NotBe(previousId);
+            result.Customers.Should().NotBeNull().And
+                .BeEquivalentTo(clientResponse);
+            result.Billings.Should().NotBeNull().And
+                .BeEquivalentTo(billingResponse).And
+                .HaveCount(billingsCount).And
+                .OnlyContain(x => x.ProcessedAt != null && expectedCustomers.Any(y => y.Cpf == x.Cpf));
         }
     }
 }
