@@ -24,7 +24,7 @@ namespace Processing.Worker.UnitTests.Domain.Models
         public void Constructor_AssigningValues_Should_Create_With_Props_For_GivenValues()
         {
             // arrange and act
-            var expectedCpf = Fakes.CPFs.Valid.Generate();
+            var expectedCpf = Fakes.CPFs.Valid().Generate();
 
             var sut = new Customer
             {
@@ -41,7 +41,7 @@ namespace Processing.Worker.UnitTests.Domain.Models
             // arrange
             var sut = new Customer();
             var previousCpf = sut.Cpf;
-            var expectedCpf = Fakes.CPFs.Valid.Generate();
+            var expectedCpf = Fakes.CPFs.Valid().Generate();
 
             // act
             sut.Cpf = expectedCpf;

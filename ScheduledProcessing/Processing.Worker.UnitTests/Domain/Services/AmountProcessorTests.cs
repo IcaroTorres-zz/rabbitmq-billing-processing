@@ -14,7 +14,7 @@ namespace Processing.Worker.UnitTests.Domain.Services
         public void MathOnlyAmountProcessor_Calculate()
         {
             // arrange
-            var cpf = Fakes.CPFs.Valid.Generate();
+            var cpf = Fakes.CPFs.Valid().Generate();
             var str = cpf.ToString();
             var customer = new Customer { Cpf = cpf };
             var billing = new Billing { Cpf = cpf, Amount = new Faker().Random.Decimal(1, 1000) };

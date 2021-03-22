@@ -27,7 +27,7 @@ namespace Processing.Worker.UnitTests.Domain.Models
         public void Constructor_AssigningValues_Should_Create_With_Props_For_GivenValues()
         {
             // arrange and act
-            var expectedCpf = Fakes.CPFs.Valid.Generate();
+            var expectedCpf = Fakes.CPFs.Valid().Generate();
             const decimal expectedAmount = 12345;
             var expectedId = Guid.NewGuid();
 
@@ -53,7 +53,7 @@ namespace Processing.Worker.UnitTests.Domain.Models
             var previousCpf = sut.Cpf;
             var previousAmount = sut.Amount;
             var expectedId = Guid.NewGuid();
-            var expectedCpf = Fakes.CPFs.Valid.Generate();
+            var expectedCpf = Fakes.CPFs.Valid().Generate();
             const decimal expectedAmount = 12345;
 
             // act
