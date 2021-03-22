@@ -33,8 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Customers.Api\Customers.Api.csproj" />
-    <ProjectReference Include="..\Issuance.Api\Issuance.Api.csproj" />
-    <ProjectReference Include="..\Library\Library.csproj" />
   </ItemGroup>
 
 </Project>
