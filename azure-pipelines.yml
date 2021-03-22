@@ -18,9 +18,7 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'IcaroTorres_rabbitmq-billing-processing'
     projectName: 'rabbitmq-billing-processing'
-    extraProperties: |
-      sonar.exclusions=**/obj/**,**/*.dll, **/*.*Tests/**,**/DependencyInjection/*.cs
-      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
+    extraProperties: sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
 - task: DotNetCoreCLI@2
   displayName: Restore
