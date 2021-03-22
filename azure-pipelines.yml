@@ -1,0 +1,53 @@
+trigger:
+- main
+- develop
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'Sonar Billing Processing'
+    organization: 'icarotorres'
+    scannerMode: 'MSBuild'
+    projectKey: 'IcaroTorres_rabbitmq-billing-processing'
+    projectName: 'rabbitmq-billing-processing'
+    extraProperties: |
+      sonar.exclusions=**/obj/**,**/*.dll,**/Library/**, **/*.*Tests/**,**/Issuance.Api/**Infrastructure/**,**/DependencyInjection/**
+      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
+
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: "**/*.csproj"
+    verbosityRestore: Quiet
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: "**/*.csproj"
+    arguments: '--configuration $(BuildConfiguration) --no-restore /p:DeployOnBuild=true /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
+
+- task: VSTest@2
+  inputs:
+    runInParallel: true
+    codeCoverageEnabled: true
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: SonarCloudAnalyze@1
+
+- task: SimondeLang.sonarcloud-buildbreaker.sonar-buildbreaker.sonarcloud-buildbreaker@2
+  displayName: 'Break build on quality gate failure'
+  inputs:
+    SonarCloud: 'Sonar Billing Processing'
+    organization: 'icarotorres'
+
+
