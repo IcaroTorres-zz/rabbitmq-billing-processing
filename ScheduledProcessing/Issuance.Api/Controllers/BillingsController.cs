@@ -27,7 +27,7 @@ namespace Issuance.Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns code="201">Created result with the ordered billing.</returns>
-        [ProducesResponseType(typeof(Output<BillingResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Output<BillingResponse>), StatusCodes.Status201Created)]
         [ProducesErrorResponseType(typeof(Output<object>))]
         [HttpPost]
         public async Task<IActionResult> OrderBillingAsync([FromBody] BillingRequest request)
