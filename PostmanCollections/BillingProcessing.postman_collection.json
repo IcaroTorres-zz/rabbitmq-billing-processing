@@ -1,0 +1,418 @@
+{
+	"info": {
+		"_postman_id": "1747f0b6-261e-445c-b573-3487eaf7f28d",
+		"name": "BillingProcessing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Scheduled",
+			"item": [
+				{
+					"name": "Customers.Api",
+					"item": [
+						{
+							"name": "customers",
+							"item": [
+								{
+									"name": "register customer",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cpf\": \"35564087755\",\r\n    \"name\": \"sample user name\",\r\n    \"state\": \"MG\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5002/api/customers",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5002",
+											"path": [
+												"api",
+												"customers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get one",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5002/api/customers/:cpf",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5002",
+											"path": [
+												"api",
+												"customers",
+												":cpf"
+											],
+											"variable": [
+												{
+													"key": "cpf",
+													"value": "35564087755"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Issuance.Api",
+					"item": [
+						{
+							"name": "billings",
+							"item": [
+								{
+									"name": "issue biling",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cpf\": \"97538515615\",\r\n    \"amount\": 123.56,\r\n    \"dueDate\": \"20-07-2021\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5001/api/billings",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"api",
+												"billings"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get customer billings",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5001/api/billings/?month=06-2021&cpf=02903084530",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"api",
+												"billings",
+												""
+											],
+											"query": [
+												{
+													"key": "month",
+													"value": "06-2021"
+												},
+												{
+													"key": "cpf",
+													"value": "02903084530"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Eventual",
+			"item": [
+				{
+					"name": "Customers.Api",
+					"item": [
+						{
+							"name": "customers",
+							"item": [
+								{
+									"name": "register customer",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cpf\": \"35564087755\",\r\n    \"name\": \"sample user name\",\r\n    \"state\": \"MG\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5005/api/customers",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5005",
+											"path": [
+												"api",
+												"customers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get one",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5005/api/customers/:cpf",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5005",
+											"path": [
+												"api",
+												"customers",
+												":cpf"
+											],
+											"variable": [
+												{
+													"key": "cpf",
+													"value": "35564087755"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Issuance.Api",
+					"item": [
+						{
+							"name": "billings",
+							"item": [
+								{
+									"name": "issue biling",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cpf\": \"97538515615\",\r\n    \"amount\": 123.56,\r\n    \"dueDate\": \"20-07-2021\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5004/api/billings",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5004",
+											"path": [
+												"api",
+												"billings"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get customer billings",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5004/api/billings/?month=06-2021&cpf=02903084530",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5004",
+											"path": [
+												"api",
+												"billings",
+												""
+											],
+											"query": [
+												{
+													"key": "month",
+													"value": "06-2021"
+												},
+												{
+													"key": "cpf",
+													"value": "02903084530"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Processing.Api",
+					"item": [
+						{
+							"name": "customer-reports",
+							"item": [
+								{
+									"name": "customer report in range",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5003/api/customer-reports/:cpf?begin=15-04-2021&end=15-12-2021",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5003",
+											"path": [
+												"api",
+												"customer-reports",
+												":cpf"
+											],
+											"query": [
+												{
+													"key": "begin",
+													"value": "15-04-2021"
+												},
+												{
+													"key": "end",
+													"value": "15-12-2021"
+												}
+											],
+											"variable": [
+												{
+													"key": "cpf",
+													"value": "11699507520"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "customers",
+							"item": [
+								{
+									"name": "toggle customer",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"cpf\": \"02903084530\",\r\n  \"active\": false,\r\n  \"state\": \"SE\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5003/api/customers/:cpf",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5003",
+											"path": [
+												"api",
+												"customers",
+												":cpf"
+											],
+											"query": [
+												{
+													"key": "startDate",
+													"value": "15-04-2021",
+													"disabled": true
+												}
+											],
+											"variable": [
+												{
+													"key": "cpf",
+													"value": "02903084530"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "monthly-reports",
+							"item": [
+								{
+									"name": "get monthly reports",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5003/api/monthly-reports",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5003",
+											"path": [
+												"api",
+												"monthly-reports"
+											],
+											"query": [
+												{
+													"key": "startDate",
+													"value": "15-04-2021",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
