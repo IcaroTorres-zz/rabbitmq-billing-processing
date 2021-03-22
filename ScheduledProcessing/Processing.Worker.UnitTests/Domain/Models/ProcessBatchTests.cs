@@ -14,7 +14,6 @@ namespace Processing.Worker.UnitTests.Domain.Models
         {
             // arrange on constructor
             var expectedMillisecnods = new Faker().Random.Int(250, 3000);
-            ulong expectedDelta = 30;
             var sut = new ProcessBatch();
             var previousId = sut.Id;
 
@@ -28,7 +27,7 @@ namespace Processing.Worker.UnitTests.Domain.Models
             // assert
             result.Should().NotBeNull();
             result.Id.Should().NotBeNullOrEmpty().And.NotBe(previousId);
-            stopwatch.ElapsedMilliseconds.Should().BeCloseTo(expectedMillisecnods, expectedDelta);
+            stopwatch.ElapsedMilliseconds.Should().BeGreaterThan(expectedMillisecnods);
         }
     }
 }
