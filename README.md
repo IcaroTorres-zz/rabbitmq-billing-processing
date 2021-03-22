@@ -205,17 +205,17 @@ request body:
 
 ## Solutions
 
-### Scheduled Billing Processing (developed)
+### Scheduled Billing Processing (DEVELOPED)
 
 This solution proposes:
 
-- 2 isollated Web APIs (Customers, Issuance) interacting with end-users;
-- performing Its independent use cases (create and query);
-- persisting their data in each respective database without any data replication between them;
-- the processing is executed by a third Worker Service as a scheduled batch of changes;
-- done by Remote Procedure Calls from iT being a RPC client;
-- to both APIs having background hosted services implemented as RPC servers;
-- receiving changes and returning current data to be processed.
+- [x] 2 isollated Web APIs (Customers, Issuance) interacting with end-users;
+- [x] performing Its independent use cases (create and query);
+- [x] persisting their data in each respective database without any data replication between them;
+- [x] the processing is executed by a third Worker Service as a scheduled batch of changes;
+- [x] done by Remote Procedure Calls from iT being a RPC client;
+- [x] to both APIs having background hosted services implemented as RPC servers;
+- [x] receiving changes and returning current data to be processed.
 
 #### Architecture
 
@@ -260,21 +260,21 @@ This projects simulates Enterprise Private packages available for shared develop
 For the sake of lazyness leaving me from code repetition among the services :)
 
 
-### Eventual Billing Processing (developing)
+### Eventual Billing Processing (UNDER DEVELOPMENT)
 
 This solution proposes:
 
-- 2 Web APIs (Customers, Issuance) interacting with end-users;
-- performing Its independent use cases (create and query);
-- persisting their data in each respective database;
-- but emitting events notifying Its entities creations;
-- to a third Pub / Sub processing service consuming and reacting to them;
-- partially and temporarilly replicating data to control the event flow; 
-- in case of billings arriving before respective customer;
-- they are stored grouped by customer cpf key as awaiting Its arrival;
-- being processed when both customer and billings data are fetch togheter;
-- them sending processed event to Its queue;
-- releasing temporary data when the message become acked.
+- [x] 2 Web APIs (Customers, Issuance) interacting with end-users;
+- [x] performing Its independent use cases (create and query);
+- [x] persisting their data in each respective database;
+- [x] but emitting events notifying Its entities creations;
+- [x] to a third Pub / Sub processing service consuming and reacting to them;
+- [x] partially and temporarilly replicating data to control the event flow; 
+- [x] in case of billings arriving before respective customer;
+- [x] they are stored grouped by customer cpf key as awaiting Its arrival;
+- [x] being processed when both customer and billings data are fetch togheter;
+- [ ] them sending processed event to Its queue;
+- [ ] releasing temporary data when the message become acked.
 
 #### Architecture
 
