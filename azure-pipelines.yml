@@ -19,7 +19,7 @@ steps:
     projectKey: 'IcaroTorres_rabbitmq-billing-processing'
     projectName: 'rabbitmq-billing-processing'
     extraProperties: |
-      sonar.exclusions=**/obj/**,**/*.dll,**/Library/**, **/*.*Tests/**,**/Issuance.Api/**Infrastructure/**,**/DependencyInjection/**
+      sonar.exclusions=**/obj/**,**/*.dll,**/Library/**, **/*.*Tests/**,**/ScheduledProcessing/Issuance.Api/Infrastructure/**,**/DependencyInjection/*.cs
       sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
 - task: DotNetCoreCLI@2
