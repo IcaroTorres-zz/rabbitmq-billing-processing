@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>9.0</LangVersion>
-		<ProjectGuid>950CE550-0B99-403F-A5A3-E8553940168D</ProjectGuid>
+		<ProjectGuid>{950CE550-0B99-403F-A5A3-E8553940168D}</ProjectGuid>
     <!-- documentacao xml lida pelo swagger-->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
