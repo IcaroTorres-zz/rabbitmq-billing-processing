@@ -20,7 +20,7 @@ steps:
   displayName: Restore
   inputs:
     command: 'restore'
-    projects: '**/*.sln'
+    projects: '**/*.csproj'
 
 - task: SonarCloudPrepare@1
   inputs:
@@ -35,14 +35,14 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    projects: '**/*.sln'
+    projects: '**/*.csproj'
     arguments: '-c Release' 
 
 - task: DotNetCoreCLI@2
   displayName: Test
   inputs:
     command: 'test'
-    projects: '**/*.sln'
+    projects: '**/*.csproj'
     arguments: '-c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx'
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
