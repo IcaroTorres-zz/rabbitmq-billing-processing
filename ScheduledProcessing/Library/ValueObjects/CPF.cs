@@ -9,7 +9,7 @@ namespace Library.ValueObjects
         private bool _isValid;
         public bool IsValid() => _isValid;
         private static Random _random;
-        private static readonly object _syncObj = new();
+        private static readonly object _syncObj = new object();
         private static void InitRandomNumber(int seed)
         {
             _random ??= new Random(seed);

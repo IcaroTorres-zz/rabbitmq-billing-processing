@@ -3,17 +3,19 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Processing.Worker.Domain.Services
 {
+    [ExcludeFromCodeCoverage]
     public class RpcClient<T> : IRpcClient<T>
     {
         private readonly IModel _channel;
         private readonly string _targetQueueName;
         private readonly string _replyQueueName;
         private readonly EventingBasicConsumer _consumer;
-        private readonly BlockingCollection<T> _responseData = new();
+        private readonly BlockingCollection<T> _responseData = new BlockingCollection<T>();
         private IBasicProperties _properties;
 
         public RpcClient(IModel channel, string targetQueueName)

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>8.0</LangVersion>
 		<ProjectGuid>{F44B35EB-B0BE-4CEF-9FA1-FDFC26E0F53E}</ProjectGuid>
     <!-- documentacao xml lida pelo swagger-->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

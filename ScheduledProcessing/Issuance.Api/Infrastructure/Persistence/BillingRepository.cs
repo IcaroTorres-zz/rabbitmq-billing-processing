@@ -43,7 +43,7 @@ namespace Issuance.Api.Infrastructure.Persistence
 
             await Task.Run(() => Parallel.ForEach(entities, entity =>
             {
-                if (entity is not INull)
+                if (!(entity is INull))
                 {
                     listWrites.Add(new UpdateOneModel<Billing>(
                         QueryFilters.ById(entity.Id), CommandDefinitions.SetProcessed(entity)));
