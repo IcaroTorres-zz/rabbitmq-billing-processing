@@ -25,7 +25,7 @@ namespace BillingProcessing.Api.Controllers
         /// Gets a Monthly billing Report for processed billings with total and grouped by region States with Its accumulated totals.
         /// </summary>
         /// <returns></returns>
-        [Obsolete]
+        [Obsolete("Deprecated - Lack of support from MongoDB Atlas Free License")]
         [ProducesResponseType(typeof(Output<MonthlyReportResponse>), StatusCodes.Status200OK)]
         [ProducesErrorResponseType(typeof(Output<object>))]
         [HttpGet, Cache(60)]
