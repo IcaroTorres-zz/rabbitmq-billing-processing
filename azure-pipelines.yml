@@ -32,7 +32,7 @@ steps:
   displayName: Build
   inputs:
     projects: '**/*.sln'
-    arguments: '-c Release --no-restore' 
+    arguments: '-c Release' 
 
 - task: DotNetCoreCLI@2
   displayName: Test
