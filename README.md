@@ -4,7 +4,6 @@
 [![ci-azure-pipelines](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/azure-pipelines.main.yml/badge.svg)](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/azure-pipelines.main.yml)
 [![Build Status](https://dev.azure.com/icarostuart/RabbitMQ%20Billing%20Processing/_apis/build/status/ci-sonarcloud?branchName=main)](https://dev.azure.com/icarostuart/RabbitMQ%20Billing%20Processing/_build/latest?definitionId=7&branchName=main)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=alert_status)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=coverage)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=security_rating)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
