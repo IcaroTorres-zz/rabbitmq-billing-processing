@@ -26,29 +26,13 @@ steps:
   displayName: Restore
   inputs:
     command: restore
-    projects: |
-      "**/ScheduledProcessing/Library.csproj"
-      "**/ScheduledProcessing/Customers.Api.csproj"
-      "**/ScheduledProcessing/Issuance.Api.csproj"
-      "**/ScheduledProcessing/Processing.Worker.csproj"
-      "**/ScheduledProcessing/Library.UnitTests.csproj"
-      "**/ScheduledProcessing/Customers.Api.UnitTests.csproj"
-      "**/ScheduledProcessing/Issuance.Api.UnitTests.csproj"
-      "**/ScheduledProcessing/Processing.Worker.UnitTests.csproj"
+    projects: "**/*.csproj"
     verbosityRestore: Quiet
 
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    projects: |
-      "**/ScheduledProcessing/Library.csproj"
-      "**/ScheduledProcessing/Customers.Api.csproj"
-      "**/ScheduledProcessing/Issuance.Api.csproj"
-      "**/ScheduledProcessing/Processing.Worker.csproj"
-      "**/ScheduledProcessing/Library.UnitTests.csproj"
-      "**/ScheduledProcessing/Customers.Api.UnitTests.csproj"
-      "**/ScheduledProcessing/Issuance.Api.UnitTests.csproj"
-      "**/ScheduledProcessing/Processing.Worker.UnitTests.csproj"
+    projects: "**/*.csproj"
     arguments: '--configuration $(BuildConfiguration) --no-restore /p:DeployOnBuild=true /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
 
 - task: VSTest@2
