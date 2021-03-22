@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <!-- documentacao xml lida pelo swagger-->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<ProjectGuid>{516886D1-77AC-4D22-B150-6605F1399B29}</ProjectGuid>
+		<TargetLatestRuntimePatch>false</TargetLatestRuntimePatch>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>

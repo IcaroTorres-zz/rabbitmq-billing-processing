@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <!-- documentacao xml lida pelo swagger-->
+		<ProjectGuid>{9999A802-F574-426E-9CD1-3F9A0FA4AC02}</ProjectGuid>
+		<TargetLatestRuntimePatch>false</TargetLatestRuntimePatch>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <NoWarn>$(NoWarn);1591</NoWarn>

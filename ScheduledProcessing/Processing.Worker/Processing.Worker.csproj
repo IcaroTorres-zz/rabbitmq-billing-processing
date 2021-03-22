@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 		<ProjectGuid>{CE08E741-FA93-44A6-9A39-B610FE1DC750}</ProjectGuid>
     <LangVersion>8.0</LangVersion>
+		<TargetLatestRuntimePatch>false</TargetLatestRuntimePatch>
   </PropertyGroup>
 
   <ItemGroup>
