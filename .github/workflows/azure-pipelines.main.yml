@@ -18,4 +18,4 @@ jobs:
       with:
         azure-devops-project-url: 'https://dev.azure.com/icarostuart/RabbitMQ%20Billing%20Processing'
         azure-pipeline-name: 'ci-sonarcloud'
-        azure-devops-token: '${{ secrets.SONAR_TOKEN }}'
+        azure-devops-token: '${{ secrets.AZURE_DEVOPS_TOKEN }}'
