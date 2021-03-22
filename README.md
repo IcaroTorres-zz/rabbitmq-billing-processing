@@ -33,10 +33,10 @@ without relying on paid licenses, hardware and software installation.
 
 ## Stack applied
 
-- Messaging service - ![CloudAMQP](https://www.cloudamqp.com/)
-- NoSql Database - ![MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-- NoSql Distributed Cache - ![RedisCloud](https://redislabs.com/redis-enterprise-cloud/overview/)
-- Sql Database (generated through nuget packages and via migrations) - ![Sqlite](https://www.sqlite.org/)
+- **[CloudAMQP](https://www.cloudamqp.com/)** - Messaging service
+- **[MongoDB Atlas](https://www.mongodb.com/cloud/atlas)** - NoSql Database
+- **[RedisCloud](https://redislabs.com/redis-enterprise-cloud/overview/)** - NoSql Distributed Cache
+- **[Sqlite](https://www.sqlite.org/)** - Sql Database (generated through nuget packages and via migrations) - 
 
 
 ## Disclaimer
