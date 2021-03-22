@@ -19,25 +19,40 @@ steps:
     projectKey: 'IcaroTorres_rabbitmq-billing-processing'
     projectName: 'rabbitmq-billing-processing'
     extraProperties: |
-      sonar.exclusions=**/obj/**,**/*.dll,**/Library/**, **/*.*Tests/**,**/ScheduledProcessing/Issuance.Api/Infrastructure/**,**/DependencyInjection/*.cs
+      sonar.exclusions=**/obj/**,**/*.dll, **/*.*Tests/**,**/DependencyInjection/*.cs
       sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
 - task: DotNetCoreCLI@2
   displayName: Restore
   inputs:
     command: restore
-    projects: "**/*.csproj"
+    projects: |
+      "**/ScheduledProcessing/Library.csproj"
+      "**/ScheduledProcessing/Customers.Api.csproj"
+      "**/ScheduledProcessing/Issuance.Api.csproj"
+      "**/ScheduledProcessing/Processing.Worker.csproj"
+      "**/ScheduledProcessing/Library.UnitTests.csproj"
+      "**/ScheduledProcessing/Customers.Api.UnitTests.csproj"
+      "**/ScheduledProcessing/Issuance.Api.UnitTests.csproj"
+      "**/ScheduledProcessing/Processing.Worker.UnitTests.csproj"
     verbosityRestore: Quiet
 
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    projects: "**/*.csproj"
+    projects: |
+      "**/ScheduledProcessing/Library.csproj"
+      "**/ScheduledProcessing/Customers.Api.csproj"
+      "**/ScheduledProcessing/Issuance.Api.csproj"
+      "**/ScheduledProcessing/Processing.Worker.csproj"
+      "**/ScheduledProcessing/Library.UnitTests.csproj"
+      "**/ScheduledProcessing/Customers.Api.UnitTests.csproj"
+      "**/ScheduledProcessing/Issuance.Api.UnitTests.csproj"
+      "**/ScheduledProcessing/Processing.Worker.UnitTests.csproj"
     arguments: '--configuration $(BuildConfiguration) --no-restore /p:DeployOnBuild=true /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
 
 - task: VSTest@2
   inputs:
-    runInParallel: true
     codeCoverageEnabled: true
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
