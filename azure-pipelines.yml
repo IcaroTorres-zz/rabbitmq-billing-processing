@@ -7,11 +7,14 @@ pool:
   demands: java
   
 steps:
+
 - task: UseDotNet@2
+  displayName: Use dotnet runtime 
   inputs:
-    packageType: 'sdk'
+    packageType: 'runtime'
     version: '3.1.x'
-    installationPath: $(Agent.ToolsDirectory)/dotnet
+    includePreviewVersions: true
+    performMultiLevelLookup: true
 
 - task: DotNetCoreCLI@2
   displayName: Restore
