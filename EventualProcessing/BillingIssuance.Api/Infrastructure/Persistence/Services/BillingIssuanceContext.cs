@@ -5,11 +5,8 @@ namespace BillingIssuance.Api.Infrastructure.Persistence.Services
 {
     public class BillingIssuanceContext : IBillingIssuanceContext
     {
-        private readonly IMongoDatabase database;
-
         public BillingIssuanceContext(IMongoDatabase database, ICollectionsDictionary collectionsDictionary)
         {
-            this.database = database;
             Billings = database.GetCollection<Billing>(collectionsDictionary.GetCollectionName(nameof(Billing)));
             Customers = database.GetCollection<Customer>(collectionsDictionary.GetCollectionName(nameof(Customer)));
         }

@@ -14,7 +14,7 @@ namespace PrivatePackage.Messaging
         {
         }
         /// <inheritdoc/>
-        internal override void ConfigureConfirmation(IModel channel, string queueName, string message, ConcurrentDictionary<ulong, string> outstandingConfirms, ILogger<IMessagePublisher> logger)
+        internal override void ConfigureConfirmation(IModel channel, string routingKey, string message, ConcurrentDictionary<ulong, string> outstandingConfirms, ILogger<IMessagePublisher> logger)
         {
         }
     }

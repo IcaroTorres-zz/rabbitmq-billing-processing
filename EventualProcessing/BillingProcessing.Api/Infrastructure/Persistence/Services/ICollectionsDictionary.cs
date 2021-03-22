@@ -2,6 +2,6 @@
 {
     public interface ICollectionsDictionary
     {
-        string GetCollectionName(string usecase);
+        string GetCollectionName(string entityName);
     }
 }

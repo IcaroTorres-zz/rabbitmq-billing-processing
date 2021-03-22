@@ -24,12 +24,12 @@ namespace BillingProcessing.Api.Application.Usecases
             this.calculator = calculator;
         }
 
-        public async Task<IResult> Handle(Billing billing, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(Billing request, CancellationToken cancellationToken)
         {
-            var customer = await customerRepository.GetAsync(billing.Cpf, cancellationToken);
-            customer.AcceptProcessing(billing, calculator);
-            billing = await billingRepository.InsertAsync(billing, cancellationToken);
-            return new SuccessResult(billing);
+            var customer = await customerRepository.GetAsync(request.Cpf, cancellationToken);
+            customer.AcceptProcessing(request, calculator);
+            request = await billingRepository.InsertAsync(request, cancellationToken);
+            return new SuccessResult(request);
         }
     }
 }

@@ -6,12 +6,12 @@ namespace Customers.Api.Infrastructure.Persistence
 {
     public class CustomerMap : IEntityTypeConfiguration<Customer>
     {
-        public void Configure(EntityTypeBuilder<Customer> builder)
+        public void Configure(EntityTypeBuilder<Customer> modelBuilder)
         {
-            builder.HasKey(x => x.Cpf);
-            builder.HasIndex(u => u.Cpf).IsUnique();
-            builder.Property(x => x.Name).IsRequired();
-            builder.Property(x => x.State).IsRequired();
+            modelBuilder.HasKey(x => x.Cpf);
+            modelBuilder.HasIndex(u => u.Cpf).IsUnique();
+            modelBuilder.Property(x => x.Name).IsRequired();
+            modelBuilder.Property(x => x.State).IsRequired();
         }
     }
 }

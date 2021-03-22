@@ -53,7 +53,6 @@ namespace PrivatePackage.Caching
             }
 
             await next();
-            return;
         }
     }
 

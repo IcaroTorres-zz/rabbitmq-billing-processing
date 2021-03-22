@@ -9,6 +9,6 @@ namespace PrivatePackage.Abstractions
         IUrlHelper GetUrlHelper();
         string GetRouteName();
         Func<T, object> GetRouteValuesFunc();
-        ICreationRequest<T> SetupForCreation(IUrlHelper urlHelper, string routeName, Func<T, object> routeValuesFunc);
+        ICreationRequest<T> SetupForCreation(IUrlHelper urlHelper, string route, Func<T, object> routeValuesFunc);
     }
 }

@@ -9,7 +9,7 @@ namespace BillingProcessing.Api.Domain.States.Customers
         {
         }
 
-        internal override bool Active { get => false; set { } }
+        internal override bool Active { get => false; set { _ = value; } }
 
         internal override void BeEnabled()
         {

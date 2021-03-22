@@ -10,7 +10,7 @@ namespace PrivatePackage.Abstractions
         /// <summary>
         /// Publishes configured messages implementing <see cref="MessageBase"/>.
         /// </summary>
-        /// <param name="message"></param>
-        Task Publish(MessageBase message);
+        /// <param name="messageSettings"></param>
+        Task Publish(MessageBase messageSettings);
     }
 }

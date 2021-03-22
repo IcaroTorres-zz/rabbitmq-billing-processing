@@ -4,8 +4,8 @@
     {
         public static NullCustomer Null = new NullCustomer();
 
-        public virtual ulong Cpf { get; internal set; }
-        public virtual string Name { get; internal set; }
-        public virtual string State { get; internal set; }
+        public virtual ulong Cpf { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string State { get; set; }
     }
 }

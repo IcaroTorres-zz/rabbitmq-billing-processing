@@ -5,7 +5,7 @@ using PrivatePackage.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BillingIssuance.Api.Infrastructure.BackgroundServices
+namespace BillingIssuance.Api.Application.Workers
 {
     public class ConsumersBackgroundService : BackgroundService
     {
