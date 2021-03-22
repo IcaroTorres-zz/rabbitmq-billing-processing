@@ -36,7 +36,7 @@ namespace Customers.Api.UnitTests.Infrastructure.Persistence
         public async Task ExistAsync_ForNonExistingCustomer_Should_Return_False()
         {
             // arrange
-            var nonExistingCpf = Fakes.CPFs.Valid.Generate();
+            var nonExistingCpf = Fakes.CPFs.Valid().Generate();
             using var customersContext = CustomersContextMockBuilder
                 .Create().Customers().Build();
             _sut = new CustomerRepository(customersContext);
@@ -73,7 +73,7 @@ namespace Customers.Api.UnitTests.Infrastructure.Persistence
             _sut = new CustomerRepository(customersContext);
 
             // act
-            var result = await _sut.GetAsync(Fakes.CPFs.Valid.Generate().Value, default);
+            var result = await _sut.GetAsync(Fakes.CPFs.Valid().Generate().Value, default);
 
             // assert
             result.Should().NotBeNull().And.BeOfType<NullCustomer>().And.BeSameAs(Customer.Null);

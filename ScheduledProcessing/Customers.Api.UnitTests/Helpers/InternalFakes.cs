@@ -12,7 +12,7 @@ namespace Customers.Api.UnitTests.Helpers
         public static class Customers
         {
             public static Faker<Customer> Valid() => new Faker<Customer>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.Generate())
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate())
                 .RuleFor(x => x.Name, x => x.Name.FullName())
                 .RuleFor(x => x.State, States.Valid);
         }
@@ -20,7 +20,7 @@ namespace Customers.Api.UnitTests.Helpers
         public static class RegisterCustomerRequests
         {
             public static Faker<RegisterCustomerRequest> Valid() => new Faker<RegisterCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString())
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString())
                 .RuleFor(x => x.Name, x => x.Name.FullName())
                 .RuleFor(x => x.State, States.Valid)
                 .FinishWith((x, request) =>
@@ -38,17 +38,17 @@ namespace Customers.Api.UnitTests.Helpers
                 .RuleFor(x => x.Cpf, CPFs.Invalid.ToString());
 
             public static Faker<RegisterCustomerRequest> InvalidState() => new Faker<RegisterCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString())
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString())
                 .RuleFor(x => x.Name, x => x.Name.FullName())
                 .RuleFor(x => x.State, States.Invalid);
 
             public static Faker<RegisterCustomerRequest> EmptyName() => new Faker<RegisterCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString())
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString())
                 .RuleFor(x => x.State, States.Valid)
                 .RuleFor(x => x.Name, "");
 
             public static Faker<RegisterCustomerRequest> EmptyState() => new Faker<RegisterCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString())
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString())
                 .RuleFor(x => x.Name, x => x.Name.FullName())
                 .RuleFor(x => x.State, "");
         }
@@ -56,7 +56,7 @@ namespace Customers.Api.UnitTests.Helpers
         public static class GetCustomerRequests
         {
             public static Faker<GetCustomerRequest> Valid() => new Faker<GetCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString());
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString());
 
             public static Faker<GetCustomerRequest> InvalidCpf() => Valid()
                 .RuleFor(x => x.Cpf, CPFs.Invalid.ToString());

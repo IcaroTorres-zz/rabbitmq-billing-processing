@@ -29,7 +29,7 @@ namespace Issuance.Api.UnitTests.Domain.Models
         public void Constructor_AssigningValues_Should_Create_With_Props_For_GivenValues()
         {
             // arrange and act
-            var expectedCpf = Fakes.CPFs.Valid.Generate();
+            var expectedCpf = Fakes.CPFs.Valid().Generate();
             const double expectedAmount = 12345;
             var expectedDate = InternalFakes.Dates.Future(1).Generate();
             var expectedId = Guid.NewGuid();
@@ -59,7 +59,7 @@ namespace Issuance.Api.UnitTests.Domain.Models
             var previousAmount = sut.Amount;
             var previousDueDate = sut.DueDate;
             var expectedId = Guid.NewGuid();
-            var expectedCpf = Fakes.CPFs.Valid.Generate();
+            var expectedCpf = Fakes.CPFs.Valid().Generate();
             const double expectedAmount = 12345;
             var expectedDate = InternalFakes.Dates.Future(1).Generate();
 

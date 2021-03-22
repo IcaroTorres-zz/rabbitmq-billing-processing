@@ -8,8 +8,14 @@ namespace Library.ValueObjects
     {
         private bool _isValid;
         public bool IsValid() => _isValid;
+        private static Random _random;
+        private static readonly object _syncObj = new();
+        private static void InitRandomNumber(int seed)
+        {
+            _random ??= new Random(seed);
+        }
 
-        public static Cpf NewCPF()
+        public static Cpf NewCpf()
         {
             var value = GenerateRandom();
             return From(value);
@@ -23,12 +29,19 @@ namespace Library.ValueObjects
 
         public static ulong GenerateRandom()
         {
-            var rnd = new Random();
-            var randomNumber = rnd.Next(100000000, 999999999);
-            var seed = randomNumber.ToString();
-            var verifierDigit1 = GenerateVerifierDigit1(seed);
-            var verifierDigit2 = GenerateVerifierDigit2(seed, verifierDigit1);
-            return (ulong)(randomNumber + (verifierDigit1 * 10) + verifierDigit2);
+            lock (_syncObj)
+            {
+                InitRandomNumber(123456);
+                ulong number = (ulong)_random.Next(100000000, 999999999);
+                var seed = number.ToString("000000000");
+                var digit1 = GenerateVerifierDigit1(seed);
+                var digit2 = GenerateVerifierDigit2(seed, digit1);
+                ulong numberToSumDigits = number * 100;
+                ulong digit1AsTens = (ulong)(digit1 * 10);
+                ulong numberAndDigit1 = numberToSumDigits + digit1AsTens;
+                ulong numberFinishedByDigits = numberAndDigit1 + digit2;
+                return numberFinishedByDigits;
+            }
         }
 
         public override string ToString()

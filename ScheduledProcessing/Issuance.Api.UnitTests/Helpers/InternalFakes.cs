@@ -12,7 +12,7 @@ namespace Issuance.Api.UnitTests.Helpers
         {
             public static Faker<Billing> Valid() => new Faker<Billing>()
                 .RuleFor(x => x.Id, Guid.NewGuid)
-                .RuleFor(x => x.Cpf, CPFs.Valid.Generate())
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate())
                 .RuleFor(x => x.Amount, x => x.Random.Double(1, 2000))
                 .RuleFor(x => x.DueDate, Dates.Future(1));
         }
@@ -47,7 +47,7 @@ namespace Issuance.Api.UnitTests.Helpers
         public static class BillingRequests
         {
             public static Faker<BillingRequest> Valid() => new Faker<BillingRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString())
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString())
                 .RuleFor(x => x.Amount, x => x.Random.Double(10, 2000))
                 .RuleFor(x => x.DueDate, Dates.Future(5).Generate().ToString());
 
@@ -64,7 +64,7 @@ namespace Issuance.Api.UnitTests.Helpers
         public static class GetBillingsRequests
         {
             public static Faker<GetBillingsRequest> ValidWithCpf() => new Faker<GetBillingsRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid.Generate().ToString());
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString());
 
             public static Faker<GetBillingsRequest> ValidWithMonth() => new Faker<GetBillingsRequest>()
                 .RuleFor(x => x.Month, Dates.Past().Generate().ToString()[3..]);

@@ -17,7 +17,7 @@ namespace Issuance.Api.UnitTests.Domain.Services
         {
             // arrange
             var sut = new ModelFactory();
-            var expectedCpf = Fakes.CPFs.Valid.Generate();
+            var expectedCpf = Fakes.CPFs.Valid().Generate();
             var expectedAmount = new Faker().Random.Double(10, 10000);
             var expectedDate = InternalFakes.Dates.Future(5).Generate();
 

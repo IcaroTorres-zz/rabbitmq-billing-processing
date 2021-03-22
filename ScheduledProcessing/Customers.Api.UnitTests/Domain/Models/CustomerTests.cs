@@ -26,7 +26,7 @@ namespace Customers.Api.UnitTests.Domain.Models
         public void Constructor_AssigningValues_Should_Create_With_Props_For_GivenValues()
         {
             // arrange and act
-            var expectedCpf = Fakes.CPFs.Valid.Generate();
+            var expectedCpf = Fakes.CPFs.Valid().Generate();
             const string expectedName = "sample";
             const string expectedState = "sample";
 
@@ -51,7 +51,7 @@ namespace Customers.Api.UnitTests.Domain.Models
             var previousCpf = sut.Cpf;
             var previousName = sut.Name;
             var previousState = sut.State;
-            var expectedCpf = Fakes.CPFs.Valid.Generate();
+            var expectedCpf = Fakes.CPFs.Valid().Generate();
             const string expectedName = "sample";
             const string expectedState = "sample";
 
