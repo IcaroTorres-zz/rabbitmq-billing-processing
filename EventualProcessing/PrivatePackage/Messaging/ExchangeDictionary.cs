@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace PrivatePackage.Messaging
 {
+    [Serializable]
     public class ExchangeDictionary : Dictionary<string, ExchangeSettings>
     {
         public ExchangeSettings GetSettings(string key) => TryGetValue(key, out var settings)

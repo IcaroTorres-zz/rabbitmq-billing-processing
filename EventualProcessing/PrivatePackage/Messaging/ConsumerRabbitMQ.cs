@@ -31,12 +31,12 @@ namespace PrivatePackage.Messaging
             this.settings = settings;
         }
 
-        public async Task ConsumeWithUsecase(string consumerName)
+        public async Task ConsumeWithUsecase(string consumerUsecase)
         {
             await Task.Run(() =>
             {
                 var channel = connection.CreateModel();
-                var exchangeSettings = settings.ConsumeExchanges.GetSettings(consumerName);
+                var exchangeSettings = settings.ConsumeExchanges.GetSettings(consumerUsecase);
 
                 channel.ExchangeDeclare(exchange: exchangeSettings.Name, type: exchangeSettings.Type);
                 var queueName = channel.QueueDeclare().QueueName;
@@ -45,13 +45,13 @@ namespace PrivatePackage.Messaging
                 if (settings.DispatchConsumersAsync)
                 {
                     var consumer = new AsyncEventingBasicConsumer(channel);
-                    consumer.Received += async (model, ea) => await OnMessageReceived(channel, consumerName, queueName, ea);
+                    consumer.Received += async (model, ea) => await OnMessageReceived(channel, consumerUsecase, queueName, ea);
                     channel.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
                 }
                 else
                 {
                     var consumer = new EventingBasicConsumer(channel);
-                    consumer.Received += async (model, ea) => await OnMessageReceived(channel, consumerName, queueName, ea);
+                    consumer.Received += async (model, ea) => await OnMessageReceived(channel, consumerUsecase, queueName, ea);
                     channel.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
                 }
             });

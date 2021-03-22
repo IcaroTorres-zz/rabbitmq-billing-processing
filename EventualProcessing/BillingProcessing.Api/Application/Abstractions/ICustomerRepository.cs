@@ -6,8 +6,8 @@ namespace BillingProcessing.Api.Application.Abstractions
 {
     public interface ICustomerRepository
     {
-        Task InsertOrUpdateAsync(Customer customer, CancellationToken token);
-        Task<bool> ExistEnabledAsync(ulong v, CancellationToken ct);
-        Task<Customer> GetAsync(ulong id, CancellationToken token);
+        Task InsertOrUpdateAsync(Customer entity, CancellationToken token);
+        Task<bool> ExistEnabledAsync(ulong cpf, CancellationToken token);
+        Task<Customer> GetAsync(ulong cpf, CancellationToken token);
     }
 }

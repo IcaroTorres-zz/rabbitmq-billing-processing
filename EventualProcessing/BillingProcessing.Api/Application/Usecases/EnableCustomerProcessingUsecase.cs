@@ -24,23 +24,23 @@ namespace BillingProcessing.Api.Application.Usecases
             this.calculator = calculator;
         }
 
-        public async Task<IResult> Handle(Customer customer, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(Customer request, CancellationToken cancellationToken)
         {
-            var pendingBillingsTask = billingRepository.GetCustomerPendingBillingsAsync(customer.Cpf, cancellationToken);
+            var pendingBillingsTask = billingRepository.GetCustomerPendingBillingsAsync(request.Cpf, cancellationToken);
 
-            customer.EnableProcessing();
-            await customerRepository.InsertOrUpdateAsync(customer, cancellationToken);
+            request.EnableProcessing();
+            await customerRepository.InsertOrUpdateAsync(request, cancellationToken);
 
             var pendingBillings = await pendingBillingsTask;
 
             await Task.Run(() =>
             {
-                Parallel.ForEach(pendingBillings, billing => customer.AcceptProcessing(billing, calculator));
+                Parallel.ForEach(pendingBillings, billing => request.AcceptProcessing(billing, calculator));
             }, cancellationToken);
 
             await billingRepository.UpdateManyProcessedAsync(pendingBillings, cancellationToken);
 
-            return new SuccessResult(customer);
+            return new SuccessResult(request);
         }
     }
 }

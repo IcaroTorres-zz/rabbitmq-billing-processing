@@ -17,11 +17,11 @@ namespace BillingIssuance.Api.Application.Usecases
             this.repository = repository;
         }
 
-        public async Task<IResult> Handle(Customer customer, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(Customer request, CancellationToken cancellationToken)
         {
-            customer.EnableCharges();
-            await repository.InsertOrUpdateAsync(customer, cancellationToken);
-            return new SuccessResult(customer);
+            request.EnableCharges();
+            await repository.InsertOrUpdateAsync(request, cancellationToken);
+            return new SuccessResult(request);
         }
     }
 }

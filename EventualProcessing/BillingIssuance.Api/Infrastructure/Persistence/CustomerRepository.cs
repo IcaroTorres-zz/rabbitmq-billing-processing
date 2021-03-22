@@ -22,7 +22,7 @@ namespace BillingIssuance.Api.Infrastructure.Persistence
                                                 QueryFilters.CustomerActive()).CountDocumentsAsync(token) > 0;
         }
 
-        public async Task InsertOrUpdateAsync(Customer entity, CancellationToken token = default)
+        public async Task InsertOrUpdateAsync(Customer entity, CancellationToken token)
         {
             var isInsert = await context.Customers.Find(
                 QueryFilters.CustomerByCpf(entity.Cpf)).CountDocumentsAsync(token) == 0;

@@ -7,6 +7,6 @@ namespace BillingProcessing.Api.Application.Abstractions
 {
     public interface IResponseConverter
     {
-        CustomerReportResponse ToResponse(List<Billing> charges, DateTime startDate, DateTime EndDate);
+        CustomerReportResponse ToResponse(List<Billing> billings, DateTime startDate, DateTime EndDate);
     }
 }

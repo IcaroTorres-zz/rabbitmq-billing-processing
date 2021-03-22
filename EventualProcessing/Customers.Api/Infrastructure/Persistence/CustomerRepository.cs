@@ -30,10 +30,10 @@ namespace Customers.Api.Infrastructure.Persistence
                 .SingleOrDefaultAsync(x => x.Cpf.Equals(id)) ?? Customer.Null;
         }
 
-        public async Task InsertAsync(Customer customer, CancellationToken token)
+        public async Task InsertAsync(Customer entity, CancellationToken token)
         {
-            if (customer is INull) return;
-            await context.Customers.AddAsync(customer, token);
+            if (entity is INull) return;
+            await context.Customers.AddAsync(entity, token);
         }
     }
 }

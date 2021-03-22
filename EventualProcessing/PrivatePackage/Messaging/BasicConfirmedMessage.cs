@@ -17,12 +17,12 @@ namespace PrivatePackage.Messaging
         internal override void ConfigureConfirmation(
             IModel channel,
             string routingKey,
-            string body,
+            string message,
             ConcurrentDictionary<ulong, string> outstandingConfirms,
             ILogger<IMessagePublisher> logger)
         {
             channel.ConfirmSelect();
-            outstandingConfirms.TryAdd(channel.NextPublishSeqNo, body);
+            outstandingConfirms.TryAdd(channel.NextPublishSeqNo, message);
             RegisterEventCallbacks(channel, routingKey, outstandingConfirms, logger);
         }
 

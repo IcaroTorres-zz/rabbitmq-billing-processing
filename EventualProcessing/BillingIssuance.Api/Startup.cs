@@ -1,4 +1,4 @@
-using BillingIssuance.Api.Infrastructure.BackgroundServices;
+using BillingIssuance.Api.Application.Workers;
 using BillingIssuance.Api.Infrastructure.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
