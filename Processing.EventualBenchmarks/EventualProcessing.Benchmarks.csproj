@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+		<SonarQubeTestProject>false</SonarQubeTestProject>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 

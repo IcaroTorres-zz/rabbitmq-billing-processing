@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>8.0</LangVersion>
-		<ProjectGuid>{336AFAFF-BF0A-4C54-999A-470F6336AB23}</ProjectGuid>
+		<SonarQubeTestProject>false</SonarQubeTestProject>
     <!-- documentacao xml lida pelo swagger-->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
