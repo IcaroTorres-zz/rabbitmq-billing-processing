@@ -286,7 +286,7 @@
 					]
 				},
 				{
-					"name": "Processing.Api",
+					"name": "Processing.Worker",
 					"item": [
 						{
 							"name": "customer-reports",
