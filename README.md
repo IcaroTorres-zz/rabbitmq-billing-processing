@@ -277,6 +277,6 @@ Similar to the scheduled Processing Worker definition except by being a Pub / Su
 
 ### Library
 
-Simulates private enterprise libraries with shared SKDs. For the sake of lazyness leaving me from code repetition among the services :) 
+Simulates private enterprise libraries with shared SDKs. For the sake of lazyness leaving me from code repetition among the services :) 
 Contains common abstractions, implementations, value objects, dependency injection extensions, integration settings, shared event handling code
 easing pub / sub integrations with previously made API request/response pipeline use cases.
