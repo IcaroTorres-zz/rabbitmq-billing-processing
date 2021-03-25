@@ -48,7 +48,6 @@ namespace Processing.ScheduledWorker.Workers
                 }
                 catch (Exception ex)
                 {
-                    // Todo tratar melhor os erros
                     _logger.LogInformation($"{DateTime.UtcNow:G} BatchId: {batch.Id}, Exceptions: {string.Join(Environment.NewLine, ex.ExtractMessages())}");
                 }
             }

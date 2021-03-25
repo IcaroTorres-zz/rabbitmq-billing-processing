@@ -68,7 +68,7 @@ namespace Customers.Api.Infrastructure.Persistence
             return unit;
         }
 
-        private void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
             if (_disposed) return;
 
