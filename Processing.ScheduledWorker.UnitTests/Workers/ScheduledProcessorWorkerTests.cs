@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Processing.ScheduledWorker.UnitTests.Workers
 {
-    [Trait("unit-test", "Processing.ScheduledWorker")]
+    [Trait("unit-test", "processing.scheduled-worker")]
     public class ScheduledProcessorWorkerTests
     {
         private readonly Mock<IRpcClient<List<Customer>>> _customerClientMock;

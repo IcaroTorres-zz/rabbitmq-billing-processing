@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Processing.ScheduledWorker.UnitTests.Domain.Models
 {
-    [Trait("unit-test", "Processing.ScheduledWorker-domain")]
+    [Trait("unit-test", "processing.scheduled-worker-domain")]
     public class BillingTests
     {
         [Fact]
