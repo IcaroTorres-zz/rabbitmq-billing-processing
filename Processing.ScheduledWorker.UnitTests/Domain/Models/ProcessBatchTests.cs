@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Processing.ScheduledWorker.UnitTests.Domain.Models
 {
+    [Trait("unit-test", "processing.scheduled-worker")]
     public class ProcessBatchTests
     {
         [Fact]
