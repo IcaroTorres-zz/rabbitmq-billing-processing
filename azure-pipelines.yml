@@ -1,3 +1,5 @@
+name: ci-quality-gate
+
 trigger:
 - main
 - develop
@@ -28,7 +30,6 @@ steps:
     organization: 'icarotorres'
     projectKey: 'IcaroTorres_rabbitmq-billing-processing'
     extraProperties: |
-      sonar.exclusions=**/obj/**,**/*.dll
       sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml
       sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
@@ -42,7 +43,7 @@ steps:
   displayName: Test
   inputs:
     command: 'test'
-    projects: '**/*.csproj'
+    projects: '**/*Test.csproj'
     arguments: '-c Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx'
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
