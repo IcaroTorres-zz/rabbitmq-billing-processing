@@ -9,6 +9,13 @@ namespace Customers.Api.Infrastructure.Persistence
         {
         }
 
+        /// <summary>
+        /// For mock purposes
+        /// </summary>
+        public CustomersContext()
+        {
+        }
+
         public virtual DbSet<Customer> Customers { get; set; }
 
 
