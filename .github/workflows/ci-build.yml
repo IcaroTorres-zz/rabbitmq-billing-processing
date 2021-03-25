@@ -29,10 +29,7 @@ jobs:
           fetch-depth: 0
           
       - name: Restore
-        run: nuget restore ScheduledProcessing/ -NoCache
+        run: nuget restore -NoCache
     
       - name: Build
-        run: dotnet build ScheduledProcessing/ -c Release --no-restore
-
-      - name: Test
-        run: dotnet test ScheduledProcessing/ -c Release --no-build --filter Tests.csproj
+        run: dotnet build -c Release --no-restore

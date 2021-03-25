@@ -1,3 +1,5 @@
+name: ci-quality-gate
+
 trigger:
 - main
 - develop
@@ -28,7 +30,6 @@ steps:
     organization: 'icarotorres'
     projectKey: 'IcaroTorres_rabbitmq-billing-processing'
     extraProperties: |
-      sonar.exclusions=**/obj/**,**/*.dll
       sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml
       sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
