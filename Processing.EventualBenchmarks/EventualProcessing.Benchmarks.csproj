@@ -10,7 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Processing.Worker\Processing.Worker.csproj" />
+    <ProjectReference Include="..\Processing.EventualWorker\Processing.EventualWorker.csproj" />
+    <ProjectReference Include="..\Processing.ScheduledWorker\Processing.ScheduledWorker.csproj" />
   </ItemGroup>
 
 </Project>
