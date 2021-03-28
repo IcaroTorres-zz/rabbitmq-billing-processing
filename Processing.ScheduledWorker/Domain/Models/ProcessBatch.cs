@@ -17,8 +17,9 @@ namespace Processing.ScheduledWorker.Domain.Models
         public List<ICpfCarrier> Customers { get; set; }
         public async Task<ProcessBatch> ResetIdAfter(int millisecondsScheduledTime)
         {
-            await Task.Delay(millisecondsScheduledTime);
+            var delayTask = Task.Delay(millisecondsScheduledTime);
             Id = Guid.NewGuid().ToString();
+            await delayTask;
             return this;
         }
     }

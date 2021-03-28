@@ -11,10 +11,10 @@ namespace Processing.ScheduledWorker.UnitTests.Domain.Models
     public class ProcessBatchTests
     {
         [Fact]
-        public async Task ResetIdAfter_Shuold_Wait_ExpectedDelay_And_Return_WithNewId()
+        public async Task ResetIdAfter_Shuold_Wait_ExpectedDelay_And_Return_WithNewIdAsync()
         {
             // arrange on constructor
-            var expectedMillisecnods = new Faker().Random.Int(250, 3000);
+            var expectedMillisecnods = 250;
             var sut = new ProcessBatch();
             var previousId = sut.Id;
 
@@ -27,6 +27,8 @@ namespace Processing.ScheduledWorker.UnitTests.Domain.Models
 
             // assert
             result.Should().NotBeNull();
+            result.Billings.Should().BeSameAs(sut.Billings);
+            result.Customers.Should().BeSameAs(sut.Customers);
             result.Id.Should().NotBeNullOrEmpty().And.NotBe(previousId);
             stopwatch.ElapsedMilliseconds.Should().BeGreaterThan(expectedMillisecnods);
         }
