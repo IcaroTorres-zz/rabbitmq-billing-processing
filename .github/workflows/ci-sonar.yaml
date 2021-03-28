@@ -41,10 +41,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sonar/scanner/dotnet-sonarscanner begin /k:"IcaroTorres_rabbitmq-billing-processing" /o:"icarotorres" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" 
+          sonar/scanner/dotnet-sonarscanner begin /k:"IcaroTorres_rabbitmq-billing-processing" /o:"icarotorres" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.cs.vstest.reportsPaths="**/*.trx"
           dotnet restore 
           dotnet build -c Release --no-restore
-          dotnet test -c Release --no-build
+          dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx
           sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-          
-          
