@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<ProjectGuid>{88844B9A-16BB-4CC4-95B6-863859CE45EC}</ProjectGuid>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="FluentValidation" Version="9.5.3" />

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<ProjectGuid>{141EB378-0098-45FC-A1BF-E036A1C57386}</ProjectGuid>
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="MediatR" Version="9.0.0" />

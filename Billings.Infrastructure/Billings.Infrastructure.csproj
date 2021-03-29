@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<ProjectGuid>{DD56B444-AED3-49AB-9EF0-4A6A5F18DDD4}</ProjectGuid>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.3" />
