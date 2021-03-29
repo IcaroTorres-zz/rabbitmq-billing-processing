@@ -6,7 +6,7 @@ using Xunit;
 
 namespace UnitTests.Billings.Application.Validators
 {
-    [Trait("issuance", "application")]
+    [Trait("billings", "application")]
     public class GetBillingsRequestValidatorTests
     {
         [Fact]

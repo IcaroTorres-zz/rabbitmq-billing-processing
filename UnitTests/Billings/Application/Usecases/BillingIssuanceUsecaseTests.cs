@@ -11,7 +11,7 @@ using Xunit;
 
 namespace UnitTests.Billings.Application.Usecases
 {
-    [Trait("issuance", "application")]
+    [Trait("billings", "application")]
     public class BillingIssuanceUsecaseTests
     {
         [Fact]

@@ -15,6 +15,9 @@ namespace UnitTests.Billings.Helpers
                 .RuleFor(x => x.Cpf, CPFs.Valid().Generate())
                 .RuleFor(x => x.Amount, x => x.Random.Double(1, 2000))
                 .RuleFor(x => x.DueDate, Dates.Future(1));
+
+            public static Faker<Billing> Processed() => Valid()
+                .RuleFor(x => x.ProcessedAt, DateTime.UtcNow);
         }
 
         public static class Dates
@@ -80,6 +83,15 @@ namespace UnitTests.Billings.Helpers
 
             public static Faker<GetBillingsRequest> InvalidMonth() => InvalidEmpty()
                 .RuleFor(x => x.Month, "000");
+        }
+
+        public static class ProcessedBatchs
+        {
+            public static Faker<ProcessedBatch> Processed(int count = 5) => new Faker<ProcessedBatch>()
+                .CustomInstantiator(x => new ProcessedBatch(Billings.Processed().Generate(count)));
+
+            public static Faker<ProcessedBatch> Pending(int count = 5) => new Faker<ProcessedBatch>()
+                .CustomInstantiator(x => new ProcessedBatch(Billings.Valid().Generate(count)));
         }
     }
 }

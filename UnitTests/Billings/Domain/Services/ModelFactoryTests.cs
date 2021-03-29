@@ -9,7 +9,7 @@ using Xunit;
 
 namespace UnitTests.Billings.Domain.Services
 {
-    [Trait("issuance", "domain")]
+    [Trait("billings", "domain")]
     public class ModelFactoryTests
     {
         [Fact]

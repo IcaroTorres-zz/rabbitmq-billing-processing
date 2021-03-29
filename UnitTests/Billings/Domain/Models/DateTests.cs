@@ -6,7 +6,7 @@ using Xunit;
 
 namespace UnitTests.Billings.Domain.Models
 {
-    [Trait("issuance", "domain")]
+    [Trait("billings", "domain")]
     public class DateTests
     {
         [Fact]

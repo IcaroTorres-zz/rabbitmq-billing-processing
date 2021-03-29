@@ -17,7 +17,7 @@ using Xunit;
 
 namespace UnitTests.Billings.Application.Workers
 {
-    [Trait("issuance", "application")]
+    [Trait("billings", "application")]
     public class ScheduledBillingsToProcessWorkerTests
     {
         [Fact]
