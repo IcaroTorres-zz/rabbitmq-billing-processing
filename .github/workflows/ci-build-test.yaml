@@ -1,0 +1,46 @@
+name: ci-build-test
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+  
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+          
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+          
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v1
+        with:
+          path: sonar/scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+          
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        run: mkdir -p sonar/scanner && dotnet tool update dotnet-sonarscanner --tool-path sonar/scanner
+          
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar/scanner/dotnet-sonarscanner begin /k:"IcaroTorres_rabbitmq-billing-processing" /o:"icarotorres" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/UnitTests/**/*.opencover.xml" /d:sonar.cs.vstest.reportsPaths="**/*.trx"
+          dotnet test /UnitTests -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx
+          sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="9.5.3" />
+		<PackageReference Include="MediatR" Version="9.0.0" />
+		<PackageReference Include="MongoDB.Driver" Version="2.12.0" />
+		<PackageReference Include="RabbitMQ.Client" Version="6.2.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>UnitTests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Billings.Domain\Billings.Domain.csproj" />
+		<ProjectReference Include="..\Library\Library.csproj" />
+	</ItemGroup>
+
+</Project>

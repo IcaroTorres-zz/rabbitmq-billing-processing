@@ -43,7 +43,7 @@ steps:
   displayName: Test
   inputs:
     command: 'test'
-    projects: '**/*.csproj'
+    projects: 'UnitTests.csproj'
     arguments: '-c Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx'
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1

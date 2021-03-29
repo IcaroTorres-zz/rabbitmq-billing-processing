@@ -1,4 +1,4 @@
-using Customers.Api.Infrastructure.Persistence;
+using Customers.Infrastructure.Persistence;
 using Library.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
