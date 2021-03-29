@@ -1,5 +1,5 @@
-﻿using Customers.Api.Application.Requests;
-using Customers.Api.Application.Responses;
+﻿using Customers.Application.Requests;
+using Customers.Application.Responses;
 using Library.Caching;
 using Library.Results;
 using MediatR;
