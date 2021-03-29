@@ -2,22 +2,11 @@ name: ci-quality-gate
 
 trigger:
 - main
-- develop
 
 pool:
   vmImage: 'windows-latest'
-  demands: java
   
 steps:
-
-- task: UseDotNet@2
-  displayName: Use dotnet sdk 
-  inputs:
-    packageType: 'sdk'
-    version: '3.1.x'
-    includePreviewVersions: true
-    performMultiLevelLookup: true
-
 - task: DotNetCoreCLI@2
   displayName: Restore
   inputs:
@@ -30,21 +19,15 @@ steps:
     organization: 'icarotorres'
     projectKey: 'IcaroTorres_rabbitmq-billing-processing'
     extraProperties: |
-      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml
-      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
-
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    projects: '**/*.csproj'
-    arguments: '-c Release --no-restore' 
+      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/TestResults/*opencover.xml
+      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/**/TestResults/*.trx
 
 - task: DotNetCoreCLI@2
   displayName: Test
   inputs:
     command: 'test'
     projects: '**/UnitTests.csproj'
-    arguments: '-c Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx'
+    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/ --logger trx'
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
   displayName: 'Run Code Analysis'
