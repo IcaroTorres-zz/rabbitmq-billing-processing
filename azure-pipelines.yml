@@ -29,9 +29,6 @@ steps:
     SonarCloud: 'Sonar Billing Processing'
     organization: 'icarotorres'
     projectKey: 'IcaroTorres_rabbitmq-billing-processing'
-    extraProperties: |
-      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml
-      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
 
 - task: DotNetCoreCLI@2
   displayName: Build
