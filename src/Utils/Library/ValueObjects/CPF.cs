@@ -8,12 +8,8 @@ namespace Library.ValueObjects
     {
         private bool _isValid;
         public bool IsValid() => _isValid;
-        private static Random _random;
+        private static readonly Random _random = new Random(123);
         private static readonly object _syncObj = new object();
-        private static void InitRandomNumber(int seed)
-        {
-            _random ??= new Random(seed);
-        }
 
         public static Cpf NewCpf()
         {
@@ -31,8 +27,7 @@ namespace Library.ValueObjects
         {
             lock (_syncObj)
             {
-                InitRandomNumber(123456);
-                ulong number = (ulong)_random.Next(100000000, 999999999);
+                ulong number = (ulong)_random.Next(1, 999999999);
                 var seed = number.ToString("000000000");
                 var digit1 = GenerateVerifierDigit1(seed);
                 var digit2 = GenerateVerifierDigit2(seed, digit1);
