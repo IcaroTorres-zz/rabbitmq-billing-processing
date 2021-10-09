@@ -43,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sonar/scanner/dotnet-sonarscanner begin /k:"IcaroTorres_rabbitmq-billing-processing" /o:"icarotorres" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/UnitTests/**/coverage.opencover.xml" /d:sonar.cs.vstest.reportsPaths="**/UnitTests/TestResults/*.trx"
+          sonar/scanner/dotnet-sonarscanner begin /k:"IcaroTorres_rabbitmq-billing-processing" /o:"icarotorres" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.verbose=true /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/UnitTests/**/coverage.opencover.xml" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.cs.vstest.reportsPaths="**/UnitTests/TestResults/*.trx"
           dotnet build BillingProcessing.sln
-          dotnet test UnitTests/ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=UnitTests/TestResults/ --logger trx --logger trx
+          dotnet test src/Tests/UnitTests/ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=UnitTests/TestResults/ --logger trx
           sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
