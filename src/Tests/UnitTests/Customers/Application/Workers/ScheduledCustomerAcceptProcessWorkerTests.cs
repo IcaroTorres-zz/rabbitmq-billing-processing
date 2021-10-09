@@ -7,9 +7,6 @@ using Moq;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using UnitTests.Customers.Helpers;
 using Xunit;
@@ -24,12 +21,7 @@ namespace UnitTests.Customers.Application.Workers
         {
             // arrange
             const string expectedQueuename = "sample";
-            MockBuildConsumerDependencies(
-                expectedQueuename,
-                out Mock<IModel> channelMock,
-                out Expression<Action<IModel>> queueDeclareExpression,
-                out Expression<Action<IModel>> basicQosExpression,
-                out Mock<IConnectionFactory> connectionFactoryMock);
+            MockBuildConsumerDependencies(out var channelMock, out var connectionFactoryMock);
 
             var repositoryFactoryMock = new Mock<ICustomerRepositoryFactory>();
             var logger = new Mock<ILogger<ScheduledCustomerAcceptProcessWorker>>();
@@ -38,34 +30,33 @@ namespace UnitTests.Customers.Application.Workers
                 connectionFactoryMock.Object, repositoryFactoryMock.Object, logger.Object);
 
             // act
-            var result = sut.BuildConsumer(expectedQueuename);
+
+            var (consumer, channel) = sut.BuildConsumerAndChanel(expectedQueuename, connectionFactoryMock.Object);
 
             //assert
-            result.Should().NotBeNull()
+            consumer.Should().NotBeNull()
                 .And.BeOfType<EventingBasicConsumer>()
                 .And.BeAssignableTo<IBasicConsumer>();
-            result.Model.Should().NotBeNull().And.Be(channelMock.Object);
-            channelMock.Verify(queueDeclareExpression, Times.Once());
-            channelMock.Verify(basicQosExpression, Times.Once());
+            channel.Should().NotBeNull().And.Be(channelMock.Object);
         }
 
         [Fact]
         public async Task WriteCustomersMessage_Should_GenerateDeserializableMathingCustomersAsync()
         {
             // arrange
+            MockBuildConsumerDependencies(out _, out var connectionFactoryMock);
             var expectedCustomers = InternalFakes.Customers.Valid().Generate(2);
             var repository = CustomerRepositoryMockBuilder.Create()
                 .GetAll(expectedCustomers).Build();
             var repositoryFactoryMock = new Mock<ICustomerRepositoryFactory>();
             repositoryFactoryMock.Setup(x => x.CreateRepository()).Returns(repository);
 
-            var connectionFactoryMock = new Mock<IConnectionFactory>();
             var logger = new Mock<ILogger<ScheduledCustomerAcceptProcessWorker>>();
             var sut = new ScheduledCustomerAcceptProcessWorker(
                 connectionFactoryMock.Object, repositoryFactoryMock.Object, logger.Object);
 
             // act
-            var result = await sut.WriteCustomersMessage();
+            var result = await sut.WriteResponseMessage();
             var serialized = JsonConvert.DeserializeObject<Customer[]>(result);
 
             //assert
@@ -73,19 +64,9 @@ namespace UnitTests.Customers.Application.Workers
             serialized.Should().NotBeNull().And.BeEquivalentTo(expectedCustomers);
         }
 
-        private static void MockBuildConsumerDependencies(string expectedQueuename, out Mock<IModel> channelMock, out Expression<Action<IModel>> queueDeclareExpression, out Expression<Action<IModel>> basicQosExpression, out Mock<IConnectionFactory> connectionFactoryMock)
+        private static void MockBuildConsumerDependencies(out Mock<IModel> channelMock, out Mock<IConnectionFactory> connectionFactoryMock)
         {
             channelMock = new Mock<IModel>();
-            queueDeclareExpression = x => x.QueueDeclare(
-                expectedQueuename,
-                It.IsAny<bool>(),
-                It.IsAny<bool>(),
-                It.IsAny<bool>(),
-                It.IsAny<IDictionary<string, object>>());
-            channelMock.Setup(queueDeclareExpression).Verifiable();
-            basicQosExpression = x => x.BasicQos(0, 1, false);
-            channelMock.Setup(basicQosExpression).Verifiable();
-
             var connectionMock = new Mock<IConnection>();
             connectionMock.Setup(x => x.CreateModel()).Returns(channelMock.Object);
             connectionFactoryMock = new Mock<IConnectionFactory>();
