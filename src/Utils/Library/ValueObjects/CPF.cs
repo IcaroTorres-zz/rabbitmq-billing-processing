@@ -6,6 +6,8 @@ namespace Library.ValueObjects
 {
     public class Cpf : ValueOf<ulong, Cpf>
     {
+        private const int MinRandomNumberValue = 1000000;
+        private const int MaxRandomNumberValue = 900000000;
         private bool _isValid;
         public bool IsValid() => _isValid;
         private static readonly Random _random = new Random(123);
@@ -29,7 +31,7 @@ namespace Library.ValueObjects
         {
             lock (_syncObj)
             {
-                ulong number = (ulong)_random.Next(1, 999999999);
+                ulong number = (ulong)_random.Next(MinRandomNumberValue, MaxRandomNumberValue);
                 var seed = number.ToString("000000000");
                 var digit1 = GenerateVerifierDigit1(seed);
                 var digit2 = GenerateVerifierDigit2(seed, digit1);
