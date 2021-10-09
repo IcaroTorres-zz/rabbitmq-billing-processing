@@ -1,4 +1,4 @@
-﻿namespace Processing.Scheduled.Worker.Services
+﻿namespace Library.Messaging
 {
     public interface IRpcClient<T>
     {
