@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<ProjectGuid>{7603D463-4228-4FA4-8867-D993EC1F97BC}</ProjectGuid>
+		<SonarQubeTestProject>true</SonarQubeTestProject>
 		<IsPackable>false</IsPackable>
 		<TargetLatestRuntimePatch>false</TargetLatestRuntimePatch>
 	</PropertyGroup>

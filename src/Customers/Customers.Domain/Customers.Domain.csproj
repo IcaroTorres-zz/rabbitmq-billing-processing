@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-		<ProjectGuid>{940D001F-F1FD-4C03-BAD1-B51DE0E33B05}</ProjectGuid>
+		<SonarQubeTestProject>false</SonarQubeTestProject>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-		<ProjectGuid>{597E5166-7ED5-4F46-961D-F83A1C715AF1}</ProjectGuid>
+		<SonarQubeTestProject>false</SonarQubeTestProject>
   </PropertyGroup>
 
   <ItemGroup>
