@@ -13,6 +13,7 @@
     <OutputType>Exe</OutputType>
 		<LangVersion>8.0</LangVersion>
 		<SonarQubeTestProject>false</SonarQubeTestProject>
+		<SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
 
 </Project>

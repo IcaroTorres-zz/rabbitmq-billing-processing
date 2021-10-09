@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>8.0</LangVersion>
 		<SonarQubeTestProject>false</SonarQubeTestProject>
+		<SonarQubeExclude>true</SonarQubeExclude>
     <!-- documentacao xml lida pelo swagger-->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>

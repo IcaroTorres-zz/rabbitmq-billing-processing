@@ -3,6 +3,7 @@
   <PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<SonarQubeTestProject>false</SonarQubeTestProject>
+		<SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="MediatR" Version="9.0.0" />
