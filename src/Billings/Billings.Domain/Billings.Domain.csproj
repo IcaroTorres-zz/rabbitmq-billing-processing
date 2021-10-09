@@ -9,7 +9,11 @@
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
 		<PackageReference Include="MongoDB.Driver" Version="2.12.0" />
 	</ItemGroup>
-
+	<ItemGroup>
+		<SonarQubeSetting Include="sonar.stylecop.projectFilePath">
+			<Value>$(MSBuildProjectFullPath)</Value>
+		</SonarQubeSetting>
+	</ItemGroup>
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
 			<_Parameter1>UnitTests</_Parameter1>
