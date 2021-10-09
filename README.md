@@ -4,23 +4,13 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=alert_status)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=coverage)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 
-## Description
-
-In this repo I'll demonstrate different approaches to solving a fictitious Customer Billing Processing scenario.
-For such end are used .Net core 3.1, RabbitMQ, MongoDB Atlas, Redis Distributed Cache, Sqlite, Rest APIs and Console Workers.
-
 ## Purpose
 
+Demonstrates different approaches to solving a fictitious Customer Billing Processing scenario.
 The solutions are made with the intention of experimenting and practicing techniques used in the composition of microservices architectures,
 without relying on paid licenses, hardware and software installation.
-
-## Requirements
-
- - .Net Core 3.1
- - A compatible IDE
- - Internet (as all services used are cloud-based).
- 
- This repo was designed to have only self-contained solutions, executable without installations, except for the nuget packages used.
+For such end are used .Net core 3.1, RabbitMQ, MongoDB Atlas, Redis Distributed Cache, Sqlite, Rest APIs and Console Workers.
+This repo was designed to have only self-contained solutions, executable without installations, except for the nuget packages used.
 
 ## Stack
 
@@ -30,13 +20,9 @@ without relying on paid licenses, hardware and software installation.
 - **[RedisCloud](https://redislabs.com/redis-enterprise-cloud/overview/)** - NoSql Distributed Cache
 - **[Sqlite](https://www.sqlite.org/)** - Sql Database (generated through nuget packages and via migrations)
 
-## Protocols
+## Used Protocols
 
 HTTP, AMQP, RPC and Redis
-
-## Disclaimer
-
-> For the sake of simplicity, all applications here were written as 'One Class Library Project' due to containing many of them together per solution for demonstration purposes. But the layers are split and often represented by the folders 'Application', 'Infrastructure', and 'Domain', with the Presentation as the project Itself.
 
 ## Scenario
 
@@ -51,7 +37,7 @@ HTTP, AMQP, RPC and Redis
 ### A Service that calculates the value of customer charges.
 - Its process consists of consulting all registered customers, calculating and registering charges as quickly as possible (Using the two APIs built in the previous steps). The calculation is made as follows: first 2 digits of the CPF concatenated to the last 2 digits of the customer's CPF. For example, on CPF 12345678, the amount charged will be R$ 1278.00.
 
-## Solution
+## Solution design
 
 ### Web APIs
 
