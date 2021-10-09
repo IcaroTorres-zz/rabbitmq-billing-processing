@@ -13,8 +13,10 @@ namespace Library.ValueObjects
 
         public static Cpf NewCpf()
         {
-            var value = GenerateRandom();
-            return From(value);
+            Cpf cpf;
+            do { cpf = From(GenerateRandom()); }
+            while (!cpf.IsValid());
+            return cpf;
         }
 
         public static bool TryParse(string value, out ulong parsedValue)
@@ -69,24 +71,24 @@ namespace Library.ValueObjects
 
         private static byte GenerateVerifierDigit1(ReadOnlySpan<char> seed)
         {
-            int[] multiplier1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            var multiplier1 = new byte[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             var sum = SumIteratedMultipliers(multiplier1, seed);
             return Mod11(sum);
         }
 
         private static byte GenerateVerifierDigit2(ReadOnlySpan<char> seed, byte verifierDigit1)
         {
-            int[] multiplier2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            var multiplier2 = new byte[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             var sum = SumIteratedMultipliers(multiplier2, seed);
             sum += verifierDigit1 * multiplier2[^1];
             return Mod11(sum);
         }
 
-        private static int SumIteratedMultipliers(int[] multiplier1, ReadOnlySpan<char> seed)
+        private static int SumIteratedMultipliers(byte[] multiplier, ReadOnlySpan<char> seed)
         {
             int sum = 0;
-            for (int i = 0; i < 9; i++)
-                sum += (seed[i] - '0') * multiplier1[i];
+            for (byte i = 0; i < 9; i++)
+                sum += (seed[i] - '0') * multiplier[i];
             return sum;
         }
 
