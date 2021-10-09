@@ -2,11 +2,11 @@
 
 namespace Benchmarks
 {
-  public static class Program
-  {
-    public static void Main(string[] args)
+    public static class Program
     {
-      var summary = BenchmarkRunner.Run<ScheduledProcessorWorkerBehchmark>();
+        public static void Main(string[] args)
+        {
+            var summary = BenchmarkRunner.Run<ScheduledProcessorWorkerBehchmark>();
+        }
     }
-  }
 }

@@ -10,48 +10,48 @@ using System.Threading.Tasks;
 namespace Library.Caching
 {
 
-  [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-  public class CacheAttribute : ActionFilterAttribute
-  {
-    private readonly int _timeToLiveSeconds;
-
-    public CacheAttribute(int timeToLiveSeconds)
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class CacheAttribute : ActionFilterAttribute
     {
-      _timeToLiveSeconds = timeToLiveSeconds;
-    }
+        private readonly int _timeToLiveSeconds;
 
-    public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-    {
-      if (context.HttpContext.RequestServices.GetService(typeof(RedisSettings)) is RedisSettings)
-      {
-        var cacheService = context.HttpContext.RequestServices.GetRequiredService<ICacheService>();
-        var cacheKey = context.HttpContext.Request.Path;
-        var cachedResponse = await cacheService.GetAsync(cacheKey);
-
-        if (cachedResponse != null)
+        public CacheAttribute(int timeToLiveSeconds)
         {
-          context.HttpContext.Response.ContentType = "application/json";
-          await context.HttpContext.Response.WriteAsync(cachedResponse);
-          return;
+            _timeToLiveSeconds = timeToLiveSeconds;
         }
 
-        var executedContext = await next();
-
-        if (executedContext.Result is IResult result && result.IsSuccess())
+        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-          var cacheContent = JsonConvert.SerializeObject(result.Value, new JsonSerializerSettings
-          {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            NullValueHandling = NullValueHandling.Ignore,
-            Formatting = Formatting.None,
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-          });
-          await cacheService.SetAsync(cacheKey, cacheContent, _timeToLiveSeconds);
-        }
-        return;
-      }
+            if (context.HttpContext.RequestServices.GetService(typeof(RedisSettings)) is RedisSettings)
+            {
+                var cacheService = context.HttpContext.RequestServices.GetRequiredService<ICacheService>();
+                var cacheKey = context.HttpContext.Request.Path;
+                var cachedResponse = await cacheService.GetAsync(cacheKey);
 
-      await next();
+                if (cachedResponse != null)
+                {
+                    context.HttpContext.Response.ContentType = "application/json";
+                    await context.HttpContext.Response.WriteAsync(cachedResponse);
+                    return;
+                }
+
+                var executedContext = await next();
+
+                if (executedContext.Result is IResult result && result.IsSuccess())
+                {
+                    var cacheContent = JsonConvert.SerializeObject(result.Value, new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        NullValueHandling = NullValueHandling.Ignore,
+                        Formatting = Formatting.None,
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    });
+                    await cacheService.SetAsync(cacheKey, cacheContent, _timeToLiveSeconds);
+                }
+                return;
+            }
+
+            await next();
+        }
     }
-  }
 }
