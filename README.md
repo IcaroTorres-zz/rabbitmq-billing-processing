@@ -1,6 +1,6 @@
 # RabbitMq-Billing-Processing
 
-[![Build Status](https://dev.azure.com/icarostuart/RabbitMQ%20Billing%20Processing/_apis/build/status/ci-sonarcloud?branchName=main)](https://dev.azure.com/icarostuart/RabbitMQ%20Billing%20Processing/_build/latest?definitionId=7&branchName=main)
+[![github-actions](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-build-test.yaml/badge.svg)](https://github.com/IcaroTorres/rabbitmq-billing-processing/actions/workflows/ci-build-test.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=alert_status)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=IcaroTorres_rabbitmq-billing-processing&metric=coverage)](https://sonarcloud.io/dashboard?id=IcaroTorres_rabbitmq-billing-processing)
 
