@@ -10,6 +10,7 @@ using RabbitMQ.Client.Events;
 using System.Threading.Tasks;
 using UnitTests.Customers.Helpers;
 using Xunit;
+using static Library.TestHelpers.Fakes;
 
 namespace UnitTests.Customers.Application.Workers
 {
@@ -24,24 +25,47 @@ namespace UnitTests.Customers.Application.Workers
             MockBuildConsumerDependencies(out var channelMock, out var connectionFactoryMock);
 
             var repositoryFactoryMock = new Mock<ICustomerRepositoryFactory>();
-            var logger = new Mock<ILogger<ScheduledCustomerAcceptProcessWorker>>();
+            var logger = new Mock<ILogger>();
 
             var sut = new ScheduledCustomerAcceptProcessWorker(
                 connectionFactoryMock.Object, repositoryFactoryMock.Object, logger.Object);
 
             // act
 
-            var (consumer, channel) = sut.BuildConsumerAndChanel(expectedQueuename, connectionFactoryMock.Object);
+            var consumer = sut.BuildConsumer(expectedQueuename, connectionFactoryMock.Object);
 
             //assert
             consumer.Should().NotBeNull()
                 .And.BeOfType<EventingBasicConsumer>()
                 .And.BeAssignableTo<IBasicConsumer>();
-            channel.Should().NotBeNull().And.Be(channelMock.Object);
+            consumer.Model.Should().NotBeNull().And.Be(channelMock.Object);
         }
 
         [Fact]
-        public async Task WriteCustomersMessage_Should_GenerateDeserializableMathingCustomersAsync()
+        public async Task HandleReceivedMessage_Should_GenerateDeserializableMathingBillingsAsync()
+        {
+            // arrange
+            MockBuildConsumerDependencies(out _, out var connectionFactoryMock);
+            var expectedMessage = string.Empty;
+            var deliverEventArgs = DeliverEventArgs.WithBody(expectedMessage).Generate();
+            var repository = CustomerRepositoryMockBuilder.Create().Build();
+            var repositoryFactoryMock = new Mock<ICustomerRepositoryFactory>();
+            repositoryFactoryMock.Setup(x => x.CreateRepository()).Returns(repository);
+            var logger = new Mock<ILogger>();
+            var sut = new ScheduledCustomerAcceptProcessWorker(
+                connectionFactoryMock.Object, repositoryFactoryMock.Object, logger.Object);
+
+            // act
+            var (receivedValue, receivedMessage) = await sut.HandleReceivedMessage(deliverEventArgs);
+
+            //assert
+            receivedValue.Should().BeNull();
+            receivedMessage.Should().BeNullOrEmpty().And.Be(expectedMessage);
+        }
+
+
+        [Fact]
+        public async Task WriteResponseMessage_Should_GenerateDeserializableMathingCustomersAsync()
         {
             // arrange
             MockBuildConsumerDependencies(out _, out var connectionFactoryMock);
@@ -51,12 +75,12 @@ namespace UnitTests.Customers.Application.Workers
             var repositoryFactoryMock = new Mock<ICustomerRepositoryFactory>();
             repositoryFactoryMock.Setup(x => x.CreateRepository()).Returns(repository);
 
-            var logger = new Mock<ILogger<ScheduledCustomerAcceptProcessWorker>>();
+            var logger = new Mock<ILogger>();
             var sut = new ScheduledCustomerAcceptProcessWorker(
                 connectionFactoryMock.Object, repositoryFactoryMock.Object, logger.Object);
 
             // act
-            var result = await sut.WriteResponseMessage();
+            var result = await sut.WriteResponseMessage(default);
             var serialized = JsonConvert.DeserializeObject<Customer[]>(result);
 
             //assert

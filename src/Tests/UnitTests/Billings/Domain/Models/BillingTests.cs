@@ -31,7 +31,7 @@ namespace UnitTests.Billings.Domain.Models
             // arrange and act
             var expectedCpf = Fakes.CPFs.Valid().Generate();
             const double expectedAmount = 12345;
-            var expectedDate = InternalFakes.Dates.Future(1).Generate();
+            var expectedDate = InternalFakes.Dates.FutureDay(1).Generate();
             var expectedId = Guid.NewGuid();
 
             var sut = new Billing
@@ -61,7 +61,7 @@ namespace UnitTests.Billings.Domain.Models
             var expectedId = Guid.NewGuid();
             var expectedCpf = Fakes.CPFs.Valid().Generate();
             const double expectedAmount = 12345;
-            var expectedDate = InternalFakes.Dates.Future(1).Generate();
+            var expectedDate = InternalFakes.Dates.FutureDay(1).Generate();
 
             // act
             sut.Id = expectedId;

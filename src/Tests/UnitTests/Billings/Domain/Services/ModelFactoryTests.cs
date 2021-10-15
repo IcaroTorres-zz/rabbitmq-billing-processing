@@ -19,7 +19,7 @@ namespace UnitTests.Billings.Domain.Services
             var sut = new ModelFactory();
             var expectedCpf = Fakes.CPFs.Valid().Generate();
             var expectedAmount = new Faker().Random.Double(10, 10000);
-            var expectedDate = InternalFakes.Dates.Future(5).Generate();
+            var expectedDate = InternalFakes.Dates.FutureDay(5).Generate();
 
             // act
             var result = sut.CreateBilling(expectedCpf.ToString(), expectedAmount, expectedDate.ToString());

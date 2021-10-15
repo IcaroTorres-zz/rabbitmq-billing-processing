@@ -27,7 +27,7 @@ namespace UnitTests.Billings.Domain.Models
         public void Constructor_AssigningValues_Should_Create_With_Props_For_GivenValues()
         {
             // arrange
-            var expectedDateValues = InternalFakes.Dates.Future(1).Generate();
+            var expectedDateValues = InternalFakes.Dates.FutureDay(1).Generate();
 
             // act
             var sut = new Date
@@ -48,7 +48,7 @@ namespace UnitTests.Billings.Domain.Models
         public void Constructor_WithParam_Should_Create_With_Props_For_GivenValues()
         {
             // arrange
-            var expectedDateValues = InternalFakes.Dates.Future(1).Generate();
+            var expectedDateValues = InternalFakes.Dates.FutureDay(1).Generate();
 
             // act
             var sut = new Date(expectedDateValues.ToString());
@@ -68,7 +68,7 @@ namespace UnitTests.Billings.Domain.Models
             var previousDay = sut.Day;
             var previousMonth = sut.Month;
             var previousYear = sut.Year;
-            var expectedDateValues = InternalFakes.Dates.Future(1).Generate();
+            var expectedDateValues = InternalFakes.Dates.FutureDay(1).Generate();
 
             // act
             sut.Day = expectedDateValues.Day;

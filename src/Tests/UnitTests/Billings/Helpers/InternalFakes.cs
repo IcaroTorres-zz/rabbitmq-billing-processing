@@ -1,7 +1,10 @@
 ﻿using Billings.Application.Models;
 using Billings.Domain.Models;
 using Bogus;
+using Newtonsoft.Json;
+using RabbitMQ.Client.Events;
 using System;
+using System.Text;
 using static Library.TestHelpers.Fakes;
 
 namespace UnitTests.Billings.Helpers
@@ -14,7 +17,7 @@ namespace UnitTests.Billings.Helpers
                 .RuleFor(x => x.Id, Guid.NewGuid)
                 .RuleFor(x => x.Cpf, CPFs.Valid().Generate())
                 .RuleFor(x => x.Amount, x => x.Random.Double(1, 2000))
-                .RuleFor(x => x.DueDate, Dates.Future(1));
+                .RuleFor(x => x.DueDate, Dates.FutureDay(1));
 
             public static Faker<Billing> Processed() => Valid()
                 .RuleFor(x => x.ProcessedAt, DateTime.UtcNow);
@@ -22,7 +25,7 @@ namespace UnitTests.Billings.Helpers
 
         public static class Dates
         {
-            public static Faker<Date> Future(int days) => new Faker<Date>()
+            public static Faker<Date> FutureDay(int days) => new Faker<Date>()
                 .CustomInstantiator(x =>
                 {
                     var date = x.Date.Soon(days);
@@ -34,10 +37,10 @@ namespace UnitTests.Billings.Helpers
                     };
                 });
 
-            public static Faker<Date> Past() => new Faker<Date>()
+            public static Faker<Date> PastDay() => new Faker<Date>()
                 .CustomInstantiator(x =>
                 {
-                    var date = x.Date.Past(2);
+                    var date = x.Date.Recent(2);
                     return new Date
                     {
                         Day = (byte)date.Day,
@@ -52,7 +55,7 @@ namespace UnitTests.Billings.Helpers
             public static Faker<BillingRequest> Valid() => new Faker<BillingRequest>()
                 .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString())
                 .RuleFor(x => x.Amount, x => x.Random.Double(10, 2000))
-                .RuleFor(x => x.DueDate, Dates.Future(5).Generate().ToString());
+                .RuleFor(x => x.DueDate, Dates.FutureDay(5).Generate().ToString());
 
             public static Faker<BillingRequest> InvalidCpf() => Valid()
                 .RuleFor(x => x.Cpf, CPFs.Invalid.ToString());
@@ -61,7 +64,7 @@ namespace UnitTests.Billings.Helpers
                 .RuleFor(x => x.Amount, -10);
 
             public static Faker<BillingRequest> InvalidDueDate() => Valid()
-                .RuleFor(x => x.DueDate, Dates.Past().Generate().ToString());
+                .RuleFor(x => x.DueDate, Dates.PastDay().Generate().ToString());
         }
 
         public static class GetBillingsRequests
@@ -70,10 +73,10 @@ namespace UnitTests.Billings.Helpers
                 .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString());
 
             public static Faker<GetBillingsRequest> ValidWithMonth() => new Faker<GetBillingsRequest>()
-                .RuleFor(x => x.Month, Dates.Past().Generate().ToString()[3..]);
+                .RuleFor(x => x.Month, Dates.PastDay().Generate().ToString()[3..]);
 
             public static Faker<GetBillingsRequest> ValidWithCpfAndMonth() => ValidWithCpf()
-                .RuleFor(x => x.Month, Dates.Past().Generate().ToString()[3..]);
+                .RuleFor(x => x.Month, Dates.PastDay().Generate().ToString()[3..]);
 
             public static Faker<GetBillingsRequest> InvalidEmpty() => new Faker<GetBillingsRequest>()
                 .CustomInstantiator(_ => new GetBillingsRequest());
