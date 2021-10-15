@@ -10,41 +10,19 @@ using System.Threading.Tasks;
 
 namespace Library.Messaging
 {
-    public abstract class RpcServer<T> : BackgroundService, IRpcServer<T> where T : IRpcServer<T>
+    public abstract class RpcServer<T> : BackgroundService, IRpcServer<T>
     {
         public EventHandler<BasicDeliverEventArgs> OnMessageReceived => OnMessageReceivedEventHandler;
         protected readonly EventingBasicConsumer _consumer;
-        protected readonly IModel _channel;
-        protected readonly ILogger<T> _logger;
+        protected readonly ILogger _logger;
 
-        protected RpcServer(string queueName, IConnectionFactory connectionFactory, ILogger<T> logger)
+        protected RpcServer(string queueName, IConnectionFactory connectionFactory, ILogger logger)
         {
-            (_consumer, _channel) = BuildConsumerAndChanel(queueName, connectionFactory);
             _logger = logger;
+            _consumer = BuildConsumer(queueName, connectionFactory);
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            _consumer.Received += OnMessageReceived;
-            return Task.CompletedTask;
-        }
-
-        protected async void OnMessageReceivedEventHandler(object model, BasicDeliverEventArgs ea)
-        {
-            OnMessageReceivedStarts(ea);
-            string response = string.Empty;
-            IBasicProperties replyProperties = CreateBasicProperties(ea);
-            try
-            {
-                OnMessageReaded(ea, await HandleReceivedMessage(ea));
-                response = await WriteResponseMessage();
-                OnResponseWritten(ea, response);
-            }
-            catch (Exception ex) { OnMessageReceivedException(ea, ex); }
-            finally { OnMessageReceivedEnds(ea, _channel, response, ea.BasicProperties, replyProperties); }
-        }
-
-        public virtual (EventingBasicConsumer, IModel) BuildConsumerAndChanel(string queueName, IConnectionFactory connectionFactory)
+        public virtual EventingBasicConsumer BuildConsumer(string queueName, IConnectionFactory connectionFactory)
         {
             var connection = connectionFactory.CreateConnection();
             var channel = connection.CreateModel();
@@ -58,20 +36,42 @@ namespace Library.Messaging
 
             var consumer = new EventingBasicConsumer(channel);
             channel.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
-            Console.WriteLine($"Awaiting RPC requests for queue {queueName}");
-            return (consumer, channel);
+            _logger.LogInformation($"Awaiting RPC requests for queue {queueName}");
+            return consumer;
         }
 
         public virtual IBasicProperties CreateBasicProperties(BasicDeliverEventArgs ea)
         {
-            var replyProperties = _channel.CreateBasicProperties();
+            var replyProperties = _consumer.Model.CreateBasicProperties();
             replyProperties.CorrelationId = ea.BasicProperties.CorrelationId;
             return replyProperties;
         }
 
-        public abstract Task<string> HandleReceivedMessage(BasicDeliverEventArgs ea);
+        public abstract Task<(T receivedValue, string receivedMessage)> HandleReceivedMessage(BasicDeliverEventArgs ea);
 
-        public abstract Task<string> WriteResponseMessage();
+        public abstract Task<string> WriteResponseMessage(T receivedValue);
+
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            _consumer.Received += OnMessageReceived;
+            return Task.CompletedTask;
+        }
+
+        protected async void OnMessageReceivedEventHandler(object model, BasicDeliverEventArgs ea)
+        {
+            OnMessageReceivedStarts(ea);
+            string responseMessage = string.Empty;
+            IBasicProperties replyProperties = CreateBasicProperties(ea);
+            try
+            {
+                var (receivedValue, receivedMessage) = await HandleReceivedMessage(ea);
+                OnMessageReaded(ea, receivedMessage);
+                responseMessage = await WriteResponseMessage(receivedValue);
+                OnResponseWritten(ea, responseMessage);
+            }
+            catch (Exception ex) { OnMessageReceivedException(ea, ex); }
+            finally { OnMessageReceivedEnds(ea, _consumer.Model, responseMessage, ea.BasicProperties, replyProperties); }
+        }
 
         protected virtual void OnMessageReceivedStarts(BasicDeliverEventArgs ea)
         {
@@ -83,9 +83,9 @@ namespace Library.Messaging
             _logger.LogInformation($"Readed on CorrelationId: {ea.BasicProperties.CorrelationId}, RoutingKey: {ea.RoutingKey}, DeliveryTag: {ea.DeliveryTag}, Body: {receivedMessage}.");
         }
 
-        protected virtual void OnResponseWritten(BasicDeliverEventArgs ea, string response)
+        protected virtual void OnResponseWritten(BasicDeliverEventArgs ea, string responseMessage)
         {
-            _logger.LogInformation($"Responded on CorrelationId: {ea.BasicProperties.CorrelationId}, RoutingKey: {ea.RoutingKey}, DeliveryTag: {ea.DeliveryTag}, ReplyMessage: {response}");
+            _logger.LogInformation($"Responded on CorrelationId: {ea.BasicProperties.CorrelationId}, RoutingKey: {ea.RoutingKey}, DeliveryTag: {ea.DeliveryTag}, ReplyMessage: {responseMessage}");
         }
 
         protected virtual void OnMessageReceivedException(BasicDeliverEventArgs ea, Exception ex)

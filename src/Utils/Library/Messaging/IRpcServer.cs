@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Library.Messaging
 {
-    public interface IRpcServer<T> : IHostedService, IDisposable where T : IRpcServer<T>
+    public interface IRpcServer<T> : IHostedService, IDisposable
     {
         EventHandler<BasicDeliverEventArgs> OnMessageReceived { get; }
-        (EventingBasicConsumer, IModel) BuildConsumerAndChanel(string queueName, IConnectionFactory connectionFactory);
+        EventingBasicConsumer BuildConsumer(string queueName, IConnectionFactory connectionFactory);
         IBasicProperties CreateBasicProperties(BasicDeliverEventArgs ea);
-        Task<string> HandleReceivedMessage(BasicDeliverEventArgs ea);
-        Task<string> WriteResponseMessage();
+        Task<(T receivedValue, string receivedMessage)> HandleReceivedMessage(BasicDeliverEventArgs ea);
+        Task<string> WriteResponseMessage(T receivedValue);
     }
 }
