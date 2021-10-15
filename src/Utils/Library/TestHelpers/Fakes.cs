@@ -1,6 +1,9 @@
 ﻿using Bogus;
 using Library.ValueObjects;
+using Newtonsoft.Json;
+using RabbitMQ.Client.Events;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Library.TestHelpers
 {
@@ -29,6 +32,19 @@ namespace Library.TestHelpers
         {
             public static readonly string Valid = new Faker().Name.FullName();
             public static readonly string Empty = "";
+        }
+
+        public static class DeliverEventArgs
+        {
+            public static Faker<BasicDeliverEventArgs> WithBody<T>(T value)
+            {
+                return new Faker<BasicDeliverEventArgs>().CustomInstantiator(x =>
+                {
+                    var stringValue = JsonConvert.SerializeObject(value);
+                    var bytes = Encoding.UTF8.GetBytes(stringValue);
+                    return new BasicDeliverEventArgs { Body = bytes };
+                });
+            }
         }
     }
 }
