@@ -9,19 +9,18 @@ using System.Threading.Tasks;
 
 namespace Customers.Application.Workers
 {
-    public class ScheduledCustomerAcceptProcessWorker : RpcServer<ScheduledCustomerAcceptProcessWorker>
+    public class ScheduledCustomerAcceptProcessWorker : RpcServer<object>
     {
         private readonly ICustomerRepositoryFactory _repositoryFactory;
 
-        public ScheduledCustomerAcceptProcessWorker(IConnectionFactory factory, ICustomerRepositoryFactory repositoryFactory, ILogger<ScheduledCustomerAcceptProcessWorker> logger)
-            : base(nameof(Customer), factory, logger)
+        public ScheduledCustomerAcceptProcessWorker(IConnectionFactory factory, ICustomerRepositoryFactory repositoryFactory, ILogger logger) : base(nameof(Customer), factory, logger)
         {
             _repositoryFactory = repositoryFactory;
         }
 
-        public override Task<string> HandleReceivedMessage(BasicDeliverEventArgs ea) => Task.FromResult(string.Empty);
+        public override Task<(object receivedValue, string receivedMessage)> HandleReceivedMessage(BasicDeliverEventArgs ea) => Task.FromResult((default(object), string.Empty));
 
-        public override async Task<string> WriteResponseMessage()
+        public override async Task<string> WriteResponseMessage(object receivedValue)
         {
             var repository = _repositoryFactory.CreateRepository();
             var customers = await repository.GetAllAsync();

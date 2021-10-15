@@ -11,34 +11,36 @@ using System.Threading.Tasks;
 
 namespace Billings.Application.Workers
 {
-    public class ScheduledBillingsToProcessWorker : RpcServer<ScheduledBillingsToProcessWorker>
+    public class ScheduledBillingsToProcessWorker : RpcServer<List<Billing>>
     {
         private readonly IBillingRepository _repository;
 
-        public ScheduledBillingsToProcessWorker(IConnectionFactory factory, IBillingRepository repository, ILogger<ScheduledBillingsToProcessWorker> logger) : base(nameof(Billing), factory, logger)
+        public ScheduledBillingsToProcessWorker(IConnectionFactory factory, IBillingRepository repository, ILogger logger) : base(nameof(Billing), factory, logger)
         {
             _repository = repository;
         }
 
-        public override async Task<string> HandleReceivedMessage(BasicDeliverEventArgs ea)
-        {
-            var body = ea.Body.ToArray();
-            var processedBatchReceivedMessage = await HandleProcessedBatchMessage(body);
-            return processedBatchReceivedMessage;
-        }
-
-        public override async Task<string> WriteResponseMessage()
-        {
-            var pendingProcessing = await _repository.GetPendingAsync(default);
-            return JsonConvert.SerializeObject(pendingProcessing);
-        }
-
-        internal async Task<string> HandleProcessedBatchMessage(byte[] body)
+        internal async Task<(List<Billing> receivedValue, string receivedMessage)> HandleProcessedBatchMessage(byte[] body)
         {
             var receivedMessage = Encoding.UTF8.GetString(body);
             var processedBatch = JsonConvert.DeserializeObject<List<Billing>>(receivedMessage);
             await _repository.UpdateProcessedBatchAsync(processedBatch);
-            return receivedMessage;
+            return (processedBatch, receivedMessage);
+        }
+
+        public override async Task<(List<Billing> receivedValue, string receivedMessage)> HandleReceivedMessage(BasicDeliverEventArgs ea)
+        {
+            var body = ea.Body.ToArray();
+            var receivedMessage = Encoding.UTF8.GetString(body);
+            var processedBatch = JsonConvert.DeserializeObject<List<Billing>>(receivedMessage);
+            await _repository.UpdateProcessedBatchAsync(processedBatch);
+            return (processedBatch, receivedMessage);
+        }
+
+        public override async Task<string> WriteResponseMessage(List<Billing> receivedValue)
+        {
+            var pendingProcessing = await _repository.GetPendingAsync(default);
+            return JsonConvert.SerializeObject(pendingProcessing);
         }
     }
 }

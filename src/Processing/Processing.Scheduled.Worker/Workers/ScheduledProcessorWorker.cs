@@ -50,7 +50,7 @@ namespace Processing.Scheduled.Worker.Workers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogInformation($"{DateTime.UtcNow:G} BatchId: {batch.Id}, Exceptions: {string.Join(Environment.NewLine, ex.ExtractMessages())}");
+                    _logger.LogError($"{DateTime.UtcNow:G} BatchId: {batch.Id}, Exceptions: {string.Join(Environment.NewLine, ex.ExtractMessages())}");
                 }
             }
         }
