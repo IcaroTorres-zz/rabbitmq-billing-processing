@@ -15,6 +15,26 @@ namespace UnitTests.Customers.Helpers
                 .RuleFor(x => x.Cpf, CPFs.Valid().Generate())
                 .RuleFor(x => x.Name, x => x.Name.FullName())
                 .RuleFor(x => x.State, States.Valid);
+
+            public static Faker<Customer> InvalidCpf() => new Faker<Customer>()
+                .RuleFor(x => x.Cpf, CPFs.Invalid)
+                .RuleFor(x => x.Name, x => x.Name.FullName())
+                .RuleFor(x => x.State, States.Valid);
+
+            public static Faker<Customer> EmptyName() => new Faker<Customer>()
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate())
+                .RuleFor(x => x.Name, string.Empty)
+                .RuleFor(x => x.State, States.Valid);
+
+            public static Faker<Customer> EmptyState() => new Faker<Customer>()
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate())
+                .RuleFor(x => x.Name, x => x.Name.FullName())
+                .RuleFor(x => x.State, string.Empty);
+
+            public static Faker<Customer> InvalidState() => new Faker<Customer>()
+                .RuleFor(x => x.Cpf, CPFs.Valid().Generate())
+                .RuleFor(x => x.Name, x => x.Name.FullName())
+                .RuleFor(x => x.State, "XXXX");
         }
 
         public static class RegisterCustomerRequests
@@ -32,25 +52,10 @@ namespace UnitTests.Customers.Helpers
                     request.SetupForCreation(urlHelper, routename, c => new { c.Cpf });
                 });
 
-            public static Faker<RegisterCustomerRequest> InvalidCpf() => new Faker<RegisterCustomerRequest>()
-                .RuleFor(x => x.Name, x => x.Name.FullName())
-                .RuleFor(x => x.State, States.Valid)
-                .RuleFor(x => x.Cpf, CPFs.Invalid.ToString());
-
-            public static Faker<RegisterCustomerRequest> InvalidState() => new Faker<RegisterCustomerRequest>()
+            public static Faker<RegisterCustomerRequest> Invalid() => new Faker<RegisterCustomerRequest>()
                 .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString())
                 .RuleFor(x => x.Name, x => x.Name.FullName())
                 .RuleFor(x => x.State, States.Invalid);
-
-            public static Faker<RegisterCustomerRequest> EmptyName() => new Faker<RegisterCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString())
-                .RuleFor(x => x.State, States.Valid)
-                .RuleFor(x => x.Name, "");
-
-            public static Faker<RegisterCustomerRequest> EmptyState() => new Faker<RegisterCustomerRequest>()
-                .RuleFor(x => x.Cpf, CPFs.Valid().Generate().ToString())
-                .RuleFor(x => x.Name, x => x.Name.FullName())
-                .RuleFor(x => x.State, "");
         }
 
         public static class GetCustomerRequests

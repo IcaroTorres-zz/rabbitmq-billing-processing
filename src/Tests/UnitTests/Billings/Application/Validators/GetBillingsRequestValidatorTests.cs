@@ -14,10 +14,7 @@ namespace UnitTests.Billings.Application.Validators
         {
             // arrange
             var request = InternalFakes.GetBillingsRequests.ValidWithCpf().Generate();
-            var cpfValidator = CpfValidatorMockBuilder.Create()
-                .ValidateTrue().Build();
-
-            var sut = new GetBillingsRequestValidator(cpfValidator);
+            var sut = new GetBillingsRequestValidator();
 
             // act
             var result = sut.Validate(request);
@@ -32,10 +29,7 @@ namespace UnitTests.Billings.Application.Validators
         {
             // arrange
             var request = InternalFakes.GetBillingsRequests.ValidWithMonth().Generate();
-            var cpfValidator = CpfValidatorMockBuilder.Create()
-                .ValidateTrue().Build();
-
-            var sut = new GetBillingsRequestValidator(cpfValidator);
+            var sut = new GetBillingsRequestValidator();
 
             // act
             var result = sut.Validate(request);
@@ -50,10 +44,7 @@ namespace UnitTests.Billings.Application.Validators
         {
             // arrange
             var request = InternalFakes.GetBillingsRequests.ValidWithCpfAndMonth().Generate();
-            var cpfValidator = CpfValidatorMockBuilder.Create()
-                .ValidateTrue().Build();
-
-            var sut = new GetBillingsRequestValidator(cpfValidator);
+            var sut = new GetBillingsRequestValidator();
 
             // act
             var result = sut.Validate(request);
@@ -69,10 +60,7 @@ namespace UnitTests.Billings.Application.Validators
             // arrange
             const int expectedErrorsCount = 1;
             var request = InternalFakes.GetBillingsRequests.InvalidCpf().Generate();
-            var cpfValidator = CpfValidatorMockBuilder.Create()
-                .ValidateFalse().Build();
-
-            var sut = new GetBillingsRequestValidator(cpfValidator);
+            var sut = new GetBillingsRequestValidator();
 
             // act
             var result = sut.Validate(request);
@@ -87,10 +75,7 @@ namespace UnitTests.Billings.Application.Validators
             // arrange
             const int expectedErrorsCount = 1;
             var request = InternalFakes.GetBillingsRequests.InvalidMonth().Generate();
-            var cpfValidator = CpfValidatorMockBuilder.Create()
-                .ValidateTrue().Build();
-
-            var sut = new GetBillingsRequestValidator(cpfValidator);
+            var sut = new GetBillingsRequestValidator();
 
             // act
             var result = sut.Validate(request);
@@ -105,10 +90,7 @@ namespace UnitTests.Billings.Application.Validators
             // arrange
             const int expectedErrorsCount = 1;
             var request = InternalFakes.GetBillingsRequests.InvalidEmpty().Generate();
-            var cpfValidator = CpfValidatorMockBuilder.Create()
-                .ValidateTrue().Build();
-
-            var sut = new GetBillingsRequestValidator(cpfValidator);
+            var sut = new GetBillingsRequestValidator();
 
             // act
             var result = sut.Validate(request);

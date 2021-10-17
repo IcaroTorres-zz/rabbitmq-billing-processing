@@ -13,7 +13,7 @@ using Xunit;
 namespace UnitTests.Billings.Application.Usecases
 {
     [Trait("billings", "application")]
-    public class ConfirmeProcessedBatchUsecaseTests
+    public class ConfirmProcessedBatchUsecaseTests
     {
         [Fact]
         public async Task Handle_Should_Succeed_With_ValidCommand()

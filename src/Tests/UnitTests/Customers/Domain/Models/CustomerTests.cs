@@ -10,19 +10,6 @@ namespace UnitTests.Customers.Domain.Models
     public class CustomerTests
     {
         [Fact]
-        public void Constructor_Should_Create_With_EmptyProps()
-        {
-            // arrange and act
-            var sut = new Customer();
-
-            // assert
-            sut.Should().NotBeNull().And.BeOfType<Customer>().And.NotBeAssignableTo<INull>();
-            sut.Cpf.Should().Be(0);
-            sut.Name.Should().BeNullOrEmpty();
-            sut.State.Should().BeNullOrEmpty();
-        }
-
-        [Fact]
         public void Constructor_AssigningValues_Should_Create_With_Props_For_GivenValues()
         {
             // arrange and act
@@ -30,12 +17,7 @@ namespace UnitTests.Customers.Domain.Models
             const string expectedName = "sample";
             const string expectedState = "sample";
 
-            var sut = new Customer
-            {
-                Cpf = expectedCpf,
-                Name = expectedName,
-                State = expectedState
-            };
+            var sut = new Customer { Name = expectedName, Cpf = expectedCpf, State = expectedState };
 
             sut.Should().NotBeNull().And.BeOfType<Customer>().And.NotBeAssignableTo<INull>();
             sut.Cpf.Should().Be(expectedCpf);
