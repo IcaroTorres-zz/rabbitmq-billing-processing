@@ -1,13 +1,12 @@
 ﻿using Billings.Application.Models;
 using FluentValidation;
-using Library.Validators;
 using Library.ValueObjects;
 
 namespace Billings.Application.Validators
 {
     public class GetBillingsRequestValidator : AbstractValidator<GetBillingsRequest>
     {
-        public GetBillingsRequestValidator(ICpfValidator cpfValidator)
+        public GetBillingsRequestValidator()
         {
             CascadeMode = CascadeMode.Stop;
             RuleFor(x => x)
@@ -16,7 +15,8 @@ namespace Billings.Application.Validators
                 .DependentRules(() =>
                 {
                     RuleFor(x => x.Cpf)
-                        .SetValidator(cpfValidator)
+                        .NotEmpty().WithMessage("Cpf não pode ser vazio ou nulo")
+                        .Must(x => Cpf.Validate(x)).WithMessage("Cpf inválido")
                         .When(x => !string.IsNullOrWhiteSpace(x.Cpf));
 
                     RuleFor(x => x.Month)

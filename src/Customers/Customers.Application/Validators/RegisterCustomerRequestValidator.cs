@@ -1,37 +1,25 @@
 ﻿using Customers.Application.Abstractions;
 using Customers.Application.Requests;
+using Customers.Domain.Models;
+using Customers.Domain.Services;
 using FluentValidation;
 using Library.Optimizations;
-using Library.Validators;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 
 namespace Customers.Application.Validators
 {
     public class RegisterCustomerRequestValidator : AbstractValidator<RegisterCustomerRequest>
     {
-        public RegisterCustomerRequestValidator(ICpfValidator cpfValidator, ICustomerRepository repository)
+        public RegisterCustomerRequestValidator(IModelFactory factory, IValidator<Customer> validator, ICustomerRepository repository)
         {
             CascadeMode = CascadeMode.Stop;
 
-            RuleFor(x => x.Name).NotEmpty().WithMessage("Nome não pode ser vazio ou nulo");
-            RuleFor(x => x.State)
-                .NotEmpty().WithMessage("Estado não pode ser vazio ou nulo")
-                .Must(x => states.Contains(x)).WithMessage("Estado inválido");
-
+            RuleFor(x => factory.CreateCustomer(x.Cpf, x.Name, x.State)).SetValidator(validator);
             RuleFor(x => x.Cpf)
-                .SetValidator(cpfValidator)
-                .MustAsync(async (x, ct) => !await repository.ExistAsync(x.AsSpan().ParseUlong(), ct))
+                .MustAsync(async (cpf, ct) => !await repository.ExistAsync(cpf.AsSpan().ParseUlong(), ct))
                 .WithMessage(x => $"Cliente já existe para dado Cpf {x.Cpf}")
                 .WithErrorCode(StatusCodes.Status409Conflict.ToString());
         }
-
-        private readonly HashSet<string> states = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        {
-            "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
-            "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
-            "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"
-        };
     }
 }

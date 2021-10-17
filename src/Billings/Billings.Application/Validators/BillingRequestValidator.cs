@@ -1,20 +1,18 @@
 ﻿using Billings.Application.Models;
+using Billings.Domain.Models;
+using Billings.Domain.Services;
 using FluentValidation;
-using Library.Validators;
-using Library.ValueObjects;
 
 namespace Billings.Application.Validators
 {
     public class BillingRequestValidator : AbstractValidator<BillingRequest>
     {
-        public BillingRequestValidator(ICpfValidator cpfValidator)
+        public BillingRequestValidator(IModelFactory factory, IValidator<Billing> validator)
         {
             CascadeMode = CascadeMode.Stop;
-            RuleFor(x => x.Amount).GreaterThan(0).WithMessage("Valor não pode ser 0 ou negativo");
-            RuleFor(x => x.Cpf).SetValidator(cpfValidator);
-
+            RuleFor(x => factory.CreateBilling(x.Cpf, x.Amount, x.DueDate)).SetValidator(validator);
             RuleFor(x => x.DueDate)
-                .Must(x => Date.ValidateFutureDate(x))
+                .Must(x => Library.ValueObjects.Date.ValidateFutureDate(x))
                 .WithMessage("Vencimento precisa representar uma data válida futura no formato [dd-MM-yyyy]");
         }
     }

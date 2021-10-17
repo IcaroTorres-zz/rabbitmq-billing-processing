@@ -6,12 +6,14 @@ namespace Library.ValueObjects
 {
     public class Cpf : ValueOf<ulong, Cpf>
     {
-        private const int MinRandomNumberValue = 1000000;
-        private const int MaxRandomNumberValue = 900000000;
-        private bool _isValid;
-        public bool IsValid() => _isValid;
+        private const int MIN_RANDOM_NUMBER_VALUE = 1000000;
+        private const int MAX_RANDOM_NUMBER_VALUE = 900000000;
+        private const string ZEROS = "00000000000";
+        private const string NINES = "99999999999";
         private static readonly Random _random = new Random(123);
         private static readonly object _syncObj = new object();
+        private bool _isValid;
+        public bool IsValid() => _isValid;
 
         public static Cpf NewCpf()
         {
@@ -31,7 +33,7 @@ namespace Library.ValueObjects
         {
             lock (_syncObj)
             {
-                ulong number = (ulong)_random.Next(MinRandomNumberValue, MaxRandomNumberValue);
+                ulong number = (ulong)_random.Next(MIN_RANDOM_NUMBER_VALUE, MAX_RANDOM_NUMBER_VALUE);
                 var seed = number.ToString("000000000");
                 var digit1 = GenerateVerifierDigit1(seed);
                 var digit2 = GenerateVerifierDigit2(seed, digit1);
@@ -50,7 +52,8 @@ namespace Library.ValueObjects
 
         public static bool Validate(ReadOnlySpan<char> value)
         {
-            if (!ValidateFormat(value)) return false;
+            var str = value.ToString();
+            if (!ValidateFormat(value) || str == ZEROS || str == NINES) return false;
             var seed = value.Slice(0, 9);
             var verifierDigits = value.Slice(9, 2);
             var verifierDigit1 = GenerateVerifierDigit1(seed);
@@ -61,7 +64,7 @@ namespace Library.ValueObjects
 
         protected override void Validate()
         {
-            _isValid = Validate(Value.ToString("00000000000"));
+            _isValid = Validate(Value.ToString());
         }
 
         private static bool ValidateFormat(ReadOnlySpan<char> value)

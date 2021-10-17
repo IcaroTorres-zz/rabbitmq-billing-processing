@@ -5,9 +5,7 @@
     /// </summary>
     public class Customer
     {
-        public static readonly NullCustomer _null = new NullCustomer();
-        public static NullCustomer Null => _null;
-
+        public static readonly NullCustomer Null = new NullCustomer();
         /// <summary>
         /// Unique personal identification in force in Brazil
         /// </summary>

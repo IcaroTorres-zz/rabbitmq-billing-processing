@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Library.Validators;
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -9,9 +8,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection BootstrapValidators(this IServiceCollection services)
         {
-            return services
-                .AddTransient<ICpfValidator, CpfValidator>()
-                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            return services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }
