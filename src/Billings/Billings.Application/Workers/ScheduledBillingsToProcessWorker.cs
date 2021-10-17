@@ -20,14 +20,6 @@ namespace Billings.Application.Workers
             _repository = repository;
         }
 
-        internal async Task<(List<Billing> receivedValue, string receivedMessage)> HandleProcessedBatchMessage(byte[] body)
-        {
-            var receivedMessage = Encoding.UTF8.GetString(body);
-            var processedBatch = JsonConvert.DeserializeObject<List<Billing>>(receivedMessage);
-            await _repository.UpdateProcessedBatchAsync(processedBatch);
-            return (processedBatch, receivedMessage);
-        }
-
         public override async Task<(List<Billing> receivedValue, string receivedMessage)> HandleReceivedMessage(BasicDeliverEventArgs ea)
         {
             var body = ea.Body.ToArray();

@@ -14,12 +14,8 @@ namespace UnitTests.Customers.Application.Validators
         {
             // arrange
             var request = InternalFakes.GetCustomerRequests.Valid().Generate();
-            var repository = CustomerRepositoryMockBuilder.Create()
-                .Exists(request.Cpf, true).Build();
-            var cpfValidator = CpfValidatorMockBuilder.Create()
-                .ValidateTrue().Build();
-
-            var sut = new GetCustomerRequestValidator(cpfValidator, repository);
+            var repository = CustomerRepositoryMockBuilder.Create().Exists(request.Cpf, true).Build();
+            var sut = new GetCustomerRequestValidator(repository);
 
             // act
             var result = sut.Validate(request);
@@ -35,12 +31,8 @@ namespace UnitTests.Customers.Application.Validators
             // arrange
             const int expectedErrorsCount = 1;
             var request = InternalFakes.GetCustomerRequests.InvalidCpf().Generate();
-            var repository = CustomerRepositoryMockBuilder.Create()
-                .Exists(request.Cpf, true).Build();
-            var cpfValidator = CpfValidatorMockBuilder.Create()
-                .ValidateFalse().Build();
-
-            var sut = new GetCustomerRequestValidator(cpfValidator, repository);
+            var repository = CustomerRepositoryMockBuilder.Create().Exists(request.Cpf, true).Build();
+            var sut = new GetCustomerRequestValidator(repository);
 
             // act
             var result = sut.Validate(request);
@@ -55,12 +47,8 @@ namespace UnitTests.Customers.Application.Validators
             // arrange
             const int expectedErrorsCount = 1;
             var request = InternalFakes.GetCustomerRequests.Valid().Generate();
-            var repository = CustomerRepositoryMockBuilder.Create()
-                .Exists(request.Cpf, false).Build();
-            var cpfValidator = CpfValidatorMockBuilder.Create()
-                .ValidateTrue().Build();
-
-            var sut = new GetCustomerRequestValidator(cpfValidator, repository);
+            var repository = CustomerRepositoryMockBuilder.Create().Exists(request.Cpf, false).Build();
+            var sut = new GetCustomerRequestValidator(repository);
 
             // act
             var result = sut.Validate(request);

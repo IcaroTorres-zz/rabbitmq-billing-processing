@@ -1,10 +1,7 @@
 ﻿using Billings.Application.Models;
 using Billings.Domain.Models;
 using Bogus;
-using Newtonsoft.Json;
-using RabbitMQ.Client.Events;
 using System;
-using System.Text;
 using static Library.TestHelpers.Fakes;
 
 namespace UnitTests.Billings.Helpers
@@ -19,8 +16,17 @@ namespace UnitTests.Billings.Helpers
                 .RuleFor(x => x.Amount, x => x.Random.Double(1, 2000))
                 .RuleFor(x => x.DueDate, Dates.FutureDay(1));
 
+            public static Faker<Billing> InvalidCpf() => Valid()
+                .RuleFor(x => x.Cpf, CPFs.Invalid);
+
+            public static Faker<Billing> InvalidAmount() => Valid()
+                .RuleFor(x => x.Amount, 0);
+
             public static Faker<Billing> Processed() => Valid()
                 .RuleFor(x => x.ProcessedAt, DateTime.UtcNow);
+
+            public static Faker<Billing> InvalidDate() => Valid()
+                .RuleFor(x => x.DueDate, x => new Date("00-00-0000"));
         }
 
         public static class Dates
